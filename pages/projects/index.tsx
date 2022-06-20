@@ -1,45 +1,29 @@
 import type { NextPage } from 'next'
-import type { FilledLinkToMediaField } from '@prismicio/types'
-import type { ProjectDocument, CreatorDocument, NavigationDocument, SettingsDocument } from '../../prismic-models'
+import type { ProjectDocument, NavigationDocument, SettingsDocument } from '../../prismic-models'
 import Head from "next/head"
-import Image from 'next/image'
+import { useMemo, useState } from 'react'
 import { PrismicLink, PrismicRichText, SliceZone } from "@prismicio/react"
-import * as prismicH from "@prismicio/helpers"
-import { asDate, isFilled } from '@prismicio/helpers'
+import { isFilled } from '@prismicio/helpers'
 
 import { createClient, linkResolver } from "../../prismicio"
-import { components } from "../../slices"
 import { Layout } from "../../components/Layout"
 import { Bounded } from "../../components/Bounded"
+import { Media } from "../../components/Media"
+import { Select } from "../../components/Select"
+import type { OnChange } from "../../components/Select"
 
-const dateFormatter = new Intl.DateTimeFormat("en-US", {
-  month: "short",
-  day: "numeric",
-  year: "numeric",
-})
 
-const Media = ({field}: {field: FilledLinkToMediaField}) => {
-  if( field.link_type !== 'Media' ) {
-    return <></>
-  }
-  if( field.kind === 'image' ) {
-    return (
-      <div className="relative w-full h-[50vh]">
-        <Image src={field.url} alt={field.name} layout="fill" objectFit="contain" />
-      </div>
-    )
-  } else {
-    return <>not image</>
-  }
+type ProjectsProps = {
+  projects: ProjectDocument<string>[]
+  navigation: NavigationDocument<string>
+  settings: SettingsDocument<string>
 }
 
-const Project: NextPage<ProjectProps> = ({ project, creator, navigation, settings }: ProjectProps) => {
-  const date = asDate(
-    project.data.publishDate || project.first_publication_date as any
-  )
-  const featuredMedia = isFilled.linkToMedia(project.data.featuredMedia) ? project.data.featuredMedia : null
-  const face = creator.data?.face?.url ?? null
-  
+const Projects: NextPage<ProjectsProps> = ({ projects, navigation, settings }: ProjectsProps) => {
+  const options = projects.reduce((tags, project) => tags.concat(project.tags), new Array<string>())
+  const [selectedTag, setTags] = useState('')
+  const onChange: OnChange = (newValue) => setTags(newValue)
+  const selectProps = {options, onChange}
   return (
     <Layout
       withHeaderDivider={false}
@@ -48,84 +32,61 @@ const Project: NextPage<ProjectProps> = ({ project, creator, navigation, setting
       settings={settings}
     >
       <Head>
-        <title>{project.data.title}</title>
+        <title>Projects</title>
       </Head>
+      TAG: <Select {...selectProps} />
       <article>
         <Bounded className="pb-0">
-          {featuredMedia && <Media field={featuredMedia} />}
-          <h1 className="mb-3 text-3xl font-semibold tracking-tighter text-slate-800 md:text-4xl">
-            {project.data.title}
-          </h1>
-          <p className="font-serif italic tracking-tighter text-slate-500">
-            {dateFormatter.format(date!)}
-          </p>
-          <PrismicLink className="flex place-items-center gap-x-2" document={creator}>
-            {face && <Image className="rounded-full" src={face} alt={creator.data?.face?.alt || ''} width={50} height={50} />}
-            {creator.data.name}
-          </PrismicLink>
+          <div className="flex">
+            {projects.map(project => {
+              const featuredMedia = isFilled.linkToMedia(project.data.featuredMedia) ? project.data.featuredMedia : null
+              const creator = isFilled.contentRelationship(project.data.creator) ? project.data.creator : null
+              if( !creator || !featuredMedia ) {
+                return <></>
+              }
+              const visible = selectedTag === '' || project.tags.includes(selectedTag)
+              return (
+                <div className={`flex-col ${visible ? 'flex' : 'hidden'}`} key={project.uid}>
+                  <Media field={featuredMedia} />
+                  <h2 className="mb-3 text-3xl font-semibold tracking-tighter text-slate-800 md:text-4xl">
+                    {project.data.title} - {creator.data.name}
+                  </h2>
+                  <div className="flex">
+                    {project.tags.map(tag => (
+                      <span key={`${project.id}-${tag}`}>{tag}</span>
+                    ))}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
         </Bounded>
-        <div>
-          <PrismicRichText field={project.data.abstract} />
-        </div>
-        <div>
-          <PrismicRichText field={project.data.description} />
-        </div>
-        <SliceZone slices={project.data.slices} components={components} />
       </article>
     </Layout>
   )
 }
 
-export default Project
+export default Projects
 
-export const getStaticProps = async ({
-  params,
-  previewData
-}: any) => {
-  const client = createClient({ previewData })
+export const getStaticProps = async () => {
+  const client = createClient()
 
-  const uid = params?.uid ?? ''
-  if( uid === '' ) {
-    return {
-      notFound: true
-    }
-  }
-  const project = await client.getByUID<ProjectDocument>('project', uid, {
+  const projects = await client.getAllByType<ProjectDocument>('project', {
     fetchLinks: ['creator.name', 'creator.face']
   })
-  const creatorLink = project.data.creator
-  if( !isFilled.contentRelationship(creatorLink) ) {
+  if( !projects?.length ) {
     return {
       notFound: true
     }
   }
-  const creatorUid = creatorLink.uid || ''
-  if( creatorUid === '' ) {
-    return {
-      notFound: true
-    }
-  }
-  const creator = await client.getByUID<CreatorDocument>('creator', creatorUid)
   const navigation = await client.getSingle<NavigationDocument>('navigation')
   const settings = await client.getSingle<SettingsDocument>('settings')
 
   return {
     props: {
-      project,
-      creator,
+      projects,
       navigation,
       settings,
     },
-  }
-}
-
-export async function getStaticPaths() {
-  const client = createClient()
-
-  const projects = await client.getAllByType('project')
-
-  return {
-    paths: projects.map((project) => prismicH.asLink(project, linkResolver)),
-    fallback: false,
   }
 }
