@@ -86,11 +86,7 @@ const Article = ({ article }: any) => {
 
 const Index = ({ articles, navigation, settings }: any) => {
   return (
-    <Layout
-      withHeaderDivider={false}
-      navigation={navigation}
-      settings={settings}
-    >
+    <Layout nav={navigation} >
       <Head>
         <title>{prismicH.asText(settings.data.name)}</title>
       </Head>

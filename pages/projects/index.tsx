@@ -16,21 +16,15 @@ import type { OnChange } from "../../components/Select"
 type ProjectsProps = {
   projects: ProjectDocument<string>[]
   navigation: NavigationDocument<string>
-  settings: SettingsDocument<string>
 }
 
-const Projects: NextPage<ProjectsProps> = ({ projects, navigation, settings }: ProjectsProps) => {
+const Projects: NextPage<ProjectsProps> = ({ projects, navigation }: ProjectsProps) => {
   const options = projects.reduce((tags, project) => tags.concat(project.tags), new Array<string>())
   const [selectedTag, setTags] = useState('')
   const onChange: OnChange = (newValue) => setTags(newValue)
   const selectProps = {options, onChange}
   return (
-    <Layout
-      withHeaderDivider={false}
-      withProfile={false}
-      navigation={navigation}
-      settings={settings}
-    >
+    <Layout nav={navigation} >
       <Head>
         <title>Projects</title>
       </Head>
@@ -80,13 +74,11 @@ export const getStaticProps = async () => {
     }
   }
   const navigation = await client.getSingle<NavigationDocument>('navigation')
-  const settings = await client.getSingle<SettingsDocument>('settings')
 
   return {
     props: {
       projects,
       navigation,
-      settings,
     },
   }
 }

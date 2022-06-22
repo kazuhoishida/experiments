@@ -1,13 +1,13 @@
 {
-  "id": "eb90c494-cd3c-45f2-acf6-6b38ba9c5d76",
-  "uid": "nemo-voluptatem-ratione",
+  "id": "5516a686-4d39-4666-9713-b829cc53146d",
+  "uid": "voluptatum-fuga-voluptatem",
   "type": "project",
   "data": {
-    "title": "optimize integrated functionalities",
-    "publishDate": "2016-03-11",
+    "title": "innovate 24/365 convergence",
+    "publishDate": "2013-08-03",
     "creator": {
       "link_type": "Web",
-      "url": "http://google.com"
+      "url": "http://twitter.com"
     },
     "featuredMedia": {
       "link_type": "media",
@@ -16,15 +16,74 @@
     "abstract": [
       {
         "type": "paragraph",
-        "text": "Consectetur quis velit adipisicing eu. Aute deserunt mollit esse consequat consectetur. Non occaecat eiusmod deserunt deserunt aute est mollit cillum veniam commodo.",
+        "text": "Elit irure sunt ipsum sint occaecat magna. Voluptate duis aliquip et ea laborum anim id sit do ex id eu commodo dolor exercitation.",
         "spans": []
       }
     ],
-    "description": [
+    "details": [
       {
-        "type": "paragraph",
-        "text": "Veniam fugiat anim ea.",
-        "spans": []
+        "title": [
+          {
+            "type": "heading1",
+            "text": "Monetize synergistic methodologies",
+            "spans": []
+          }
+        ],
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "Cillum ad do enim eu nostrud anim cillum tempor ea irure nisi.",
+            "spans": []
+          }
+        ]
+      },
+      {
+        "title": [
+          {
+            "type": "heading1",
+            "text": "Reintermediate wireless e-services",
+            "spans": []
+          }
+        ],
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "Voluptate pariatur ipsum ex aliquip ut cupidatat Lorem ad ullamco aute proident. Nulla elit anim qui culpa culpa ea occaecat ex velit mollit excepteur tempor ut.",
+            "spans": []
+          }
+        ]
+      },
+      {
+        "title": [
+          {
+            "type": "heading1",
+            "text": "Empower customized vortals",
+            "spans": []
+          }
+        ],
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "Ex sunt exercitation dolore velit mollit eu aliquip mollit officia fugiat. Ex aliqua labore elit magna consectetur ut. Labore mollit mollit cillum adipisicing ad deserunt consequat officia tempor ea consectetur minim.",
+            "spans": []
+          }
+        ]
+      },
+      {
+        "title": [
+          {
+            "type": "heading1",
+            "text": "Expedite robust e-tailers",
+            "spans": []
+          }
+        ],
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "Et deserunt minim id.",
+            "spans": []
+          }
+        ]
       }
     ]
   }

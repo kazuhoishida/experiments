@@ -8,7 +8,7 @@ import { Layout } from "../components/Layout";
 
 const Page = ({ page, navigation, settings }: any) => {
   return (
-    <Layout navigation={navigation} settings={settings}>
+    <Layout nav={navigation}>
       <Head>
         <title>
           {prismicH.asText(page.data.title)} |{" "}

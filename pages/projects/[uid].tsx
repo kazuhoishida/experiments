@@ -37,10 +37,9 @@ type ProjectProps = {
   project: ProjectDocument<string>
   creator: CreatorDocument<string>
   navigation: NavigationDocument<string>
-  settings: SettingsDocument<string>
 }
 
-const Project: NextPage<ProjectProps> = ({ project, creator, navigation, settings }) => {
+const Project: NextPage<ProjectProps> = ({ project, creator, navigation }) => {
 
   const date = asDate(
     project.data.publishDate || project.first_publication_date as any
@@ -49,12 +48,7 @@ const Project: NextPage<ProjectProps> = ({ project, creator, navigation, setting
   const face = creator.data?.face?.url ?? null
   
   return (
-    <Layout
-      withHeaderDivider={false}
-      withProfile={false}
-      navigation={navigation}
-      settings={settings}
-    >
+    <Layout nav={navigation} >
       <Head>
         <title>{project.data.title}</title>
       </Head>
@@ -108,14 +102,12 @@ export const getStaticProps = async ({
     }
   }
   const navigation = await client.getSingle<NavigationDocument>('navigation')
-  const settings = await client.getSingle<SettingsDocument>('settings')
 
   return {
     props: {
       project,
       creator,
       navigation,
-      settings,
     },
   }
 }

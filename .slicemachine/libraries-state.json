@@ -346,6 +346,96 @@
         },
         "screenshotPaths": {}
       },
+      "titled_text": {
+        "library": "slices",
+        "id": "titled_text",
+        "name": "TitledText",
+        "description": "TitledText",
+        "model": {
+          "id": "titled_text",
+          "type": "SharedSlice",
+          "name": "TitledText",
+          "description": "TitledText",
+          "variations": [
+            {
+              "id": "default",
+              "name": "Default",
+              "docURL": "...",
+              "version": "sktwi1xtmkfgx8626",
+              "description": "TitledText",
+              "primary": {},
+              "items": {
+                "heading": {
+                  "type": "StructuredText",
+                  "config": {
+                    "label": "Heading",
+                    "placeholder": "",
+                    "allowTargetBlank": true,
+                    "single": "heading1,heading2,heading3,heading4,heading5,heading6"
+                  }
+                },
+                "detail": {
+                  "type": "StructuredText",
+                  "config": {
+                    "label": "Detail",
+                    "placeholder": "",
+                    "allowTargetBlank": true,
+                    "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+                  }
+                }
+              },
+              "imageUrl": "https://images.prismic.io/slice-machine/621a5ec4-0387-4bc5-9860-2dd46cbc07cd_default_ss.png?auto=compress,format"
+            }
+          ]
+        },
+        "mocks": {
+          "default": {
+            "variation": "default",
+            "name": "Default",
+            "slice_type": "titled_text",
+            "items": [
+              {
+                "heading": [
+                  {
+                    "type": "heading1",
+                    "text": "Unleash strategic relationships",
+                    "spans": []
+                  }
+                ],
+                "detail": [
+                  {
+                    "type": "paragraph",
+                    "text": "Id anim eiusmod qui excepteur nostrud. Est veniam laboris veniam aute quis et est eu sunt amet quis nostrud et. Ad exercitation ex pariatur anim amet.",
+                    "spans": []
+                  }
+                ]
+              },
+              {
+                "heading": [
+                  {
+                    "type": "heading1",
+                    "text": "Grow out-of-the-box platforms",
+                    "spans": []
+                  }
+                ],
+                "detail": [
+                  {
+                    "type": "paragraph",
+                    "text": "Mollit occaecat culpa proident do ex. Mollit anim dolor voluptate veniam sint qui amet ullamco id. Velit ipsum excepteur veniam occaecat occaecat Lorem consequat ipsum reprehenderit.",
+                    "spans": []
+                  }
+                ]
+              }
+            ],
+            "primary": {}
+          }
+        },
+        "meta": {
+          "fileName": "index",
+          "extension": "js"
+        },
+        "screenshotPaths": {}
+      },
       "video": {
         "library": "slices",
         "id": "video",

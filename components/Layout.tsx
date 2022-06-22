@@ -1,24 +1,18 @@
+import type { PropsWithChildren } from 'react'
+import type { NavigationDocument, SettingsDocument } from '../prismic-models'
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 
-export function Layout({
-  navigation,
-  settings,
-  withHeaderDivider,
-  withProfile,
-  withSignUpForm,
-  children,
-}: any) {
+type Props = PropsWithChildren & {
+  nav: NavigationDocument<string>
+}
+
+export function Layout({ nav, children, }: Props) {
   return (
     <div className="text-slate-700">
-      <Header
-        withProfile={withProfile}
-        withDivider={withHeaderDivider}
-        navigation={navigation}
-        settings={settings}
-      />
+      <Header nav={nav} />
       <main>{children}</main>
-      <Footer withSignUpForm={withSignUpForm} settings={settings} />
+      <Footer />
     </div>
   )
 }

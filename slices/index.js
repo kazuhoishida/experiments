@@ -5,6 +5,7 @@ import Embed from './Embed';
 import Image from './Image';
 import Quote from './Quote';
 import Text from './Text';
+import TitledText from './TitledText';
 import Video from './Video';
 
 export {
@@ -13,6 +14,7 @@ export {
 	Image,
 	Quote,
 	Text,
+	TitledText,
 	Video,
 };
 
@@ -22,5 +24,6 @@ export const components = {
 	image: Image,
 	quote: Quote,
 	text: Text,
+	titled_text: TitledText,
 	video: Video,
 };

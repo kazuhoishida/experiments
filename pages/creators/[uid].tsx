@@ -8,15 +8,17 @@ import { createClient, linkResolver } from "../../prismicio"
 import { components } from "../../slices"
 import { Layout } from "../../components/Layout"
 import { Bounded } from "../../components/Bounded"
+import { CreatorDocument, NavigationDocument } from '../../prismic-models'
 
-const Creator: NextPage<any> = ({ creator, navigation, settings }: InferGetStaticPropsType<typeof getStaticProps>) => {
+
+type CreatorProps = {
+  creator: CreatorDocument<string>
+  navigation: NavigationDocument<string>
+}
+
+const Creator: NextPage<CreatorProps> = ({ creator, navigation }) => {
   return (
-    <Layout
-      withHeaderDivider={false}
-      withProfile={false}
-      navigation={navigation}
-      settings={settings}
-    >
+    <Layout nav={navigation} >
       <Head>
         <title>{creator.data.name}</title>
       </Head>
@@ -44,13 +46,11 @@ export const getStaticProps = async ({
   const uid = params?.uid ?? ''
   const creator = await client.getByUID("creator", uid)
   const navigation = await client.getSingle("navigation")
-  const settings = await client.getSingle("settings")
 
   return {
     props: {
       creator,
       navigation,
-      settings,
     },
   }
 }

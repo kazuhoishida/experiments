@@ -1,12 +1,25 @@
+const plugin = require('tailwindcss/plugin')
+
 module.exports = {
   content: ["./pages/**/*.tsx", "./components/**/*.tsx", "./slices/**/*.tsx"],
   theme: {
     fontFamily: {
-      sans: 'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
-      serif:
-        '"Libre Baskerville", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif',
+      flex: "'Roboto Flex', sans-serif",
+      rock: "'Rock 3D', cursive",
+      serif: "'Roboto Serif', serif",
+      source: "'Source Sans Pro', sans-serif",
     },
     extend: {},
   },
-  plugins: [require("@tailwindcss/aspect-ratio")],
+  plugins: [
+    require("@tailwindcss/aspect-ratio"),
+    plugin(function({ addComponents }) {
+      addComponents({
+        '.font-bold-h1': {
+          'font-variation-settings': 'var(--setting-bold-H1)',
+          'font-stretch': 'var(--stretch-bold-H1)',
+        },
+      })
+    })
+  ],
 };

@@ -40,12 +40,7 @@ const Article = ({ article, latestArticles, navigation, settings }: any) => {
   );
 
   return (
-    <Layout
-      withHeaderDivider={false}
-      withProfile={false}
-      navigation={navigation}
-      settings={settings}
-    >
+    <Layout nav={navigation} >
       <Head>
         <title>
           {prismicH.asText(article.data.title)} |{" "}
