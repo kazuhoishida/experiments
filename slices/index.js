@@ -3,6 +3,7 @@
 import ContactForm from './ContactForm';
 import Embed from './Embed';
 import Image from './Image';
+import Project from './Project';
 import Quote from './Quote';
 import Text from './Text';
 import TitledText from './TitledText';
@@ -12,6 +13,7 @@ export {
 	ContactForm,
 	Embed,
 	Image,
+	Project,
 	Quote,
 	Text,
 	TitledText,
@@ -22,6 +24,7 @@ export const components = {
 	contact_form: ContactForm,
 	embed: Embed,
 	image: Image,
+	project: Project,
 	quote: Quote,
 	text: Text,
 	titled_text: TitledText,

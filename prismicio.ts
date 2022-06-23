@@ -17,6 +17,9 @@ export const linkResolver: LinkResolverFunction<string> = (doc) => {
   if (doc.type === "creator") {
     return `/creators/${doc.uid}`;
   }
+  if (doc.type === "top") {
+    return '/';
+  }
 
   if (doc.type === "page") {
     return `/${doc.uid}`;

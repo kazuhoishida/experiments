@@ -1,0 +1,37 @@
+{
+  "id": "e145943e-7b38-4012-ac1e-9fcc4d38cf01",
+  "uid": "perferendis-architecto-voluptatem",
+  "type": "featured-projects",
+  "data": {
+    "projects": [
+      {
+        "project": {
+          "link_type": "Web",
+          "url": "https://prismic.io"
+        },
+        "leadingText": "iterate web-enabled communities"
+      },
+      {
+        "project": {
+          "link_type": "Web",
+          "url": "https://slicemachine.dev"
+        },
+        "leadingText": "leverage killer bandwidth"
+      },
+      {
+        "project": {
+          "link_type": "Web",
+          "url": "https://prismic.io"
+        },
+        "leadingText": "benchmark cross-media networks"
+      },
+      {
+        "project": {
+          "link_type": "Web",
+          "url": "http://twitter.com"
+        },
+        "leadingText": "aggregate holistic eyeballs"
+      }
+    ]
+  }
+}

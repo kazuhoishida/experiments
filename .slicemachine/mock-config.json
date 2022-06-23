@@ -80,7 +80,24 @@
         }
       }
     },
-    "creator": {}
+    "creator": {},
+    "featured-projects": {
+      "projects": {}
+    },
+    "top": {
+      "title": {
+        "config": {
+          "patternType": "HEADING",
+          "blocks": 1
+        }
+      },
+      "comment": {
+        "config": {
+          "patternType": "PARAGRAPH",
+          "blocks": 1
+        }
+      }
+    }
   },
   "slices": {
     "Text": {
@@ -175,6 +192,11 @@
             }
           }
         }
+      }
+    },
+    "Project": {
+      "default": {
+        "primary": {}
       }
     }
   }

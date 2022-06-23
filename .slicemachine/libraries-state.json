@@ -226,6 +226,68 @@
         },
         "screenshotPaths": {}
       },
+      "project": {
+        "library": "slices",
+        "id": "project",
+        "name": "Project",
+        "description": "Project",
+        "model": {
+          "id": "project",
+          "type": "SharedSlice",
+          "name": "Project",
+          "description": "Project",
+          "variations": [
+            {
+              "id": "default",
+              "name": "Default",
+              "docURL": "...",
+              "version": "sktwi1xtmkfgx8626",
+              "description": "Project",
+              "primary": {
+                "project": {
+                  "type": "Link",
+                  "config": {
+                    "label": "Project",
+                    "select": "document",
+                    "customtypes": [
+                      "project"
+                    ]
+                  }
+                },
+                "leadingText": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Leading Text",
+                    "placeholder": ""
+                  }
+                }
+              },
+              "items": {},
+              "imageUrl": "https://images.prismic.io/slice-machine/621a5ec4-0387-4bc5-9860-2dd46cbc07cd_default_ss.png?auto=compress,format"
+            }
+          ]
+        },
+        "mocks": {
+          "default": {
+            "variation": "default",
+            "name": "Default",
+            "slice_type": "project",
+            "items": [],
+            "primary": {
+              "project": {
+                "link_type": "Web",
+                "url": "https://slicemachine.dev"
+              },
+              "leadingText": "revolutionize 24/365 web services"
+            }
+          }
+        },
+        "meta": {
+          "fileName": "index",
+          "extension": "js"
+        },
+        "screenshotPaths": {}
+      },
       "quote": {
         "library": "slices",
         "id": "quote",

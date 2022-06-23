@@ -1,0 +1,35 @@
+{
+  "id": "top",
+  "label": "Top",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Main": {
+      "title": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Title",
+          "placeholder": "anice lab",
+          "allowTargetBlank": false,
+          "single": "heading1"
+        }
+      },
+      "comment": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Comment",
+          "placeholder": "は、新しい視点で見つめ直し、習慣・常識・社会通念をあなたの課題に",
+          "allowTargetBlank": false,
+          "single": "paragraph"
+        }
+      },
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
+        "config": {
+          "choices": {}
+        }
+      }
+    }
+  }
+}

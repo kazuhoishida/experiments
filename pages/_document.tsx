@@ -6,9 +6,9 @@ export default function Document() {
       <Head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,32,640;8..144,100,400;8..144,140,800&family=Roboto+Serif:opsz@8..144&family=Rock+3D&family=Source+Sans+Pro&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Roboto+Flex:opsz,wdth,wght@8..144,32,640;8..144,100,400;8..144,140,800&family=Roboto+Serif:opsz@8..144&family=Rock+3D&display=swap" rel="stylesheet" />
       </Head>
-      <body className="overflow-x-hidden antialiased">
+      <body className="overflow-x-hidden max-w-[100vw] antialiased">
         <Main />
         <NextScript />
       </body>

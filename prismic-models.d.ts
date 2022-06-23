@@ -102,6 +102,56 @@ interface CreatorDocumentData {
  * @typeParam Lang - Language API ID of the document.
  */
 export type CreatorDocument<Lang extends string = string> = prismicT.PrismicDocumentWithUID<Simplify<CreatorDocumentData>, "creator", Lang>;
+/** Content for FeaturedProjects documents */
+interface FeaturedProjectsDocumentData {
+    /**
+     * Projects field in *FeaturedProjects*
+     *
+     * - **Field Type**: Group
+     * - **Placeholder**: *None*
+     * - **API ID Path**: featured-projects.projects[]
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/group
+     *
+     */
+    projects: prismicT.GroupField<Simplify<FeaturedProjectsDocumentDataProjectsItem>>;
+}
+/**
+ * Item in FeaturedProjects → Projects
+ *
+ */
+export interface FeaturedProjectsDocumentDataProjectsItem {
+    /**
+     * Project field in *FeaturedProjects → Projects*
+     *
+     * - **Field Type**: Content Relationship
+     * - **Placeholder**: *None*
+     * - **API ID Path**: featured-projects.projects[].project
+     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+     *
+     */
+    project: prismicT.RelationField<"project">;
+    /**
+     * Leading Text field in *FeaturedProjects → Projects*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: featured-projects.projects[].leadingText
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    leadingText: prismicT.KeyTextField;
+}
+/**
+ * FeaturedProjects document from Prismic
+ *
+ * - **API ID**: `featured-projects`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type FeaturedProjectsDocument<Lang extends string = string> = prismicT.PrismicDocumentWithoutUID<Simplify<FeaturedProjectsDocumentData>, "featured-projects", Lang>;
 /** Content for Navigation documents */
 interface NavigationDocumentData {
     /**
@@ -261,16 +311,16 @@ interface ProjectDocumentData {
      */
     abstract: prismicT.RichTextField;
     /**
-     * Description field in *Project*
+     * Details field in *Project*
      *
-     * - **Field Type**: Rich Text
-     * - **Placeholder**: 細かい説明はこちらへ
-     * - **API ID Path**: project.description
+     * - **Field Type**: Group
+     * - **Placeholder**: *None*
+     * - **API ID Path**: project.details[]
      * - **Tab**: Main
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/group
      *
      */
-    description: prismicT.RichTextField;
+    details: prismicT.GroupField<Simplify<ProjectDocumentDataDetailsItem>>;
     /**
      * Slice Zone (`slices`) field in *Project*
      *
@@ -282,6 +332,32 @@ interface ProjectDocumentData {
      *
      */
     slices: prismicT.SliceZone<ProjectDocumentDataSlicesSlice>;
+}
+/**
+ * Item in Project → Details
+ *
+ */
+export interface ProjectDocumentDataDetailsItem {
+    /**
+     * Title field in *Project → Details*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: project.details[].title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    title: prismicT.TitleField;
+    /**
+     * Description field in *Project → Details*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: project.details[].description
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    description: prismicT.RichTextField;
 }
 /**
  * Slice for *Project → Slice Zone (`slices`)*
@@ -366,6 +442,57 @@ interface SettingsDocumentData {
  * @typeParam Lang - Language API ID of the document.
  */
 export type SettingsDocument<Lang extends string = string> = prismicT.PrismicDocumentWithoutUID<Simplify<SettingsDocumentData>, "settings", Lang>;
+/** Content for Top documents */
+interface TopDocumentData {
+    /**
+     * Title field in *Top*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: anice lab
+     * - **API ID Path**: top.title
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    title: prismicT.TitleField;
+    /**
+     * Comment field in *Top*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: は、新しい視点で見つめ直し、習慣・常識・社会通念をあなたの課題に
+     * - **API ID Path**: top.comment
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    comment: prismicT.RichTextField;
+    /**
+     * Slice Zone (`slices`) field in *Top*
+     *
+     * - **Field Type**: Slice Zone
+     * - **Placeholder**: *None*
+     * - **API ID Path**: top.slices[]
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/slices
+     *
+     */
+    slices: prismicT.SliceZone<TopDocumentDataSlicesSlice>;
+}
+/**
+ * Slice for *Top → Slice Zone (`slices`)*
+ *
+ */
+type TopDocumentDataSlicesSlice = never;
+/**
+ * Top document from Prismic
+ *
+ * - **API ID**: `top`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type TopDocument<Lang extends string = string> = prismicT.PrismicDocumentWithoutUID<Simplify<TopDocumentData>, "top", Lang>;
 /**
  * Default variation for ContactForm Slice
  *
@@ -513,6 +640,55 @@ type ImageSliceVariation = ImageSliceDefault | ImageSliceWide;
  */
 export type ImageSlice = prismicT.SharedSlice<"image", ImageSliceVariation>;
 /**
+ * Primary content in Project → Primary
+ *
+ */
+interface ProjectSliceDefaultPrimary {
+    /**
+     * Project field in *Project → Primary*
+     *
+     * - **Field Type**: Content Relationship
+     * - **Placeholder**: *None*
+     * - **API ID Path**: project.primary.project
+     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+     *
+     */
+    project: prismicT.RelationField<"project">;
+    /**
+     * Leading Text field in *Project → Primary*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: project.primary.leadingText
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    leadingText: prismicT.KeyTextField;
+}
+/**
+ * Default variation for Project Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: `Project`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type ProjectSliceDefault = prismicT.SharedSliceVariation<"default", Simplify<ProjectSliceDefaultPrimary>, never>;
+/**
+ * Slice variation for *Project*
+ *
+ */
+type ProjectSliceVariation = ProjectSliceDefault;
+/**
+ * Project Shared Slice
+ *
+ * - **API ID**: `project`
+ * - **Description**: `Project`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type ProjectSlice = prismicT.SharedSlice<"project", ProjectSliceVariation>;
+/**
  * Primary content in Quote → Primary
  *
  */
@@ -600,6 +776,55 @@ type TextSliceVariation = TextSliceDefault;
  *
  */
 export type TextSlice = prismicT.SharedSlice<"text", TextSliceVariation>;
+/**
+ * Item in TitledText → Items
+ *
+ */
+export interface TitledTextSliceDefaultItem {
+    /**
+     * Heading field in *TitledText → Items*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: titled_text.items[].heading
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    heading: prismicT.TitleField;
+    /**
+     * Detail field in *TitledText → Items*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: titled_text.items[].detail
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    detail: prismicT.RichTextField;
+}
+/**
+ * Default variation for TitledText Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: `TitledText`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type TitledTextSliceDefault = prismicT.SharedSliceVariation<"default", Record<string, never>, Simplify<TitledTextSliceDefaultItem>>;
+/**
+ * Slice variation for *TitledText*
+ *
+ */
+type TitledTextSliceVariation = TitledTextSliceDefault;
+/**
+ * TitledText Shared Slice
+ *
+ * - **API ID**: `titled_text`
+ * - **Description**: `TitledText`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type TitledTextSlice = prismicT.SharedSlice<"titled_text", TitledTextSliceVariation>;
 /**
  * Primary content in Video → Primary
  *

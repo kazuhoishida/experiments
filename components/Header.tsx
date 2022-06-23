@@ -49,8 +49,10 @@ export function Header({ nav, }: Props) {
         <div className="relative w-9 h-9">
           <Image onClick={toggleMenu} src="http://localhost:38888/cube.png" alt="MENU" layout="fill" objectFit="contain" />
         </div>
-        <div className={clsx('fixed z-[-1] inset-0 pl-[29px] pt-28 bg-[#D2D2D2] transition-all', {'opacity-0': !isOpen})}>
-          <Navigation nav={nav} />
+        <div className={clsx('fixed z-[-1] inset-0', {'hidden': !isOpen})}>
+          <div className={clsx('bg-[#D2D2D2] transition-all delay-300 w-full h-full pl-[29px] pt-28', {'opacity-0': !isOpen})}>
+            <Navigation nav={nav} />
+          </div>
         </div>
       </div>
     </Bounded>
