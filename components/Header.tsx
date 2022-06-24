@@ -44,7 +44,7 @@ export function Header({ nav, }: Props) {
   const toggleMenu = () => toggle(!isOpen)
   return (
     <Bounded as="header">
-      <div className="relative flex justify-between z-50">
+      <div className="relative md:fixed md:top-0 md:left-0 md:w-full flex justify-between z-50">
         <Logo />
         <div className="relative w-9 h-9">
           <Image onClick={toggleMenu} src="http://localhost:38888/cube.png" alt="MENU" layout="fill" objectFit="contain" />

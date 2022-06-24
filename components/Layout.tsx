@@ -5,14 +5,15 @@ import { Footer } from "./Footer";
 
 type Props = PropsWithChildren & {
   nav: NavigationDocument<string>
+  className?: string
 }
 
-export function Layout({ nav, children, }: Props) {
+export function Layout({ nav, children, className, }: Props) {
   return (
-    <div className="text-slate-700">
+    <div className={`text-black ${className}`}>
       <Header nav={nav} />
       <main>{children}</main>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   )
 }
