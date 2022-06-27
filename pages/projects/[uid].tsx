@@ -52,28 +52,30 @@ const Project: NextPage<ProjectProps> = ({ project, creator, navigation }) => {
       <Head>
         <title>{project.data.title}</title>
       </Head>
-      <article>
-        <Bounded className="pb-0">
-          {featuredMedia && <Media field={featuredMedia} />}
-          <h1 className="mb-3 text-3xl font-semibold tracking-tighter text-slate-800 md:text-4xl">
-            {project.data.title}
-          </h1>
-          <p className="font-serif italic tracking-tighter text-slate-500">
-            {dateFormatter.format(date!)}
-          </p>
-          <PrismicLink className="flex place-items-center gap-x-2" document={creator}>
-            {face && <Image className="rounded-full" src={face} alt={creator.data?.face?.alt || ''} width={50} height={50} />}
-            {creator.data.name}
-          </PrismicLink>
-        </Bounded>
-        <div>
-          <PrismicRichText field={project.data.abstract} />
-        </div>
-        <div>
-          <PrismicRichText field={project.data.description} />
-        </div>
-        <SliceZone slices={project.data.slices} components={components} />
-      </article>
+      <main>
+        <article>
+          <Bounded className="pb-0">
+            {featuredMedia && <Media field={featuredMedia} />}
+            <h1 className="mb-3 text-3xl font-semibold tracking-tighter text-slate-800 md:text-4xl">
+              {project.data.title}
+            </h1>
+            <p className="font-serif italic tracking-tighter text-slate-500">
+              {dateFormatter.format(date!)}
+            </p>
+            <PrismicLink className="flex place-items-center gap-x-2" document={creator}>
+              {face && <Image className="rounded-full" src={face} alt={creator.data?.face?.alt || ''} width={50} height={50} />}
+              {creator.data.name}
+            </PrismicLink>
+          </Bounded>
+          <div>
+            <PrismicRichText field={project.data.abstract} />
+          </div>
+          <div>
+            <PrismicRichText field={project.data.description} />
+          </div>
+          <SliceZone slices={project.data.slices} components={components} />
+        </article>
+      </main>
     </Layout>
   )
 }

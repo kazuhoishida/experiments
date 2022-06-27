@@ -28,34 +28,36 @@ const Projects: NextPage<ProjectsProps> = ({ projects, navigation }: ProjectsPro
       <Head>
         <title>Projects</title>
       </Head>
-      TAG: <Select {...selectProps} />
-      <article>
-        <Bounded className="pb-0">
-          <div className="flex">
-            {projects.map(project => {
-              const featuredMedia = isFilled.linkToMedia(project.data.featuredMedia) ? project.data.featuredMedia : null
-              const creator = isFilled.contentRelationship(project.data.creator) ? project.data.creator : null
-              if( !creator || !featuredMedia ) {
-                return <></>
-              }
-              const visible = selectedTag === '' || project.tags.includes(selectedTag)
-              return (
-                <div className={`flex-col ${visible ? 'flex' : 'hidden'}`} key={project.uid}>
-                  <Media field={featuredMedia} />
-                  <h2 className="mb-3 text-3xl font-semibold tracking-tighter text-slate-800 md:text-4xl">
-                    {project.data.title} - {creator.data.name}
-                  </h2>
-                  <div className="flex">
-                    {project.tags.map(tag => (
-                      <span key={`${project.id}-${tag}`}>{tag}</span>
-                    ))}
+      <main>
+        TAG: <Select {...selectProps} />
+        <article>
+          <Bounded className="pb-0">
+            <div className="flex">
+              {projects.map(project => {
+                const featuredMedia = isFilled.linkToMedia(project.data.featuredMedia) ? project.data.featuredMedia : null
+                const creator = isFilled.contentRelationship(project.data.creator) ? project.data.creator : null
+                if( !creator || !featuredMedia ) {
+                  return <></>
+                }
+                const visible = selectedTag === '' || project.tags.includes(selectedTag)
+                return (
+                  <div className={`flex-col ${visible ? 'flex' : 'hidden'}`} key={project.uid}>
+                    <Media field={featuredMedia} />
+                    <h2 className="mb-3 text-3xl font-semibold tracking-tighter text-slate-800 md:text-4xl">
+                      {project.data.title} - {creator.data.name}
+                    </h2>
+                    <div className="flex">
+                      {project.tags.map(tag => (
+                        <span key={`${project.id}-${tag}`}>{tag}</span>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )
-            })}
-          </div>
-        </Bounded>
-      </article>
+                )
+              })}
+            </div>
+          </Bounded>
+        </article>
+      </main>
     </Layout>
   )
 }
