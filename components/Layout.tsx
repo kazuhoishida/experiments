@@ -12,7 +12,7 @@ export function Layout({ nav, children, className, }: Props) {
   return (
     <div className={`text-black ${className}`}>
       <Header nav={nav} />
-      <main>{children}</main>
+      {children}
       {/* <Footer /> */}
     </div>
   )

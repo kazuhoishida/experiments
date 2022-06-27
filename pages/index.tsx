@@ -176,15 +176,34 @@ type Props = {
 
 const Index = ({top, featuredProjects, navigation, settings }: Props) => {
   return (
-    <Layout nav={navigation} className="h-screen overflow-hidden">
+    <Layout
+      nav={navigation}
+      className="h-screen overflow-hidden flex flex-col"
+    >
       <Head>
         <title>{asText(settings.data.name)}</title>
       </Head>
-      <div className="px-[4vw] md:px-0 md:fixed md:top-0 md:left-0 md:w-screen md:h-screen">
-        <h1 className="font-flex font-squash-h4 text-4xl text-black">{asText(top.data.title)}</h1>
-        <p className="font-flex text-xs text-black opacity-50">{asText(top.data.comment)}</p>
-        <ProjectCarousel featuredProjects={featuredProjects} />
-      </div>
+      <main className="flex flex-col grow pb-[8vh]">
+        <div className="h-full flex flex-col justify-between px-[4vw] md:px-0 md:fixed md:top-0 md:left-0 md:w-screen md:h-screen">
+          <div>
+            <h1 className="font-flex font-squash-h4 text-4xl text-black">{asText(top.data.title)}</h1>
+            <p className="font-flex text-xs text-black opacity-50">{asText(top.data.comment)}</p>
+          </div>
+          <ProjectCarousel featuredProjects={featuredProjects} />
+        </div>
+        <div className="fixed bottom-[2vh] left-1/2 -translate-x-1/2">
+          <ul
+            className={`
+              flex justify-between gap-x-[42px] px-6 py-1
+              font-serif text-sm text-white bg-[#565656]/60 backdrop-blur-sm rounded-sm drop-shadow-md
+            `}
+          >
+            <li className="font-bold">Home</li>
+            <li>Projects</li>
+            <li>Creators</li>
+          </ul>
+        </div>
+      </main>
     </Layout>
   )
 }
