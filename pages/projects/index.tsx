@@ -2,7 +2,8 @@ import type { NextPage, } from 'next'
 import type {  ImageLoader, ImageLoaderProps } from 'next/image'
 import type { ProjectDocument, NavigationDocument, SettingsDocument } from '../../prismic-models'
 import Head from "next/head"
-import { Fragment, useMemo, useState } from 'react'
+import { Fragment, MouseEventHandler, useMemo, useRef, useState } from 'react'
+import type { Dispatch, SetStateAction, PropsWithChildren, } from 'react'
 import { PrismicLink, PrismicRichText, SliceZone } from "@prismicio/react"
 import { isFilled } from '@prismicio/helpers'
 
@@ -15,6 +16,52 @@ import FilterIcon from '../../components/FilterIcon'
 import ArrowIcon from '../../components/ArrowIcon'
 
 import { Disclosure, Transition, } from '@headlessui/react'
+import FooterNavigation from '../../components/FooterNavigation'
+import Cursol from '../../components/Cursol'
+import { FilledLinkToMediaField } from '@prismicio/types'
+
+type ProjectCardProps = {
+  isVisible: boolean
+  media: FilledLinkToMediaField
+}
+
+const ProjectCard = ({ isVisible, media }: ProjectCardProps) => {
+  const [isCursolVisible, setCursolVisibility] = useState(false)
+  const [position, setPosition] = useState({x: 0, y:0})
+  const card = useRef<HTMLDivElement>(null)
+  const enter: MouseEventHandler<HTMLDivElement> = (e) => setCursolVisibility(true)
+  const leave: MouseEventHandler<HTMLDivElement> = (e) => setCursolVisibility(false)
+  const move:  MouseEventHandler<HTMLDivElement> = (e) => {
+    if( !card.current ){ return }
+    const bounding = card.current.getBoundingClientRect()
+    const x = e.clientX - bounding.left
+    const y = e.clientY - bounding.top
+    setPosition({x: x, y:y})
+  }
+  return (
+      <div
+        ref={card}
+        onMouseEnter={enter}
+        onMouseLeave={leave}
+        onMouseMove={move}
+        className={`
+          relative w-full h-full flex-col
+          odd:translate-y-[50px]
+          sm:odd:translate-y-0      sm:even:translate-y-[50px]
+          md:odd:translate-y-[50px] md:even:translate-y-0
+          lg:odd:translate-y-0      lg:even:translate-y-[50px]
+          border border-[#D2D2D2] overflow-hidden
+          hover:cursor-none
+          ${isVisible ? 'flex' : 'hidden'}
+        `}
+      >
+        <PrismicLink href="/">
+          <Media field={media} className="w-full h-[30vh]" objectFit="cover" />
+        </PrismicLink>
+        <Cursol isVisible={isCursolVisible} position={position}/>
+      </div>
+  )
+}
 
 type ProjectsProps = {
   projects: ProjectDocument<string>[]
@@ -32,7 +79,7 @@ const Projects: NextPage<ProjectsProps> = ({ projects, navigation }: ProjectsPro
         <title>Projects</title>
       </Head>
       <main>
-        <div className="sticky top-[2vh] left-4 w-fit">
+        <div className="z-20 sticky top-[2vh] left-4 w-fit">
           <Disclosure>
             <div
               className={`
@@ -65,41 +112,21 @@ const Projects: NextPage<ProjectsProps> = ({ projects, navigation }: ProjectsPro
             </div>
           </Disclosure>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 px-4">
+        <div className="z-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 px-4">
           {projects.map(project => {
             const featuredMedia = isFilled.linkToMedia(project.data.featuredMedia) ? project.data.featuredMedia : null
             const creator = isFilled.contentRelationship(project.data.creator) ? project.data.creator : null
             if( !creator || !featuredMedia ) {
               return <></>
             }
-            const visible = selectedTag === '' || project.tags.includes(selectedTag)
-            return (
-              <div
-                key={project.uid}
-                className={`
-                  w-full h-full flex-col z-[-1]
-                  odd:translate-y-[50px]
-                  sm:odd:translate-y-0      sm:even:translate-y-[50px]
-                  md:odd:translate-y-[50px] md:even:translate-y-0
-                  lg:odd:translate-y-0      lg:even:translate-y-[50px]
-                  border border-[#D2D2D2]
-                  ${visible ? 'flex' : 'hidden'}
-                `}
-              >
-                <Media field={featuredMedia} className="w-full h-[30vh]" objectFit="cover" />
-                {/* <h2 className="mb-3 text-3xl font-semibold tracking-tighter text-slate-800 md:text-4xl">
-                  {project.data.title} - {creator.data.name}
-                </h2>
-                <div className="flex">
-                  {project.tags.map(tag => (
-                    <span key={`${project.id}-${tag}`}>{tag}</span>
-                  ))}
-                </div> */}
-              </div>
+            const isVisible = selectedTag === '' || project.tags.includes(selectedTag)
+            return isVisible && (
+              <ProjectCard key={project.uid} isVisible={isVisible} media={featuredMedia} />
             )
           })}
         </div>
       </main>
+      <FooterNavigation />
     </Layout>
   )
 }
