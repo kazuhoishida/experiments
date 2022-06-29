@@ -9,7 +9,7 @@ import { createClient } from "../prismicio"
 import { Layout } from "../components/Layout"
 
 import type { Swiper as SwiperClass } from 'swiper'
-import { Navigation, A11y, EffectCreative, Mousewheel } from 'swiper'
+import { Navigation, A11y, EffectCreative, Mousewheel, FreeMode } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 import 'swiper/css'
@@ -98,8 +98,10 @@ const ProjectCarousel = ({ featuredProjects }: ProjectCarouselProps) => {
 
     const _r = Math.max(400, window.screen.width * 0.4)
     setR(_r)
-    const rHalf = _r * 0.5
-    const _y = rHalf + Math.cos(theta) * rHalf
+    const _y = (1 + Math.cos(theta)) * _r
+    console.log('Math.cos(theta) : ', Math.cos(theta))
+    console.log('_r : ', _r)
+    console.log('_y : ', _y)
     setY(_y)
     load(true)
   }, [])
@@ -115,7 +117,7 @@ const ProjectCarousel = ({ featuredProjects }: ProjectCarouselProps) => {
             <Swiper
               observer={true}
               className="!overflow-visible"
-              modules={[Navigation, A11y, EffectCreative, Mousewheel]}
+              modules={[Navigation, A11y, EffectCreative, Mousewheel, FreeMode,]}
               effect={"creative"}
               slidesPerView={isWide ? 3 : 1}
               centeredSlides
@@ -124,16 +126,20 @@ const ProjectCarousel = ({ featuredProjects }: ProjectCarouselProps) => {
                 prevEl: prev.current,
                 nextEl: next.current,
               }}
+              freeMode={true}
               creativeEffect={{
+                limitProgress: 3,
                 prev: {
                   translate: [-r, translateY, 0],
                   rotate: [0, 0, -theta],
-                  origin: '28% bottom',
+                  origin: 'center bottom',
+                  // origin: '28% bottom',
                 },
                 next: {
                   translate: [r, translateY, 0],
                   rotate: [0, 0, theta],
-                  origin: '28% bottom',
+                  origin: 'center bottom',
+                  // origin: '28% bottom',
                 },
               }}
               loop={true}
@@ -184,7 +190,7 @@ const Index = ({top, featuredProjects, navigation, settings }: Props) => {
         <title>{asText(settings.data.name)}</title>
       </Head>
       <main className="flex flex-col grow pb-[8vh]">
-        <div className="h-full flex flex-col justify-between px-[4vw] md:px-0 md:fixed md:top-0 md:left-0 md:w-screen md:h-screen">
+        <div className="h-full flex flex-col justify-between md:justify-start px-[4vw] md:px-0 md:fixed md:top-0 md:left-0 md:w-screen md:h-screen">
           <div>
             <h1 className="font-flex font-squash-h4 text-4xl text-black">{asText(top.data.title)}</h1>
             <p className="font-flex text-xs text-black opacity-50">{asText(top.data.comment)}</p>

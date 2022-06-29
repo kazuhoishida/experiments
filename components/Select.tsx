@@ -1,4 +1,6 @@
-import type { ChangeEvent } from 'react'
+import { Listbox, Transition, } from '@headlessui/react'
+import { Fragment, ChangeEvent, useState } from 'react'
+
 type LabeledOption = {
   label: string
   value: string | number
@@ -13,23 +15,50 @@ export interface OnChange {
 type Props = {
   options: Options
   onChange: OnChange
+  className?: string
 }
 
 const isLabeledOption = (option: Option): option is LabeledOption => {
   return option instanceof Object && 'label' in option && 'value' in option;
 }
 
-export const Select = ({options, onChange}: Props) => {
-  const onChangeHandler = (e: ChangeEvent<HTMLSelectElement>) => onChange(e.target.value)
+export const Select = ({options, onChange, className = ''}: Props) => {
+  const [selectedOption, setSelectedOption] = useState(options[0])
+  const onChangeHandler = (option: Option) => {
+    setSelectedOption(option)
+    onChange(isLabeledOption(option) ? `${option.value}` : `${option}`)
+  }
   return(
-    <select onChange={onChangeHandler}>
-      <option value=""></option>
-      {options.map(option => {
-        if( isLabeledOption(option) ) {
-          return <option value={option.value} key={option.value}>{option.label}</option>
-        }
-        return <option value={option} key={option}>{option}</option>
-      })}
-    </select>
+    <Listbox value={selectedOption} onChange={onChangeHandler}>
+      <Listbox.Button className={`font-flex font-squash-h6 bg-transparent relative`}>
+        { ((v) => v === '' ? '' : `:${v}`)(isLabeledOption(selectedOption) ? selectedOption.label : `${selectedOption}`) }
+      </Listbox.Button>
+      <Transition
+        as={Fragment}
+        enter="transition duration-300 ease-out"
+        enterFrom="transform origin-top scale-y-0  opacity-0"
+        enterTo="transform origin-top scale-y-100 opacity-100"
+        leave="transition duration-200 ease-out"
+        leaveFrom="transform origin-top scale-y-100 opacity-100"
+        leaveTo="transform origin-top scale-y-[40%] opacity-0"
+      >
+        <Listbox.Options
+          className={`font-flex font-squash-h6 bg-[#565656]/80 py-1 rounded-sm focus:outline-none top-0 left-0 w-fit absolute`}
+        >
+          {options.map((option, i) => {
+            const [value, label] = isLabeledOption(option) ? [option.value, option.label] : [option, option]
+            return (
+              <Listbox.Option
+                className={`relative cursor-default select-none py-2 pl-10 pr-4`}
+                key={i}
+                value={value}
+              >
+                {label === '' ? '---' : label}
+              </Listbox.Option>
+            )
+          })}
+        </Listbox.Options>
+      </Transition>
+    </Listbox>
   )
 }

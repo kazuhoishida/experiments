@@ -29,8 +29,12 @@ module.exports = {
           'font-stretch': 'var(--stretch-squash-H1)',
         },
         '.font-squash-h4': {
-          'font-variation-settings': 'var(--setting-squash-H1)',
-          'font-stretch': 'var(--stretch-squash-H1)',
+          'font-variation-settings': 'var(--setting-squash-H4)',
+          'font-stretch': 'var(--stretch-squash-H4)',
+        },
+        '.font-squash-h6': {
+          'font-variation-settings': 'var(--setting-squash-H6)',
+          'font-stretch': 'var(--stretch-squash-H6)',
         },
       })
     })
