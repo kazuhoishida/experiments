@@ -2,7 +2,7 @@ import type { NextPage, } from 'next'
 import type {  ImageLoader, ImageLoaderProps } from 'next/image'
 import type { ProjectDocument, NavigationDocument, SettingsDocument } from '../../prismic-models'
 import Head from "next/head"
-import { Fragment, MouseEventHandler, useEffect, useMemo, useRef, useState } from 'react'
+import { Fragment, memo, MouseEventHandler, useEffect, useMemo, useRef, useState } from 'react'
 import type { Dispatch, SetStateAction, PropsWithChildren, } from 'react'
 import { PrismicLink, PrismicRichText, SliceZone } from "@prismicio/react"
 import { isFilled } from '@prismicio/helpers'
@@ -69,50 +69,103 @@ const ProjectCard = ({ isVisible, media }: ProjectCardProps) => {
   )
 }
 
+
+type ValidProjectProps = {
+  project: ProjectDocument
+  selectedTag: string
+}
+
+const ValidProject = ({project, selectedTag}: ValidProjectProps) => {
+  const featuredMedia = isFilled.linkToMedia(project.data.featuredMedia) ? project.data.featuredMedia : null
+  const creator = isFilled.contentRelationship(project.data.creator) ? project.data.creator : null
+  const isVisible = selectedTag === '' || project.tags.includes(selectedTag)
+  if( !creator || !featuredMedia || !isVisible ) {
+    return <></>
+  }
+  return <ProjectCard isVisible={isVisible} media={featuredMedia} />
+}
+
+const normalizeArraySize = function <T>(array: T[], size: number) {
+  if( array.length >= size ) {
+    return array
+  }
+  const newArray = new Array(...array)
+  for( let i = newArray.length; i < size; i++ ) {
+    const item = array.at(i % array.length )
+    item && newArray.push(item)
+  }
+  return newArray
+}
+/**
+
+array.length = 100
+offset = -4
+length = 4
+
+realOffset = 100 -4 -1 = 95
+
+
+array.length = 10
+offset = -4
+length = 4
+
+realOffset = 10 -4 -1 = 5
+
+
+array.length = 10
+offset = 4
+length = 4
+
+realOffset = 4 = 5
+
+ */
+
+const loopSlice = function <T>(array: T[], offset = 0, length = 0) {
+  const realOffset = offset < 0 ?
+    array.length + offset - 1 : (
+      offset < array.length ? offset: offset % array.length - 1
+    )
+  const sum = realOffset + length
+  const isOver = sum > array.length
+  if( !isOver ) {
+    return array.slice(realOffset, realOffset + length)
+  }
+  const left = array.slice( realOffset, sum ) // endがサイズを超えたら配列の最後までを返す
+  const right = array.slice( 0, sum - array.length )
+  return [...left, ...right]
+}
+
 type ProjectsGridProps = {
-  projects: ProjectDocument<string>[]
+  projects: ProjectDocument[]
   selectedTag: string
 }
 
 const ProjectsGrid = ({projects, selectedTag}: ProjectsGridProps) => {
-  const isString = (s: any): s is string => typeof s === 'string' // string type guards
-  const resolutions = Object.values(screens)
-    .filter(isString)
-    .map(screen => parseInt(screen.slice(0,-2)) ) // remove 'px'
-    .sort((a, b) => a-b)
-  const [windowWidth, setWindowWidth] = useState(0)
-  useEffect(
-    () => {
-      window && setWindowWidth( window.innerWidth )
-    }
-  , [])
-  const _minWidth = useMemo(
-    () => resolutions.filter( r => r < windowWidth )?.at(-1) ?? 0
-  , [resolutions, windowWidth])
-  useEffect(
-    () => console.log('_minWidth : ', _minWidth)
-  , [_minWidth])
+  const option = {
+    overscan: 4,
+    row: 2,
+    col: 2,
+  }
+  const perPage = option.row * option.col
+  const [virtual, setVirtual] = useState({
+    offset: 0,
+    height: 0,
+    perPage: perPage
+  })
+  const normalizedProjects = normalizeArraySize(projects, perPage + option.overscan * 2)
   return (
-    <>
-    {
-      projects.map(project => {
-        const featuredMedia = isFilled.linkToMedia(project.data.featuredMedia) ? project.data.featuredMedia : null
-        const creator = isFilled.contentRelationship(project.data.creator) ? project.data.creator : null
-        if( !creator || !featuredMedia ) {
-          return <></>
-        }
-        const isVisible = selectedTag === '' || project.tags.includes(selectedTag)
-        return isVisible && (
-          <ProjectCard key={project.uid} isVisible={isVisible} media={featuredMedia} />
-        )
-      })
-    }</>
+    <div className="z-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 px-4">
+      {loopSlice(projects, virtual.offset - option.overscan, option.overscan).map((project, i) =>
+          <ValidProject project={project} selectedTag={selectedTag} key={`${i}-${project.uid}`} />
+      )}
+      {loopSlice(projects, virtual.offset, perPage).map((project, i) =>
+          <ValidProject project={project} selectedTag={selectedTag} key={`${i}-${project.uid}`} />
+      )}
+      {loopSlice(projects, virtual.offset + perPage, option.overscan).map((project, i) =>
+          <ValidProject project={project} selectedTag={selectedTag} key={`${i}-${project.uid}`} />
+      )}
+    </div>
   )
-  // return (
-  //   {/* <div className="z-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 px-4"> */}
-  //     {}
-  //   {/* </div> */}
-  // )
 }
 
 type ProjectsProps = {
@@ -132,12 +185,12 @@ const Projects: NextPage<ProjectsProps> = ({ projects, navigation }: ProjectsPro
         <title>Projects</title>
       </Head>
       <main>
-        <div className="z-20 sticky top-[2vh] left-4 w-fit">
+        <div className="z-20 sticky top-14 left-4 w-fit drop-shadow-2xl">
           <Disclosure>
             <div
               className={`
                 inline-flex justify-between px-6 py-1
-                font-serif text-[17px] leading-none text-white bg-[#565656]/60 backdrop-blur-sm rounded-sm drop-shadow-md
+                font-serif text-[17px] leading-none text-white bg-[#565656]/60 backdrop-blur-sm rounded-sm
               `}
             >
               <Disclosure.Button>

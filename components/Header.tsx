@@ -43,18 +43,16 @@ export function Header({ nav, }: Props) {
   const [isOpen, toggle] = useState(false)
   const toggleMenu = () => toggle(!isOpen)
   return (
-    <Bounded as="header">
-      <div className="relative md:fixed md:top-0 md:left-0 md:w-full flex justify-between z-50">
-        <Logo />
-        <div className="relative w-9 h-9">
-          <Image onClick={toggleMenu} src="http://localhost:38888/cube.png" alt="MENU" layout="fill" objectFit="contain" />
-        </div>
-        <div className={clsx('fixed z-[-1] inset-0', {'hidden': !isOpen})}>
-          <div className={clsx('bg-[#D2D2D2] transition-all delay-300 w-full h-full pl-[29px] pt-28', {'opacity-0': !isOpen})}>
-            <Navigation nav={nav} />
-          </div>
+    <header className="sticky top-0 left-0 p-4 w-full flex justify-between z-50">
+      <Logo />
+      <div className="relative w-9 h-9 drop-shadow">
+        <Image onClick={toggleMenu} src="http://localhost:38888/cube.png" alt="MENU" layout="fill" objectFit="contain"/>
+      </div>
+      <div className={clsx('fixed z-[-1] inset-0', {'hidden': !isOpen})}>
+        <div className={clsx('bg-[#D2D2D2] transition-all delay-300 w-full h-full pl-[29px] pt-28', {'opacity-0': !isOpen})}>
+          <Navigation nav={nav} />
         </div>
       </div>
-    </Bounded>
+    </header>
   )
 }
