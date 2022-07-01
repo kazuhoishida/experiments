@@ -7,6 +7,7 @@ type Size = P.Width | P.Height
 declare module 'csstype' {
   interface Properties {
     '--scale-x'?: P.Scale
+    '--translateY'?: P.Translate
     '--visibility'?: P.Visibility
     '--icon-size'?: Size
     '--padding-x'?: Coordinate

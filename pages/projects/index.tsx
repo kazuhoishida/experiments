@@ -3,7 +3,7 @@ import type {  ImageLoader, ImageLoaderProps } from 'next/image'
 import type { ProjectDocument, NavigationDocument, SettingsDocument } from '../../prismic-models'
 import Head from "next/head"
 import { Fragment, memo, MouseEventHandler, useEffect, useMemo, useRef, useState } from 'react'
-import type { Dispatch, SetStateAction, PropsWithChildren, } from 'react'
+import type { ComponentProps, InputHTMLAttributes, FC, Dispatch, SetStateAction, PropsWithChildren, } from 'react'
 import { PrismicLink, PrismicRichText, SliceZone } from "@prismicio/react"
 import { isFilled } from '@prismicio/helpers'
 
@@ -26,12 +26,12 @@ import { pluck, union } from 'underscore'
 import { screens } from '../../tailwindconfig'
 
 
-type ProjectCardProps = {
+type ProjectCardProps = InputHTMLAttributes<HTMLDivElement> & {
   isVisible: boolean
   media: FilledLinkToMediaField
 }
 
-const ProjectCard = ({ isVisible, media }: ProjectCardProps) => {
+const ProjectCard = ({ isVisible, media, style }: ProjectCardProps) => {
   const [isCursolVisible, setCursolVisibility] = useState(false)
   const [position, setPosition] = useState({x: 0, y:0})
   const card = useRef<HTMLDivElement>(null)
@@ -51,18 +51,15 @@ const ProjectCard = ({ isVisible, media }: ProjectCardProps) => {
         onMouseLeave={leave}
         onMouseMove={move}
         className={`
-          relative w-full h-full flex-col
-          odd:translate-y-[50px]
-          sm:odd:translate-y-0      sm:even:translate-y-[50px]
-          md:odd:translate-y-[50px] md:even:translate-y-0
-          lg:odd:translate-y-0      lg:even:translate-y-[50px]
+          relative w-full h-full flex-col translate-y-[var(--translateY)]
           border border-[#D2D2D2] overflow-hidden
           hover:cursor-none
           ${isVisible ? 'flex' : 'hidden'}
         `}
+        style={style}
       >
         <PrismicLink href="/">
-          <Media field={media} className="w-full h-[30vh]" objectFit="cover" />
+          <Media field={media} className="w-full h-[30vh] lg:h-[40vh]" objectFit="cover" />
         </PrismicLink>
         <Cursol isVisible={isCursolVisible} position={position}/>
       </div>
@@ -70,69 +67,37 @@ const ProjectCard = ({ isVisible, media }: ProjectCardProps) => {
 }
 
 
-type ValidProjectProps = {
+type ValidProjectProps = Partial<ProjectCardProps> & {
   project: ProjectDocument
   selectedTag: string
 }
 
-const ValidProject = ({project, selectedTag}: ValidProjectProps) => {
+const ValidProject = ({project, selectedTag, style}: ValidProjectProps) => {
   const featuredMedia = isFilled.linkToMedia(project.data.featuredMedia) ? project.data.featuredMedia : null
   const creator = isFilled.contentRelationship(project.data.creator) ? project.data.creator : null
   const isVisible = selectedTag === '' || project.tags.includes(selectedTag)
   if( !creator || !featuredMedia || !isVisible ) {
     return <></>
   }
-  return <ProjectCard isVisible={isVisible} media={featuredMedia} />
+  return <ProjectCard style={style} isVisible={isVisible} media={featuredMedia} />
 }
 
-const normalizeArraySize = function <T>(array: T[], size: number) {
-  if( array.length >= size ) {
-    return array
-  }
-  const newArray = new Array(...array)
-  for( let i = newArray.length; i < size; i++ ) {
-    const item = array.at(i % array.length )
+const loopSlice = function <T>(array: T[], offset = 0, length = 0) {
+  const realOffset = Math.abs(offset) === array.length ? 0 :
+    offset < 0 ?
+      array.length + offset - 1 : (
+        offset < array.length ? offset: offset % array.length - 1
+      )
+  const sum = realOffset + length
+  const newArray = new Array<T>()
+  for(let i = realOffset; i < sum; i++ ) {
+    const item = array[i % array.length]
+    if( item === undefined ) {
+      console.table({i, length, offset, sum, 'array-length': array.length, per: i % array.length })
+    }
     item && newArray.push(item)
   }
   return newArray
-}
-/**
-
-array.length = 100
-offset = -4
-length = 4
-
-realOffset = 100 -4 -1 = 95
-
-
-array.length = 10
-offset = -4
-length = 4
-
-realOffset = 10 -4 -1 = 5
-
-
-array.length = 10
-offset = 4
-length = 4
-
-realOffset = 4 = 5
-
- */
-
-const loopSlice = function <T>(array: T[], offset = 0, length = 0) {
-  const realOffset = offset < 0 ?
-    array.length + offset - 1 : (
-      offset < array.length ? offset: offset % array.length - 1
-    )
-  const sum = realOffset + length
-  const isOver = sum > array.length
-  if( !isOver ) {
-    return array.slice(realOffset, realOffset + length)
-  }
-  const left = array.slice( realOffset, sum ) // endがサイズを超えたら配列の最後までを返す
-  const right = array.slice( 0, sum - array.length )
-  return [...left, ...right]
 }
 
 type ProjectsGridProps = {
@@ -141,28 +106,51 @@ type ProjectsGridProps = {
 }
 
 const ProjectsGrid = ({projects, selectedTag}: ProjectsGridProps) => {
-  const option = {
-    overscan: 4,
-    row: 2,
-    col: 2,
-  }
-  const perPage = option.row * option.col
+  const [row] = useState(2)
+  const [col, setCol] = useState(2)
+  const [overscan, setOverscan] = useState(4)
+  const perPage = row * col
   const [virtual, setVirtual] = useState({
     offset: 0,
     height: 0,
     perPage: perPage
   })
-  const normalizedProjects = normalizeArraySize(projects, perPage + option.overscan * 2)
+  const [vw, setVw] = useState(0)
+  useEffect(() => {
+    if( !window ) return
+    window.addEventListener('resize', () => setVw(window.innerWidth))
+    setVw(window.innerWidth)
+  },[setVw])
+  useEffect(() => {
+    if( vw >= 1024 ) {
+      setOverscan(10)
+      setCol(5)
+    } else if ( vw >= 768) {
+      setOverscan(8)
+      setCol(4)
+    } else if ( vw >= 640) {
+      setOverscan(6)
+      setCol(3)
+    } else {
+      setCol(2)
+    }
+  }, [vw])
+  const gallery = useMemo( () => [
+    ...loopSlice(projects, virtual.offset - overscan, overscan),
+    ...loopSlice(projects, virtual.offset, perPage),
+    ...loopSlice(projects, virtual.offset + perPage, overscan)
+  ], [projects, virtual.offset, overscan, perPage])
   return (
     <div className="z-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 px-4">
-      {loopSlice(projects, virtual.offset - option.overscan, option.overscan).map((project, i) =>
-          <ValidProject project={project} selectedTag={selectedTag} key={`${i}-${project.uid}`} />
-      )}
-      {loopSlice(projects, virtual.offset, perPage).map((project, i) =>
-          <ValidProject project={project} selectedTag={selectedTag} key={`${i}-${project.uid}`} />
-      )}
-      {loopSlice(projects, virtual.offset + perPage, option.overscan).map((project, i) =>
-          <ValidProject project={project} selectedTag={selectedTag} key={`${i}-${project.uid}`} />
+      {gallery.map((project, i) =>
+        <ValidProject
+          project={project}
+          selectedTag={selectedTag}
+          key={`${i}-${project.uid}`}
+          style={{
+            '--translateY': (i % col % 2 === 1 ? '50px' : '0')
+          }}
+        />
       )}
     </div>
   )
