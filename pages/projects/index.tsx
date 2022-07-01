@@ -2,7 +2,7 @@ import type { NextPage, } from 'next'
 import type {  ImageLoader, ImageLoaderProps } from 'next/image'
 import type { ProjectDocument, NavigationDocument, SettingsDocument } from '../../prismic-models'
 import Head from "next/head"
-import { Fragment, MouseEventHandler, useMemo, useRef, useState } from 'react'
+import { Fragment, MouseEventHandler, useEffect, useMemo, useRef, useState } from 'react'
 import type { Dispatch, SetStateAction, PropsWithChildren, } from 'react'
 import { PrismicLink, PrismicRichText, SliceZone } from "@prismicio/react"
 import { isFilled } from '@prismicio/helpers'
@@ -19,6 +19,12 @@ import { Disclosure, Transition, } from '@headlessui/react'
 import FooterNavigation from '../../components/FooterNavigation'
 import Cursol from '../../components/Cursol'
 import { FilledLinkToMediaField } from '@prismicio/types'
+
+import { useVirtualizer } from '@tanstack/react-virtual'
+import { pluck, union } from 'underscore'
+
+import { screens } from '../../tailwindconfig'
+
 
 type ProjectCardProps = {
   isVisible: boolean
@@ -63,13 +69,60 @@ const ProjectCard = ({ isVisible, media }: ProjectCardProps) => {
   )
 }
 
+type ProjectsGridProps = {
+  projects: ProjectDocument<string>[]
+  selectedTag: string
+}
+
+const ProjectsGrid = ({projects, selectedTag}: ProjectsGridProps) => {
+  const isString = (s: any): s is string => typeof s === 'string' // string type guards
+  const resolutions = Object.values(screens)
+    .filter(isString)
+    .map(screen => parseInt(screen.slice(0,-2)) ) // remove 'px'
+    .sort((a, b) => a-b)
+  const [windowWidth, setWindowWidth] = useState(0)
+  useEffect(
+    () => {
+      window && setWindowWidth( window.innerWidth )
+    }
+  , [])
+  const _minWidth = useMemo(
+    () => resolutions.filter( r => r < windowWidth )?.at(-1) ?? 0
+  , [resolutions, windowWidth])
+  useEffect(
+    () => console.log('_minWidth : ', _minWidth)
+  , [_minWidth])
+  return (
+    <>
+    {
+      projects.map(project => {
+        const featuredMedia = isFilled.linkToMedia(project.data.featuredMedia) ? project.data.featuredMedia : null
+        const creator = isFilled.contentRelationship(project.data.creator) ? project.data.creator : null
+        if( !creator || !featuredMedia ) {
+          return <></>
+        }
+        const isVisible = selectedTag === '' || project.tags.includes(selectedTag)
+        return isVisible && (
+          <ProjectCard key={project.uid} isVisible={isVisible} media={featuredMedia} />
+        )
+      })
+    }</>
+  )
+  // return (
+  //   {/* <div className="z-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 px-4"> */}
+  //     {}
+  //   {/* </div> */}
+  // )
+}
+
 type ProjectsProps = {
   projects: ProjectDocument<string>[]
   navigation: NavigationDocument<string>
 }
 
 const Projects: NextPage<ProjectsProps> = ({ projects, navigation }: ProjectsProps) => {
-  const options = projects.reduce((tags, project) => tags.concat(project.tags), [''])
+  const options = ['']
+  options.push(...union(...pluck(projects, 'tags')))
   const [selectedTag, setTags] = useState('')
   const onChange: OnChange = (newValue) => setTags(newValue)
   const selectProps = {options, onChange}
@@ -112,19 +165,7 @@ const Projects: NextPage<ProjectsProps> = ({ projects, navigation }: ProjectsPro
             </div>
           </Disclosure>
         </div>
-        <div className="z-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 px-4">
-          {projects.map(project => {
-            const featuredMedia = isFilled.linkToMedia(project.data.featuredMedia) ? project.data.featuredMedia : null
-            const creator = isFilled.contentRelationship(project.data.creator) ? project.data.creator : null
-            if( !creator || !featuredMedia ) {
-              return <></>
-            }
-            const isVisible = selectedTag === '' || project.tags.includes(selectedTag)
-            return isVisible && (
-              <ProjectCard key={project.uid} isVisible={isVisible} media={featuredMedia} />
-            )
-          })}
-        </div>
+        <ProjectsGrid projects={projects} selectedTag={selectedTag} />
       </main>
       <FooterNavigation />
     </Layout>
