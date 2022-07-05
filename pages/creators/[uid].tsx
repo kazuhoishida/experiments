@@ -28,7 +28,9 @@ const Creator: NextPage<CreatorProps> = ({ creator, navigation }) => {
             <h1 className="mb-3 text-3xl font-semibold tracking-tighter text-slate-800 md:text-4xl">
               {creator.data.name}
             </h1>
-            <Image src={creator.data?.face?.url} alt={creator.data?.face?.alt} width={100} height={100} />
+            {creator.data?.face?.url && (
+              <Image src={creator.data?.face?.url} alt={creator.data?.face?.alt ?? ''} width={100} height={100} />
+            )}
           </Bounded>
           <SliceZone slices={creator.data.slices} components={components} />
         </article>

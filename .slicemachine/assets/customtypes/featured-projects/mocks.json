@@ -1,36 +1,32 @@
 {
-  "id": "e145943e-7b38-4012-ac1e-9fcc4d38cf01",
-  "uid": "perferendis-architecto-voluptatem",
+  "id": "479c36c1-87fd-4da0-b16c-d419f218f03d",
+  "uid": "molestiae-dolorum-quos",
   "type": "featured-projects",
   "data": {
     "projects": [
       {
         "project": {
           "link_type": "Web",
-          "url": "https://prismic.io"
-        },
-        "leadingText": "iterate web-enabled communities"
+          "url": "http://twitter.com"
+        }
       },
       {
         "project": {
           "link_type": "Web",
           "url": "https://slicemachine.dev"
-        },
-        "leadingText": "leverage killer bandwidth"
+        }
       },
       {
         "project": {
           "link_type": "Web",
           "url": "https://prismic.io"
-        },
-        "leadingText": "benchmark cross-media networks"
+        }
       },
       {
         "project": {
           "link_type": "Web",
           "url": "http://twitter.com"
-        },
-        "leadingText": "aggregate holistic eyeballs"
+        }
       }
     ]
   }

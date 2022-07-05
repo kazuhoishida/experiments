@@ -19,13 +19,6 @@
                   "project"
                 ]
               }
-            },
-            "leadingText": {
-              "type": "Text",
-              "config": {
-                "label": "Leading Text",
-                "placeholder": ""
-              }
             }
           }
         }

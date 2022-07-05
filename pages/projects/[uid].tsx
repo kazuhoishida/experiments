@@ -70,8 +70,15 @@ const Project: NextPage<ProjectProps> = ({ project, creator, navigation }) => {
           <div>
             <PrismicRichText field={project.data.abstract} />
           </div>
-          <div>
-            <PrismicRichText field={project.data.description} />
+          <div className="flex flex-col">
+            {
+              project.data.details.map(detail => (
+                <>
+                  <PrismicRichText field={detail.title} />
+                  <PrismicRichText field={detail.description} />
+                </>
+              ))
+            }
           </div>
           <SliceZone slices={project.data.slices} components={components} />
         </article>

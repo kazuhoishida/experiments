@@ -14,5 +14,6 @@ declare module 'csstype' {
     '--cursor-x'?: Coordinate
     '--cursor-y'?: Coordinate
     '--cursor-scale'?: P.Scale
+    '--img-ratio'?: P.AspectRatio
   }
 }

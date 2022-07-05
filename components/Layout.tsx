@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from 'react'
-import type { NavigationDocument, SettingsDocument } from '../prismic-models'
+import type { NavigationDocument } from '../prismic-models'
 import { Header } from "./Header"
 
 type Props = PropsWithChildren & {

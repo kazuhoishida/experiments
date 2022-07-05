@@ -91,7 +91,23 @@ interface CreatorDocumentData {
      *
      */
     face: prismicT.ImageField<null>;
+    /**
+     * Slice Zone (`slices`) field in *Creator*
+     *
+     * - **Field Type**: Slice Zone
+     * - **Placeholder**: *None*
+     * - **API ID Path**: creator.slices[]
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/slices
+     *
+     */
+    slices: prismicT.SliceZone<CreatorDocumentDataSlicesSlice>;
 }
+/**
+ * Slice for *Creator → Slice Zone (`slices`)*
+ *
+ */
+type CreatorDocumentDataSlicesSlice = WorkSlice;
 /**
  * Creator document from Prismic
  *
@@ -131,16 +147,6 @@ export interface FeaturedProjectsDocumentDataProjectsItem {
      *
      */
     project: prismicT.RelationField<"project">;
-    /**
-     * Leading Text field in *FeaturedProjects → Projects*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: featured-projects.projects[].leadingText
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    leadingText: prismicT.KeyTextField;
 }
 /**
  * FeaturedProjects document from Prismic
@@ -267,6 +273,17 @@ interface ProjectDocumentData {
      */
     title: prismicT.KeyTextField;
     /**
+     * Leading Text field in *Project*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: project.leadingText
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    leadingText: prismicT.KeyTextField;
+    /**
      * Publish Date field in *Project*
      *
      * - **Field Type**: Date
@@ -321,6 +338,17 @@ interface ProjectDocumentData {
      *
      */
     details: prismicT.GroupField<Simplify<ProjectDocumentDataDetailsItem>>;
+    /**
+     * Demo Link field in *Project*
+     *
+     * - **Field Type**: Link
+     * - **Placeholder**: *None*
+     * - **API ID Path**: project.demoLink
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+     *
+     */
+    demoLink: prismicT.LinkField;
     /**
      * Slice Zone (`slices`) field in *Project*
      *
@@ -864,3 +892,111 @@ type VideoSliceVariation = VideoSliceDefault;
  *
  */
 export type VideoSlice = prismicT.SharedSlice<"video", VideoSliceVariation>;
+/**
+ * Primary content in Work → Primary
+ *
+ */
+interface WorkSliceDefaultPrimary {
+    /**
+     * Date field in *Work → Primary*
+     *
+     * - **Field Type**: Date
+     * - **Placeholder**: *None*
+     * - **API ID Path**: work.primary.date
+     * - **Documentation**: https://prismic.io/docs/core-concepts/date
+     *
+     */
+    date: prismicT.DateField;
+    /**
+     * Title field in *Work → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: This is where it all begins...
+     * - **API ID Path**: work.primary.title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    title: prismicT.TitleField;
+    /**
+     * Role field in *Work → Primary*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: work.primary.role
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    role: prismicT.KeyTextField;
+    /**
+     * Link field in *Work → Primary*
+     *
+     * - **Field Type**: Link
+     * - **Placeholder**: *None*
+     * - **API ID Path**: work.primary.link
+     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+     *
+     */
+    link: prismicT.LinkField;
+}
+/**
+ * Default variation for Work Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: `Work`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type WorkSliceDefault = prismicT.SharedSliceVariation<"default", Simplify<WorkSliceDefaultPrimary>, never>;
+/**
+ * Slice variation for *Work*
+ *
+ */
+type WorkSliceVariation = WorkSliceDefault;
+/**
+ * Work Shared Slice
+ *
+ * - **API ID**: `work`
+ * - **Description**: `Work`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type WorkSlice = prismicT.SharedSlice<"work", WorkSliceVariation>;
+/**
+ * Item in Works → Items
+ *
+ */
+export interface WorksSliceDefaultItem {
+    /**
+     * Date field in *Works → Items*
+     *
+     * - **Field Type**: Date
+     * - **Placeholder**: *None*
+     * - **API ID Path**: works.items[].date
+     * - **Documentation**: https://prismic.io/docs/core-concepts/date
+     *
+     */
+    date: prismicT.DateField;
+}
+/**
+ * Default variation for Works Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: `Works`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type WorksSliceDefault = prismicT.SharedSliceVariation<"default", Record<string, never>, Simplify<WorksSliceDefaultItem>>;
+/**
+ * Slice variation for *Works*
+ *
+ */
+type WorksSliceVariation = WorksSliceDefault;
+/**
+ * Works Shared Slice
+ *
+ * - **API ID**: `works`
+ * - **Description**: `Works`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type WorksSlice = prismicT.SharedSlice<"works", WorksSliceVariation>;

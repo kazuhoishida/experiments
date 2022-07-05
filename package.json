@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "slicemachine": "start-slicemachine",
-    "type": "prismic-ts-codegen"
+    "type": "prismic-ts-codegen",
+    "export": "next build && next export"
   },
   "dependencies": {
     "@headlessui/react": "^1.6.5",
@@ -22,7 +23,7 @@
     "clsx": "^1.1.1",
     "gsap": "^3.10.4",
     "jotai": "^1.7.3",
-    "next": "12.1.6",
+    "next": "^12.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "swiper": "^8.2.4",

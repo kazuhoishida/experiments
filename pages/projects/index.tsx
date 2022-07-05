@@ -20,7 +20,6 @@ import FooterNavigation from '../../components/FooterNavigation'
 import Cursor from '../../components/Cursor'
 import { FilledLinkToMediaField } from '@prismicio/types'
 
-import { useVirtualizer } from '@tanstack/react-virtual'
 import { pluck, union } from 'underscore'
 
 import { screens } from '../../tailwindconfig'

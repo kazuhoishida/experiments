@@ -1,13 +1,14 @@
 {
-  "id": "5516a686-4d39-4666-9713-b829cc53146d",
-  "uid": "voluptatum-fuga-voluptatem",
+  "id": "ff82c8fd-d57f-4cad-a056-cb8e314228d7",
+  "uid": "odit-nostrum-sit",
   "type": "project",
   "data": {
-    "title": "innovate 24/365 convergence",
-    "publishDate": "2013-08-03",
+    "title": "productize B2C interfaces",
+    "leadingText": "reintermediate extensible paradigms",
+    "publishDate": "2017-02-27",
     "creator": {
       "link_type": "Web",
-      "url": "http://twitter.com"
+      "url": "http://google.com"
     },
     "featuredMedia": {
       "link_type": "media",
@@ -16,23 +17,27 @@
     "abstract": [
       {
         "type": "paragraph",
-        "text": "Elit irure sunt ipsum sint occaecat magna. Voluptate duis aliquip et ea laborum anim id sit do ex id eu commodo dolor exercitation.",
+        "text": "Nulla sint sunt aute velit sint est consequat elit eu occaecat nulla. Ea in ex incididunt esse occaecat proident laboris do ut id exercitation amet enim. Ipsum irure reprehenderit aliquip nostrud.",
         "spans": []
       }
     ],
+    "demoLink": {
+      "link_type": "Web",
+      "url": "https://slicemachine.dev"
+    },
     "details": [
       {
         "title": [
           {
             "type": "heading1",
-            "text": "Monetize synergistic methodologies",
+            "text": "Repurpose real-time niches",
             "spans": []
           }
         ],
         "description": [
           {
             "type": "paragraph",
-            "text": "Cillum ad do enim eu nostrud anim cillum tempor ea irure nisi.",
+            "text": "Veniam ipsum ullamco aliquip irure id sit laborum ad ipsum cillum consectetur labore. Dolor minim ut in est enim velit eu elit incididunt Lorem reprehenderit. Sit quis voluptate ipsum laboris sunt dolore.",
             "spans": []
           }
         ]
@@ -41,14 +46,14 @@
         "title": [
           {
             "type": "heading1",
-            "text": "Reintermediate wireless e-services",
+            "text": "Syndicate rich markets",
             "spans": []
           }
         ],
         "description": [
           {
             "type": "paragraph",
-            "text": "Voluptate pariatur ipsum ex aliquip ut cupidatat Lorem ad ullamco aute proident. Nulla elit anim qui culpa culpa ea occaecat ex velit mollit excepteur tempor ut.",
+            "text": "Anim occaecat laborum deserunt mollit ut in amet nulla mollit consequat.",
             "spans": []
           }
         ]
@@ -57,14 +62,14 @@
         "title": [
           {
             "type": "heading1",
-            "text": "Empower customized vortals",
+            "text": "Synthesize world-class interfaces",
             "spans": []
           }
         ],
         "description": [
           {
             "type": "paragraph",
-            "text": "Ex sunt exercitation dolore velit mollit eu aliquip mollit officia fugiat. Ex aliqua labore elit magna consectetur ut. Labore mollit mollit cillum adipisicing ad deserunt consequat officia tempor ea consectetur minim.",
+            "text": "Pariatur magna in pariatur do qui duis laboris quis.",
             "spans": []
           }
         ]
@@ -73,14 +78,14 @@
         "title": [
           {
             "type": "heading1",
-            "text": "Expedite robust e-tailers",
+            "text": "Integrate efficient networks",
             "spans": []
           }
         ],
         "description": [
           {
             "type": "paragraph",
-            "text": "Et deserunt minim id.",
+            "text": "Ad amet sint amet ea veniam voluptate exercitation id sit officia pariatur mollit laboris.",
             "spans": []
           }
         ]

@@ -19,6 +19,13 @@
           "placeholder": ""
         }
       },
+      "leadingText": {
+        "type": "Text",
+        "config": {
+          "label": "Leading Text",
+          "placeholder": ""
+        }
+      },
       "publishDate": {
         "type": "Date",
         "config": {
@@ -77,6 +84,14 @@
               }
             }
           }
+        }
+      },
+      "demoLink": {
+        "type": "Link",
+        "config": {
+          "label": "Demo Link",
+          "placeholder": "",
+          "select": null
         }
       },
       "slices": {

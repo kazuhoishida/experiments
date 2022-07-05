@@ -8,6 +8,8 @@ import Quote from './Quote';
 import Text from './Text';
 import TitledText from './TitledText';
 import Video from './Video';
+import Work from './Work';
+import Works from './Works';
 
 export {
 	ContactForm,
@@ -18,6 +20,8 @@ export {
 	Text,
 	TitledText,
 	Video,
+	Work,
+	Works,
 };
 
 export const components = {
@@ -29,4 +33,6 @@ export const components = {
 	text: Text,
 	titled_text: TitledText,
 	video: Video,
+	work: Work,
+	works: Works,
 };

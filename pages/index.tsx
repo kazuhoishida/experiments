@@ -18,7 +18,7 @@ import 'swiper/css/effect-creative'
 import FooterNavigation from "../components/FooterNavigation"
 
 // fetchLinksに指定するフィールド名
-const projectFetchKeys = ['title', 'featuredMedia', 'abstract'] as const
+const projectFetchKeys = ['title', 'featuredMedia', 'leadingText'] as const
 type TProjectFetchKey = FetchKeyUnion<typeof projectFetchKeys>
 
 // ${before('hidden absolute w-[1px] h-[200vh] bg-black top-0 left-0')}
@@ -26,9 +26,8 @@ type TProjectFetchKey = FetchKeyUnion<typeof projectFetchKeys>
 type ProjectProps = {
   no: number
   project: ProjectWithFetched<TProjectFetchKey>
-  leadingText: string
 }
-const Project = ({ no, project, leadingText }: ProjectProps) => {
+const Project = ({ no, project }: ProjectProps) => {
   if( !isFilled.contentRelationship(project) || !project.data) {
     return <></>
   }
@@ -49,10 +48,10 @@ const Project = ({ no, project, leadingText }: ProjectProps) => {
       `}>
         <div className="pl-[8%]">
           <h2 className="font-flex font-bold-h1 text-[33.5053px] text-black leading-none overflow-clip">
-            {project.data.title}&nbsp;
+            <>{project.data.title}&nbsp;</>
           </h2>
           <p className="font-flex font-bold-h1 text-[18.8513px] text-black">
-            {leadingText}
+            {project.data.leadingText}
           </p>
         </div>
         {
@@ -151,14 +150,13 @@ const ProjectCarousel = ({ featuredProjects }: ProjectCarouselProps) => {
                 if(!isFilled.contentRelationship(item.project)) {
                   return
                 }
-                const project = item.project
-                const leadingText = item.leadingText ?? ''
+                console.log(item.project)
                 return (
                   <SwiperSlide
                     key={i}
                     className={`!overflow-visible bg-white`}
                   >
-                    <Project no={i+1} project={project} leadingText={leadingText} />
+                    <Project no={i+1} project={item.project} />
                   </SwiperSlide>
                 )
               })}

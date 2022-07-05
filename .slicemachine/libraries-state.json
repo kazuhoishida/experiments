@@ -549,6 +549,142 @@
           "extension": "js"
         },
         "screenshotPaths": {}
+      },
+      "work": {
+        "library": "slices",
+        "id": "work",
+        "name": "Work",
+        "description": "Work",
+        "model": {
+          "id": "work",
+          "type": "SharedSlice",
+          "name": "Work",
+          "description": "Work",
+          "variations": [
+            {
+              "id": "default",
+              "name": "Default",
+              "docURL": "...",
+              "version": "sktwi1xtmkfgx8626",
+              "description": "Work",
+              "primary": {
+                "date": {
+                  "type": "Date",
+                  "config": {
+                    "label": "Date",
+                    "placeholder": ""
+                  }
+                },
+                "title": {
+                  "type": "StructuredText",
+                  "config": {
+                    "single": "heading1",
+                    "label": "Title",
+                    "placeholder": "This is where it all begins..."
+                  }
+                },
+                "role": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Role",
+                    "placeholder": ""
+                  }
+                },
+                "link": {
+                  "type": "Link",
+                  "config": {
+                    "label": "Link",
+                    "placeholder": "",
+                    "select": null
+                  }
+                }
+              },
+              "items": {},
+              "imageUrl": "https://images.prismic.io/slice-machine/621a5ec4-0387-4bc5-9860-2dd46cbc07cd_default_ss.png?auto=compress,format"
+            }
+          ]
+        },
+        "mocks": {
+          "default": {
+            "variation": "default",
+            "name": "Default",
+            "slice_type": "work",
+            "items": [],
+            "primary": {
+              "date": "2020-10-27",
+              "title": [
+                {
+                  "type": "heading1",
+                  "text": "Orchestrate plug-and-play vortals",
+                  "spans": []
+                }
+              ],
+              "role": "reintermediate vertical paradigms",
+              "link": {
+                "link_type": "Web",
+                "url": "http://twitter.com"
+              }
+            }
+          }
+        },
+        "meta": {
+          "fileName": "index",
+          "extension": "js"
+        },
+        "screenshotPaths": {}
+      },
+      "works": {
+        "library": "slices",
+        "id": "works",
+        "name": "Works",
+        "description": "Works",
+        "model": {
+          "id": "works",
+          "type": "SharedSlice",
+          "name": "Works",
+          "description": "Works",
+          "variations": [
+            {
+              "id": "default",
+              "name": "Default",
+              "docURL": "...",
+              "version": "sktwi1xtmkfgx8626",
+              "description": "Works",
+              "primary": {},
+              "items": {
+                "date": {
+                  "type": "Date",
+                  "config": {
+                    "label": "Date",
+                    "placeholder": ""
+                  }
+                }
+              },
+              "imageUrl": "https://images.prismic.io/slice-machine/621a5ec4-0387-4bc5-9860-2dd46cbc07cd_default_ss.png?auto=compress,format"
+            }
+          ]
+        },
+        "mocks": {
+          "default": {
+            "variation": "default",
+            "name": "Default",
+            "slice_type": "works",
+            "items": [
+              {
+                "date": "2013-05-02"
+              },
+              {
+                "date": "2014-08-28"
+              }
+            ],
+            "primary": {}
+          }
+        },
+        "meta": {
+          "fileName": "index",
+          "extension": "js"
+        },
+        "screenshotPaths": {}
       }
     }
   }
