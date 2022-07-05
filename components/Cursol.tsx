@@ -20,7 +20,7 @@ const Cursol = ({isVisible, position}: Props) => {
         flex place-items-center place-content-center
         font-flex font-squash-h4 text-[17px]
         w-32 h-32 translate-x-[-4rem] translate-y-[-4rem] rounded-full overflow-hidden
-        transition-transform duration-[400ms] backdrop-invert pointer-events-none
+        transition-transform duration-[400ms] backdrop-invert pointer-events-none cursor-none
       `}
       style={{
         '--cursol-x': `${position.x}px`,

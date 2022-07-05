@@ -177,14 +177,14 @@ const ProjectCarousel = ({ featuredProjects }: ProjectCarouselProps) => {
 type Props = {
   top: TopDocument
   featuredProjects: FeaturedProjectsDocumentWithLinks<TProjectFetchKey>
-  navigation: NavigationDocument<string>
+  nav: NavigationDocument<string>
   settings: SettingsDocument<string>
 }
 
-const Index = ({top, featuredProjects, navigation, settings }: Props) => {
+const Index = ({top, featuredProjects, nav, settings }: Props) => {
   return (
     <Layout
-      nav={navigation}
+      nav={nav}
       className="h-screen overflow-hidden flex flex-col"
     >
       <Head>
@@ -199,7 +199,7 @@ const Index = ({top, featuredProjects, navigation, settings }: Props) => {
           <ProjectCarousel featuredProjects={featuredProjects} />
         </div>
       </main>
-      <FooterNavigation />
+      <FooterNavigation nav={nav} />
     </Layout>
   )
 }
@@ -212,14 +212,14 @@ export async function getStaticProps({ previewData }: any) {
   const featuredProjects = await client.getSingle<FeaturedProjectsDocumentWithLinks<TProjectFetchKey>>('featured-projects', {
     fetchLinks: projectFetchKeys.map(key => `project.${key}`)
   })
-  const navigation = await client.getSingle<NavigationDocument>("navigation")
+  const nav = await client.getSingle<NavigationDocument>("navigation")
   const settings = await client.getSingle<SettingsDocument>("settings")
 
   return {
     props: {
       top,
       featuredProjects,
-      navigation,
+      nav,
       settings,
     },
   }

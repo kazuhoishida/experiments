@@ -2,14 +2,13 @@ import clsx from 'clsx'
 import type { PropsWithChildren } from 'react'
 import { useState } from 'react'
 import Image from 'next/image'
-import { Bounded } from "./Bounded"
 import { Logo } from "./Logo"
 import type { NavigationDocument } from '../prismic-models'
-import { asText } from "@prismicio/helpers";
-import { PrismicLink, PrismicText } from "@prismicio/react";
+import { asText } from "@prismicio/helpers"
+import { PrismicLink, PrismicText } from "@prismicio/react"
 
 type Props = {
-  nav: NavigationDocument<string>
+  nav: NavigationDocument
 }
 
 const NavItem = ({ children }: PropsWithChildren) => {
@@ -40,6 +39,7 @@ const Navigation = ({nav}: Props) => {
 }
 
 export function Header({ nav, }: Props) {
+  console.dir(nav)
   const [isOpen, toggle] = useState(false)
   const toggleMenu = () => toggle(!isOpen)
   return (

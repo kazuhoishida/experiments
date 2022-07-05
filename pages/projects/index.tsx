@@ -58,7 +58,7 @@ const ProjectCard = ({ isVisible, media, style }: ProjectCardProps) => {
         `}
         style={style}
       >
-        <PrismicLink href="/">
+        <PrismicLink href="/" className="cursor-none">
           <Media field={media} className="w-full h-[30vh] lg:h-[40vh]" objectFit="cover" />
         </PrismicLink>
         <Cursol isVisible={isCursolVisible} position={position}/>
@@ -92,9 +92,6 @@ const loopSlice = function <T>(array: T[], offset = 0, length = 0) {
   const newArray = new Array<T>()
   for(let i = realOffset; i < sum; i++ ) {
     const item = array[i % array.length]
-    if( item === undefined ) {
-      console.table({i, length, offset, sum, 'array-length': array.length, per: i % array.length })
-    }
     item && newArray.push(item)
   }
   return newArray
@@ -122,24 +119,25 @@ const ProjectsGrid = ({projects, selectedTag}: ProjectsGridProps) => {
     setVw(window.innerWidth)
   },[setVw])
   useEffect(() => {
-    if( vw >= 1024 ) {
+    if( 1024 <= vw ) {
       setOverscan(10)
       setCol(5)
-    } else if ( vw >= 768) {
+    } else if ( 768 <= vw ) {
       setOverscan(8)
       setCol(4)
-    } else if ( vw >= 640) {
+    } else if ( 640 <= vw ) {
       setOverscan(6)
       setCol(3)
     } else {
       setCol(2)
     }
   }, [vw])
-  const gallery = useMemo( () => [
+  const infiniteProjects = useMemo( () => [
     ...loopSlice(projects, virtual.offset - overscan, overscan),
     ...loopSlice(projects, virtual.offset, perPage),
     ...loopSlice(projects, virtual.offset + perPage, overscan)
   ], [projects, virtual.offset, overscan, perPage])
+  const gallery = selectedTag === '' ? infiniteProjects : projects
   return (
     <div className="z-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 px-4">
       {gallery.map((project, i) =>
@@ -157,18 +155,18 @@ const ProjectsGrid = ({projects, selectedTag}: ProjectsGridProps) => {
 }
 
 type ProjectsProps = {
-  projects: ProjectDocument<string>[]
-  navigation: NavigationDocument<string>
+  projects: ProjectDocument[]
+  nav: NavigationDocument
 }
 
-const Projects: NextPage<ProjectsProps> = ({ projects, navigation }: ProjectsProps) => {
+const Projects: NextPage<ProjectsProps> = ({ projects, nav }: ProjectsProps) => {
   const options = ['']
   options.push(...union(...pluck(projects, 'tags')))
   const [selectedTag, setTags] = useState('')
   const onChange: OnChange = (newValue) => setTags(newValue)
   const selectProps = {options, onChange}
   return (
-    <Layout nav={navigation} >
+    <Layout nav={nav} >
       <Head>
         <title>Projects</title>
       </Head>
@@ -208,7 +206,7 @@ const Projects: NextPage<ProjectsProps> = ({ projects, navigation }: ProjectsPro
         </div>
         <ProjectsGrid projects={projects} selectedTag={selectedTag} />
       </main>
-      <FooterNavigation />
+      <FooterNavigation nav={nav} />
     </Layout>
   )
 }
@@ -226,12 +224,12 @@ export const getStaticProps = async () => {
       notFound: true
     }
   }
-  const navigation = await client.getSingle<NavigationDocument>('navigation')
+  const nav = await client.getSingle<NavigationDocument>('navigation')
 
   return {
     props: {
       projects,
-      navigation,
+      nav,
     },
   }
 }
