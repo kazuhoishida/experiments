@@ -8,7 +8,6 @@ type Props = PropsWithChildren & {
 }
 
 export function Layout({ nav, children, className, }: Props) {
-  console.dir(nav)
   return (
     <div className={`text-black ${className}`}>
       <Header nav={nav} />

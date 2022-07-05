@@ -1,0 +1,1 @@
+export { windowAtom } from './WindowAtom'
