@@ -11,8 +11,8 @@ declare module 'csstype' {
     '--visibility'?: P.Visibility
     '--icon-size'?: Size
     '--padding-x'?: Coordinate
-    '--cursol-x'?: Coordinate
-    '--cursol-y'?: Coordinate
-    '--cursol-scale'?: P.Scale
+    '--cursor-x'?: Coordinate
+    '--cursor-y'?: Coordinate
+    '--cursor-scale'?: P.Scale
   }
 }

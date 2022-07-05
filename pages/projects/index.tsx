@@ -17,7 +17,7 @@ import ArrowIcon from '../../components/ArrowIcon'
 
 import { Disclosure, Transition, } from '@headlessui/react'
 import FooterNavigation from '../../components/FooterNavigation'
-import Cursol from '../../components/Cursol'
+import Cursor from '../../components/Cursor'
 import { FilledLinkToMediaField } from '@prismicio/types'
 
 import { useVirtualizer } from '@tanstack/react-virtual'
@@ -32,11 +32,11 @@ type ProjectCardProps = InputHTMLAttributes<HTMLDivElement> & {
 }
 
 const ProjectCard = ({ isVisible, media, style }: ProjectCardProps) => {
-  const [isCursolVisible, setCursolVisibility] = useState(false)
+  const [isCursorVisible, setCursorVisibility] = useState(false)
   const [position, setPosition] = useState({x: 0, y:0})
   const card = useRef<HTMLDivElement>(null)
-  const enter: MouseEventHandler<HTMLDivElement> = (e) => setCursolVisibility(true)
-  const leave: MouseEventHandler<HTMLDivElement> = (e) => setCursolVisibility(false)
+  const enter: MouseEventHandler<HTMLDivElement> = (e) => setCursorVisibility(true)
+  const leave: MouseEventHandler<HTMLDivElement> = (e) => setCursorVisibility(false)
   const move:  MouseEventHandler<HTMLDivElement> = (e) => {
     if( !card.current ){ return }
     const bounding = card.current.getBoundingClientRect()
@@ -61,7 +61,7 @@ const ProjectCard = ({ isVisible, media, style }: ProjectCardProps) => {
         <PrismicLink href="/" className="cursor-none">
           <Media field={media} className="w-full h-[30vh] lg:h-[40vh]" objectFit="cover" />
         </PrismicLink>
-        <Cursol isVisible={isCursolVisible} position={position}/>
+        <Cursor isVisible={isCursorVisible} position={position}/>
       </div>
   )
 }
