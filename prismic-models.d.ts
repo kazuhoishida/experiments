@@ -92,6 +92,17 @@ interface CreatorDocumentData {
      */
     face: prismicT.ImageField<null>;
     /**
+     * Occupation field in *Creator*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: creator.occupation
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    occupation: prismicT.KeyTextField;
+    /**
      * Slice Zone (`slices`) field in *Creator*
      *
      * - **Field Type**: Slice Zone
