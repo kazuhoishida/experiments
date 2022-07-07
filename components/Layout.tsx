@@ -3,7 +3,7 @@ import type { NavigationDocument } from '../prismic-models'
 import { Header } from "./Header"
 
 type Props = PropsWithChildren & {
-  nav: NavigationDocument<string>
+  nav: NavigationDocument
   className?: string
 }
 

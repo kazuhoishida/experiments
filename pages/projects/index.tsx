@@ -65,7 +65,6 @@ const ProjectCard = ({ isVisible, media, style }: ProjectCardProps) => {
   )
 }
 
-
 type ValidProjectProps = Partial<ProjectCardProps> & {
   project: ProjectDocument
   selectedTag: string
@@ -159,6 +158,8 @@ type ProjectsProps = {
 }
 
 const Projects: NextPage<ProjectsProps> = ({ projects, nav }: ProjectsProps) => {
+  const setFeaturedProjects = useUpdateAtom(FeaturedProjectsAtom)
+  setFeaturedProjects(featuredProjects)
   const options = ['']
   options.push(...union(...pluck(projects, 'tags')))
   const [selectedTag, setTags] = useState('')

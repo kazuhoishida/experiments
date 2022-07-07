@@ -28,6 +28,14 @@ const plugin = require('tailwindcss/plugin')
           'font-variation-settings': 'var(--setting-bold-H1)',
           'font-stretch': 'var(--stretch-bold-H1)',
         },
+        '.font-bold-h4': {
+          'font-variation-settings': 'var(--setting-bold-H4)',
+          'font-stretch': 'var(--stretch-bold-H4)',
+        },
+        '.font-bold-h6': {
+          'font-variation-settings': 'var(--setting-bold-H6)',
+          'font-stretch': 'var(--stretch-bold-H6)',
+        },
         '.font-squash-h1': {
           'font-variation-settings': 'var(--setting-squash-H1)',
           'font-stretch': 'var(--stretch-squash-H1)',

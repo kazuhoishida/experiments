@@ -1,14 +1,16 @@
-import clsx from 'clsx'
-import type { PropsWithChildren } from 'react'
-import { useState } from 'react'
-import Image from 'next/image'
-import { Logo } from "./Logo"
-import type { NavigationDocument } from '../prismic-models'
-import { asText } from "@prismicio/helpers"
-import { PrismicLink, PrismicText } from "@prismicio/react"
-
+import { asText, isFilled } from "@prismicio/helpers"
 import { Dialog, Transition } from '@headlessui/react'
-import { Fragment } from 'react'
+import { FeaturedProjectsAtom } from "../stores"
+import { Fragment, useEffect, useState } from 'react'
+import { Logo } from "./Logo"
+import { PrismicLink, PrismicText } from "@prismicio/react"
+import { useAtomValue } from 'jotai/utils'
+import clsx from 'clsx'
+import Image from 'next/image'
+import type { FeaturedProject, FeaturedProjects } from '../fetches/featuredProject'
+import type { NavigationDocument } from '../prismic-models'
+import type { PropsWithChildren } from 'react'
+import { useRouter } from 'next/router'
 
 type Props = {
   nav: NavigationDocument
@@ -20,24 +22,56 @@ const NavItem = ({ children }: PropsWithChildren) => {
   )
 }
 
+type FeaturedProjectProps = {
+  project: FeaturedProject
+}
+
+const FeaturedProjectItem = ({project}: FeaturedProjectProps) => {
+  if( !isFilled.contentRelationship(project) || !isFilled.contentRelationship(project.data?.creator) ) {
+    return <></>
+  }
+  const name = project.data?.creator?.data?.name
+  return (
+    <div className="flex flex-col md:flex-row md:items-center md:gap-x-3">
+      <div className="text-[36px]">{project.data?.title}</div>
+      <div className="hidden md:block md:w-24 md:h-px md:bg-black shrink-0"></div>
+      <div className="text-[20px]"><>{name}</></div>
+    </div>
+  )
+}
+
 const Navigation = ({nav}: Props) => {
+  const featuredProjects = useAtomValue(FeaturedProjectsAtom)
   return nav && (
-    <nav className="z-40 text-white font-flex font-bold-h1">
-      <ul className="flex flex-col justify-center gap-[30px]">
-        <NavItem>
-          <PrismicLink href="/" className="outline-0">
-            <PrismicText field={nav.data.homepageLabel} />
-          </PrismicLink>
-        </NavItem>
-        {nav.data.links.map(item => (
-          <NavItem key={asText(item.label)}>
-            <PrismicLink field={item.link} className="outline-0">
-              <PrismicText field={item.label} />
+    <div className="flex flex-col gap-y-[30px]">
+      <nav className="text-white font-flex font-bold-h1">
+        <ul className="flex flex-col justify-center gap-y-[30px]">
+          <NavItem>
+            <PrismicLink href="/" className="outline-0">
+              <PrismicText field={nav.data.homepageLabel} />
             </PrismicLink>
           </NavItem>
-        ))}
-      </ul>
-    </nav>
+          {nav.data.links.map(item => (
+            <NavItem key={asText(item.label)}>
+              <PrismicLink field={item.link} className="outline-0">
+                <PrismicText field={item.label} />
+              </PrismicLink>
+            </NavItem>
+          ))}
+        </ul>
+      </nav>
+      <nav className="text-black font-flex font-bold-h1">
+        <ul className="flex flex-col justify-center gap-y-[30px]">
+          {featuredProjects?.data.projects.map(({project}, no) => isFilled.contentRelationship(project) && (
+            <NavItem key={no}>
+              <PrismicLink field={project} className="outline-0">
+                <FeaturedProjectItem project={project} />
+              </PrismicLink>
+            </NavItem>
+          ))}
+        </ul>
+      </nav>
+    </div>
   )
 }
 
@@ -86,7 +120,11 @@ const MenuModal = ({nav, isOpen}: MenuModalProps) => {
 }
 
 export function Header({ nav, }: Props) {
+  const router = useRouter()
   const [isOpen, toggle] = useState(false)
+  useEffect(() => {
+    toggle(false)
+  }, [router.query.slug])
   const toggleMenu = () => toggle(!isOpen)
   return (
     <header className="sticky top-0 left-0 p-4 w-full flex justify-between z-50">

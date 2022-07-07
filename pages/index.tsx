@@ -1,31 +1,25 @@
-import Head from "next/head"
-import Image from "next/image"
-import { useRef, forwardRef, useState, useEffect } from "react"
+import 'swiper/css'
+import 'swiper/css/effect-creative'
+import 'swiper/css/navigation'
 import { asText, isFilled } from "@prismicio/helpers"
-import type { FeaturedProjectsDocumentWithLinks, ProjectWithFetched, FetchKeyUnion } from "../prismic-additional"
-import type { NavigationDocument, SettingsDocument, TopDocument } from "../prismic-models"
-
 import { createClient } from "../prismicio"
+import { FeaturedProjectsAtom } from "../stores"
+import { fetchFeaturedProjects, } from '../fetches'
 import { Layout } from "../components/Layout"
-
-import type { Swiper as SwiperClass } from 'swiper'
 import { Navigation, A11y, EffectCreative, Mousewheel, FreeMode } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
-
-import 'swiper/css'
-import 'swiper/css/navigation'
-import 'swiper/css/effect-creative'
+import { useRef, forwardRef, useState, useEffect } from "react"
+import { useUpdateAtom } from 'jotai/utils'
 import FooterNavigation from "../components/FooterNavigation"
-
-// fetchLinksに指定するフィールド名
-const projectFetchKeys = ['title', 'featuredMedia', 'leadingText'] as const
-type TProjectFetchKey = FetchKeyUnion<typeof projectFetchKeys>
-
-// ${before('hidden absolute w-[1px] h-[200vh] bg-black top-0 left-0')}
+import Head from "next/head"
+import Image from "next/image"
+import type { FeaturedProject, FeaturedProjects } from '../fetches/featuredProject'
+import type { NavigationDocument, SettingsDocument, TopDocument } from "../prismic-models"
+import type { Swiper as SwiperClass } from 'swiper'
 
 type ProjectProps = {
   no: number
-  project: ProjectWithFetched<TProjectFetchKey>
+  project: FeaturedProject
 }
 const Project = ({ no, project }: ProjectProps) => {
   if( !isFilled.contentRelationship(project) || !project.data) {
@@ -74,13 +68,13 @@ type CarouseNavigationProps = {
 const CarouseNavigation = forwardRef<HTMLButtonElement, CarouseNavigationProps>(
   function CarouseNavigation({ label, className }, ref) { // ここで関数名を付けないとeslintに引っかかる
     return (
-      <button className={`${className} z-50 md:fixed md:bottom-[1vh]`} ref={ref}>{label}</button>
+      <button className={`${className} z-30 md:fixed md:bottom-[1vh]`} ref={ref}>{label}</button>
     )
   }
 )
 
 type ProjectCarouselProps = {
-  featuredProjects: FeaturedProjectsDocumentWithLinks<TProjectFetchKey>
+  featuredProjects: FeaturedProjects
 }
 
 const ProjectCarousel = ({ featuredProjects }: ProjectCarouselProps) => {
@@ -146,20 +140,16 @@ const ProjectCarousel = ({ featuredProjects }: ProjectCarouselProps) => {
               onSwiper={onSwiper}
               onSlideChange={() => console.log('slide change')}
             >
-              {featuredProjects.data.projects.map((item, i) => {
-                if(!isFilled.contentRelationship(item.project)) {
-                  return
-                }
-                console.log(item.project)
-                return (
+              {featuredProjects.data.projects.map((item, i) =>
+                isFilled.contentRelationship(item.project) && (
                   <SwiperSlide
                     key={i}
                     className={`!overflow-visible bg-white`}
                   >
                     <Project no={i+1} project={item.project} />
                   </SwiperSlide>
-                )
-              })}
+                ))
+              }
             </Swiper>
           )
         }
@@ -174,12 +164,14 @@ const ProjectCarousel = ({ featuredProjects }: ProjectCarouselProps) => {
 
 type Props = {
   top: TopDocument
-  featuredProjects: FeaturedProjectsDocumentWithLinks<TProjectFetchKey>
-  nav: NavigationDocument<string>
-  settings: SettingsDocument<string>
+  featuredProjects: FeaturedProjects
+  nav: NavigationDocument
+  settings: SettingsDocument
 }
 
 const Index = ({top, featuredProjects, nav, settings }: Props) => {
+  const setFeaturedProjects = useUpdateAtom(FeaturedProjectsAtom)
+  setFeaturedProjects(featuredProjects)
   return (
     <Layout
       nav={nav}
@@ -207,9 +199,7 @@ export default Index
 export async function getStaticProps({ previewData }: any) {
   const client = createClient({ previewData })
   const top = await client.getSingle<TopDocument>('top')
-  const featuredProjects = await client.getSingle<FeaturedProjectsDocumentWithLinks<TProjectFetchKey>>('featured-projects', {
-    fetchLinks: projectFetchKeys.map(key => `project.${key}`)
-  })
+  const featuredProjects: FeaturedProjects = await fetchFeaturedProjects(client)
   const nav = await client.getSingle<NavigationDocument>("navigation")
   const settings = await client.getSingle<SettingsDocument>("settings")
 

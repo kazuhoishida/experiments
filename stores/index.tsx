@@ -1,1 +1,1 @@
-export { windowAtom } from './WindowAtom'
+export { FeaturedProjectsAtom } from "./FeaturedProjectsAtom"
