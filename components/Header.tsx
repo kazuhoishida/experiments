@@ -33,9 +33,9 @@ const FeaturedProjectItem = ({project}: FeaturedProjectProps) => {
   const name = project.data?.creator?.data?.name
   return (
     <div className="flex flex-col md:flex-row md:items-center md:gap-x-3">
-      <div className="text-[36px]">{project.data?.title}</div>
+      <div className="text-[36px] whitespace-nowrap">{project.data?.title}</div>
       <div className="hidden md:block md:w-24 md:h-px md:bg-black shrink-0"></div>
-      <div className="text-[20px]"><>{name}</></div>
+      <div className="text-[20px] whitespace-nowrap"><>{name}</></div>
     </div>
   )
 }
@@ -43,7 +43,7 @@ const FeaturedProjectItem = ({project}: FeaturedProjectProps) => {
 const Navigation = ({nav}: Props) => {
   const featuredProjects = useAtomValue(FeaturedProjectsAtom)
   return nav && (
-    <div className="flex flex-col gap-y-[30px]">
+    <div className="flex flex-col gap-y-[30px] z-[1]">
       <nav className="text-white font-flex font-bold-h1">
         <ul className="flex flex-col justify-center gap-y-[30px]">
           <NavItem>
@@ -107,8 +107,13 @@ const MenuModal = ({nav, isOpen}: MenuModalProps) => {
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel className="w-screen h-screen transform overflow-hidden text-left align-middle shadow-xl transition-all">
-                <div className={clsx('bg-[#D2D2D2] transition-all delay-300 w-full h-full pl-[29px] pt-28', {'opacity-0': !isOpen})}>
-                  <Navigation nav={nav} />
+                <div className={clsx('bg-[#D2D2D2] transition-all delay-300 w-full h-full pl-[29px] md:pl-40 pt-28', {'opacity-0': !isOpen})}>
+                  <div className="contents md:grid md:grid-cols-2">
+                    <Navigation nav={nav} />
+                    <div className="relative hidden md:block z-0">
+                      <Image src="https://images.prismic.io/nextjs-starter-blog-myzt/3f6c62e2-0788-44ba-9b6b-a80fd0ff48fd_bubbles.png?auto=compress,format" alt="あわわわわ" layout="fixed" width={719} height={691} />
+                    </div>
+                  </div>
                 </div>
               </Dialog.Panel>
             </Transition.Child>

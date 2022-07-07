@@ -24,6 +24,10 @@ const plugin = require('tailwindcss/plugin')
     require("@tailwindcss/aspect-ratio"),
     plugin(function({ addComponents }) {
       addComponents({
+        '.font-arrow': {
+          'font-variation-settings': 'var(--setting-bold-H1)',
+          'font-stretch': 'var(--stretch-bold-H1)',
+        },
         '.font-bold-h1': {
           'font-variation-settings': 'var(--setting-bold-H1)',
           'font-stretch': 'var(--stretch-bold-H1)',

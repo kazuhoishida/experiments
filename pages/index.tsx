@@ -41,10 +41,10 @@ const Project = ({ no, project }: ProjectProps) => {
         before:hidden before:absolute before:w-[1px] before:h-full md:before:h-[300vh] before:bg-black before:top-0 md:before:-top-1/2 before:left-0
       `}>
         <div className="pl-[8%]">
-          <h2 className="font-flex font-bold-h1 text-[33.5053px] text-black leading-none overflow-clip">
+          <h2 className="font-flex font-bold-h1 text-4xl text-black leading-none overflow-clip">
             <>{project.data.title}&nbsp;</>
           </h2>
-          <p className="font-flex font-bold-h1 text-[18.8513px] text-black">
+          <p className="font-flex font-bold-h1 text-lg text-black">
             {project.data.leadingText}
           </p>
         </div>
@@ -155,8 +155,8 @@ const ProjectCarousel = ({ featuredProjects }: ProjectCarouselProps) => {
         }
       </div>
       <div className="w-full flex justify-between md:contents">
-        <CarouseNavigation label="← Prev" className="-rotate-12 md:left-[1vw]" ref={prev} />
-        <CarouseNavigation label="Next →" className="rotate-12 md:right-[1vw]" ref={next} />
+        <CarouseNavigation label="← Prev" className="font-flex font-arrow font-extrabold text-base -rotate-[9deg] md:left-[2vw]" ref={prev} />
+        <CarouseNavigation label="Next →" className="font-flex font-arrow font-extrabold text-base rotate-[9deg] md:right-[2vw]" ref={next} />
       </div>
     </>
   )
@@ -181,7 +181,7 @@ const Index = ({top, featuredProjects, nav, settings }: Props) => {
         <title>{asText(settings.data.name)}</title>
       </Head>
       <main className="flex flex-col grow pb-[8vh]">
-        <div className="h-full flex flex-col justify-between md:justify-start px-[4vw] md:px-0 md:fixed md:top-0 md:left-0 md:w-screen md:h-screen">
+        <div className="h-full flex flex-col justify-between md:justify-start px-[4vw] md:px-0 md:fixed md:top-14 md:left-4 md:w-screen md:h-screen">
           <div>
             <h1 className="font-flex font-squash-h4 text-4xl text-black">{asText(top.data.title)}</h1>
             <p className="font-flex text-xs text-black opacity-50">{asText(top.data.comment)}</p>
