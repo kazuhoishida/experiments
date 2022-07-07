@@ -28,9 +28,11 @@ import { screens } from '../../tailwindconfig'
 type ProjectCardProps = InputHTMLAttributes<HTMLDivElement> & {
   isVisible: boolean
   media: FilledLinkToMediaField
+  title: string
+  leading: string
 }
 
-const ProjectCard = ({ isVisible, media, style }: ProjectCardProps) => {
+const ProjectCard = ({ isVisible, media, title, leading, style }: ProjectCardProps) => {
   const [isCursorVisible, setCursorVisibility] = useState(false)
   const [position, setPosition] = useState({x: 0, y:0})
   const card = useRef<HTMLDivElement>(null)
@@ -51,14 +53,18 @@ const ProjectCard = ({ isVisible, media, style }: ProjectCardProps) => {
         onMouseMove={move}
         className={`
           relative w-full h-full flex-col translate-y-[var(--translateY)]
-          border border-[#D2D2D2] overflow-hidden
+          border border-v-dark-gray overflow-hidden
           hover:cursor-none
           ${isVisible ? 'flex' : 'hidden'}
         `}
         style={style}
       >
         <PrismicLink href="/" className="cursor-none">
-          <Media field={media} className="w-full h-[30vh] lg:h-[40vh]" objectFit="cover" />
+          <div className={`hidden md:grid gap-2 absolute top-8 left-2 z-10 transition-all text-white duration-[400ms] ${isCursorVisible ? 'opacity-100 -translate-y-2' : 'opacity-0 translate-y-0'}`}>
+            <h2 className='text-[32px] leading-none font-flex font-bold-h1'>{title}</h2>
+            <p className='text-[18px]'>{leading}</p>
+          </div>
+          <Media field={media} className="w-full h-[66.6vw] md:h-[33.3vw] lg:h-[26.6vw]" objectFit="cover" />
         </PrismicLink>
         <Cursor isVisible={isCursorVisible} position={position}/>
       </div>
@@ -72,12 +78,14 @@ type ValidProjectProps = Partial<ProjectCardProps> & {
 
 const ValidProject = ({project, selectedTag, style}: ValidProjectProps) => {
   const featuredMedia = isFilled.linkToMedia(project.data.featuredMedia) ? project.data.featuredMedia : null
+  const projectTitle = project.data.title || ''
+  const projectLeading = project.data.leadingText || ''
   const creator = isFilled.contentRelationship(project.data.creator) ? project.data.creator : null
   const isVisible = selectedTag === '' || project.tags.includes(selectedTag)
   if( !creator || !featuredMedia || !isVisible ) {
     return <></>
   }
-  return <ProjectCard style={style} isVisible={isVisible} media={featuredMedia} />
+  return <ProjectCard style={style} isVisible={isVisible} media={featuredMedia} title={projectTitle} leading={projectLeading} />
 }
 
 const loopSlice = function <T>(array: T[], offset = 0, length = 0) {
@@ -137,7 +145,7 @@ const ProjectsGrid = ({projects, selectedTag}: ProjectsGridProps) => {
   ], [projects, virtual.offset, overscan, perPage])
   const gallery = selectedTag === '' ? infiniteProjects : projects
   return (
-    <div className="z-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 px-4">
+    <div className="z-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-4 md:px-4 mt-12 mb-[100px] md:mb-[140px]">
       {gallery.map((project, i) =>
         <ValidProject
           project={project}
@@ -171,12 +179,12 @@ const Projects: NextPage<ProjectsProps> = ({ projects, nav }: ProjectsProps) => 
         <title>Projects</title>
       </Head>
       <main>
-        <div className="z-20 sticky top-14 left-4 w-fit drop-shadow-2xl">
+        <div className="z-20 fixed top-[76px] left-4 md:left-8 w-fit drop-shadow-2xl">
           <Disclosure>
             <div
               className={`
-                inline-flex justify-between px-6 py-1
-                font-serif text-[17px] leading-none text-white bg-[#565656]/60 backdrop-blur-sm rounded-sm
+                inline-flex gap-4 justify-between px-6 py-1
+                font-serif text-[17px] leading-none text-white bg-v-soft-black/70 backdrop-blur-sm rounded-sm
               `}
             >
               <Disclosure.Button>
@@ -192,7 +200,7 @@ const Projects: NextPage<ProjectsProps> = ({ projects, nav }: ProjectsProps) => 
                 leaveTo="transform opacity-0"
               >
                 <Disclosure.Panel className="inline-flex font-flex font-squash-h6 leading-6s">
-                  <label className="flex place-items-center text-[17px] leading-none">
+                  <label className="flex gap-2 place-items-center text-[17px] leading-none">
                     <div className="h-full">
                       <span className="leading-none align-middle">category</span>
                     </div>

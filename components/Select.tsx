@@ -30,8 +30,8 @@ export const Select = ({options, onChange, className = ''}: Props) => {
   }
   return(
     <Listbox value={selectedOption} onChange={onChangeHandler}>
-      <Listbox.Button className={`font-flex font-squash-h6 bg-transparent relative`}>
-        { ((v) => v === '' ? '' : `:${v}`)(isLabeledOption(selectedOption) ? selectedOption.label : `${selectedOption}`) }
+      <Listbox.Button className={`font-flex font-squash-h6 bg-transparent relative hover:opacity-60`}>
+        { ((v) => v === '' ? ': ALL' : `: ${v}`)(isLabeledOption(selectedOption) ? selectedOption.label : `${selectedOption}`) }
       </Listbox.Button>
       <Transition
         as={Fragment}
@@ -43,17 +43,17 @@ export const Select = ({options, onChange, className = ''}: Props) => {
         leaveTo="transform origin-top scale-y-[40%] opacity-0"
       >
         <Listbox.Options
-          className={`font-flex font-squash-h6 bg-[#565656]/80 py-1 rounded-sm focus:outline-none top-0 left-0 w-fit absolute`}
+          className={`font-flex font-squash-h6 bg-v-soft-black/70 backdrop-blur-sm drop-shadow-md py-1 rounded-sm focus:outline-none top-[35px] left-0 md:left-20 w-fit absolute`}
         >
           {options.map((option, i) => {
             const [value, label] = isLabeledOption(option) ? [option.value, option.label] : [option, option]
             return (
               <Listbox.Option
-                className={`relative cursor-default select-none py-2 pl-10 pr-4`}
-                key={i}
+                className={`relative cursor-pointer select-none py-2 px-6 whitespace-nowrap hover:opacity-60`}
+                key={`${label}-${i}`}
                 value={value}
               >
-                {label === '' ? '---' : label}
+                {label === '' ? 'ALL' : label}
               </Listbox.Option>
             )
           })}
