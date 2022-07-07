@@ -6,6 +6,8 @@ import { Fragment, memo, MouseEventHandler, useEffect, useMemo, useRef, useState
 import type { ComponentProps, InputHTMLAttributes, FC, Dispatch, SetStateAction, PropsWithChildren, } from 'react'
 import { PrismicLink, PrismicRichText, SliceZone } from "@prismicio/react"
 import { isFilled } from '@prismicio/helpers'
+import { useUpdateAtom, useAtomValue } from 'jotai/utils'
+import { FeaturedProjectsAtom } from "../../stores"
 
 import { createClient, } from "../../prismicio"
 import { Layout } from "../../components/Layout"
@@ -167,6 +169,7 @@ type ProjectsProps = {
 
 const Projects: NextPage<ProjectsProps> = ({ projects, nav }: ProjectsProps) => {
   const setFeaturedProjects = useUpdateAtom(FeaturedProjectsAtom)
+  const featuredProjects = useAtomValue(FeaturedProjectsAtom)
   setFeaturedProjects(featuredProjects)
   const options = ['']
   options.push(...union(...pluck(projects, 'tags')))
