@@ -27,21 +27,21 @@ const FooterNavigation = ({nav}: Props) => {
   )
   return nav && (
     <Provider>
-      <div className="fixed bottom-[2vh] left-1/2 -translate-x-1/2">
+      <div className="fixed bottom-[3vh] left-1/2 -translate-x-1/2">
         <ul
           className={`
-            flex justify-between gap-x-[42px] px-6 py-1
-            font-serif text-sm text-white bg-[#565656]/60 backdrop-blur-sm rounded-sm drop-shadow-md
+            flex justify-between gap-x-[12vw] md:gap-x-[42px] px-8 py-2
+            font-serif text-sm text-white bg-v-soft-black/70 backdrop-blur-sm rounded-sm drop-shadow-md
           `}
         >
-          <NavItem className={`${ pathname === '/' && 'font-bold' }`}>
+          <NavItem className={`${ pathname === '/' ? 'font-bold' : '' }`}>
             <PrismicLink href="/">
               <PrismicText field={nav.data.homepageLabel} />
             </PrismicLink>
           </NavItem>
           {nav.data.links.map(item => {
             return (
-            <NavItem key={asText(item.label)} className={`${ isCurrent(item) && 'font-bold' }`}>
+            <NavItem key={asText(item.label)} className={`${ isCurrent(item) ? 'font-bold' : '' }`}>
               <PrismicLink field={item.link}>
                 <PrismicText field={item.label} />
               </PrismicLink>

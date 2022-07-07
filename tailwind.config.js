@@ -12,6 +12,12 @@ const plugin = require('tailwindcss/plugin')
       noto: "'Noto Sans JP', sans-serif",
     },
     extend: {
+      colors: {
+        "v-red": "#FF3D00",
+        "v-light-gray": "#EEEEEE",
+        "v-dark-gray": "#D2D2D2",
+        "v-soft-black": "#565656"
+      },
       screens: {
         '2xl': '1600px',
       },
