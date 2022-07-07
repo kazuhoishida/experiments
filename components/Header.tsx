@@ -62,8 +62,8 @@ const Navigation = ({nav}: Props) => {
       </nav>
       <nav className="text-black font-flex font-bold-h1">
         <ul className="flex flex-col justify-center gap-y-[30px]">
-          {featuredProjects?.data.projects.map(({project}, no) => isFilled.contentRelationship(project) && (
-            <NavItem key={no}>
+          {featuredProjects?.data.projects.map(({project}) => isFilled.contentRelationship(project) && (
+            <NavItem key={project.id}>
               <PrismicLink field={project} className="outline-0">
                 <FeaturedProjectItem project={project} />
               </PrismicLink>
@@ -129,7 +129,7 @@ export function Header({ nav, }: Props) {
   const [isOpen, toggle] = useState(false)
   useEffect(() => {
     toggle(false)
-  }, [router.query.slug])
+  }, [router.asPath])
   const toggleMenu = () => toggle(!isOpen)
   return (
     <header className="sticky top-0 left-0 p-4 w-full flex justify-between z-50">
