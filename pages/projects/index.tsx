@@ -1,40 +1,37 @@
-import type { NextPage, } from 'next'
-import type {  ImageLoader, ImageLoaderProps } from 'next/image'
-import type { ProjectDocument, NavigationDocument, SettingsDocument } from '../../prismic-models'
-import Head from "next/head"
-import { Fragment, memo, MouseEventHandler, useEffect, useMemo, useRef, useState } from 'react'
-import type { ComponentProps, InputHTMLAttributes, FC, Dispatch, SetStateAction, PropsWithChildren, } from 'react'
-import { PrismicLink, PrismicRichText, SliceZone } from "@prismicio/react"
-import { isFilled } from '@prismicio/helpers'
-import { useUpdateAtom, useAtomValue } from 'jotai/utils'
-import { FeaturedProjectsAtom } from "../../stores"
-
 import { createClient, } from "../../prismicio"
+import { Disclosure, Transition, } from '@headlessui/react'
+import { FeaturedProjectsAtom } from "../../stores"
+import { fetchFeaturedProjects } from '../../fetches/featuredProject'
+import { FilledLinkToMediaField } from '@prismicio/types'
+import { Fragment, MouseEventHandler, useEffect, useMemo, useRef, useState } from 'react'
+import { isFilled, documentToLinkField } from '@prismicio/helpers'
 import { Layout } from "../../components/Layout"
 import { Media } from "../../components/Media"
-import { Select } from "../../components/Select"
-import type { OnChange } from "../../components/Select"
-import FilterIcon from '../../components/FilterIcon'
-import ArrowIcon from '../../components/ArrowIcon'
-
-import { Disclosure, Transition, } from '@headlessui/react'
-import FooterNavigation from '../../components/FooterNavigation'
-import Cursor from '../../components/Cursor'
-import { FilledLinkToMediaField } from '@prismicio/types'
-
 import { pluck, union } from 'underscore'
-
-import { screens } from '../../tailwindconfig'
+import { PrismicLink, } from "@prismicio/react"
+import { Select } from "../../components/Select"
+import { useUpdateAtom, } from 'jotai/utils'
+import ArrowIcon from '../../components/ArrowIcon'
+import Cursor from '../../components/Cursor'
+import FilterIcon from '../../components/FilterIcon'
+import FooterNavigation from '../../components/FooterNavigation'
+import Head from "next/head"
+import type { FeaturedProjects } from '../../fetches/featuredProject'
+import type { InputHTMLAttributes, } from 'react'
+import type { NextPage, } from 'next'
+import type { OnChange } from "../../components/Select"
+import type { ProjectDocument, NavigationDocument } from '../../prismic-models'
 
 
 type ProjectCardProps = InputHTMLAttributes<HTMLDivElement> & {
+  project: ProjectDocument
   isVisible: boolean
   media: FilledLinkToMediaField
   title: string
   leading: string
 }
 
-const ProjectCard = ({ isVisible, media, title, leading, style }: ProjectCardProps) => {
+const ProjectCard = ({ project, isVisible, media, title, leading, style }: ProjectCardProps) => {
   const [isCursorVisible, setCursorVisibility] = useState(false)
   const [position, setPosition] = useState({x: 0, y:0})
   const card = useRef<HTMLDivElement>(null)
@@ -61,7 +58,7 @@ const ProjectCard = ({ isVisible, media, title, leading, style }: ProjectCardPro
         `}
         style={style}
       >
-        <PrismicLink href="/" className="cursor-none">
+        <PrismicLink field={documentToLinkField(project)} className="cursor-none">
           <div className={`hidden md:grid gap-2 absolute top-8 left-2 z-10 transition-all text-white duration-[400ms] ${isCursorVisible ? 'opacity-100 -translate-y-2' : 'opacity-0 translate-y-0'}`}>
             <h2 className='text-[32px] leading-none font-flex font-bold-h1'>{title}</h2>
             <p className='text-[18px]'>{leading}</p>
@@ -74,20 +71,23 @@ const ProjectCard = ({ isVisible, media, title, leading, style }: ProjectCardPro
 }
 
 type ValidProjectProps = Partial<ProjectCardProps> & {
-  project: ProjectDocument
+  project: ProjectCardProps['project']
   selectedTag: string
 }
 
 const ValidProject = ({project, selectedTag, style}: ValidProjectProps) => {
   const featuredMedia = isFilled.linkToMedia(project.data.featuredMedia) ? project.data.featuredMedia : null
-  const projectTitle = project.data.title || ''
-  const projectLeading = project.data.leadingText || ''
+  const projectTitle = project.data.title ?? ''
+  const projectLeading = project.data.leadingText ?? ''
   const creator = isFilled.contentRelationship(project.data.creator) ? project.data.creator : null
   const isVisible = selectedTag === '' || project.tags.includes(selectedTag)
   if( !creator || !featuredMedia || !isVisible ) {
     return <></>
   }
-  return <ProjectCard style={style} isVisible={isVisible} media={featuredMedia} title={projectTitle} leading={projectLeading} />
+  const props = {
+    project, style, isVisible, media: featuredMedia, title: projectTitle, leading: projectLeading
+  }
+  return <ProjectCard {...props} />
 }
 
 const loopSlice = function <T>(array: T[], offset = 0, length = 0) {
@@ -164,12 +164,12 @@ const ProjectsGrid = ({projects, selectedTag}: ProjectsGridProps) => {
 
 type ProjectsProps = {
   projects: ProjectDocument[]
+  featuredProjects: FeaturedProjects
   nav: NavigationDocument
 }
 
-const Projects: NextPage<ProjectsProps> = ({ projects, nav }: ProjectsProps) => {
+const Projects: NextPage<ProjectsProps> = ({ projects, featuredProjects, nav }: ProjectsProps) => {
   const setFeaturedProjects = useUpdateAtom(FeaturedProjectsAtom)
-  const featuredProjects = useAtomValue(FeaturedProjectsAtom)
   setFeaturedProjects(featuredProjects)
   const options = ['']
   options.push(...union(...pluck(projects, 'tags')))
@@ -235,11 +235,13 @@ export const getStaticProps = async () => {
       notFound: true
     }
   }
+  const featuredProjects: FeaturedProjects = await fetchFeaturedProjects(client)
   const nav = await client.getSingle<NavigationDocument>('navigation')
 
   return {
     props: {
       projects,
+      featuredProjects,
       nav,
     },
   }

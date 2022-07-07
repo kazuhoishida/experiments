@@ -16,6 +16,7 @@ import Image from "next/image"
 import type { FeaturedProject, FeaturedProjects } from '../fetches/featuredProject'
 import type { NavigationDocument, SettingsDocument, TopDocument } from "../prismic-models"
 import type { Swiper as SwiperClass } from 'swiper'
+import { PrismicLink } from '@prismicio/react'
 
 type ProjectProps = {
   no: number
@@ -26,37 +27,39 @@ const Project = ({ no, project }: ProjectProps) => {
     return <></>
   }
   return (
-    <div className="grid w-full md:w-[var(--slide-width)] md:pt-[8vh]">
-      <span className={`
-        relative col-start-1 col-end-3 row-start-1 translate-x-[-8%] pointer-events-none
-        font-serif text-[clamp(400px,100vw,600px)] text-black leading-none
-        bg-white [.swiper-slide-active_&]:bg-transparent
-      `}
-      >{no}</span>
-      <div
-        className={`
-        relative w-[64vw] md:w-[calc(var(--slide-width)*0.72)] max-h-[80vh] md:max-h-[100vh] justify-self-end
-        flex flex-col md:gap-y-8 place-content-center col-start-2 col-end-3 row-start-1 bg-white
-        [:is(.swiper-slide-prev,.swiper-slide-active,.swiper-slide-next)_&]:before:block
-        before:hidden before:absolute before:w-[1px] before:h-full md:before:h-[300vh] before:bg-black before:top-0 md:before:-top-1/2 before:left-0
-      `}>
-        <div className="pl-[8%]">
-          <h2 className="font-flex font-bold-h1 text-4xl text-black leading-none overflow-clip">
-            <>{project.data.title}&nbsp;</>
-          </h2>
-          <p className="font-flex font-bold-h1 text-lg text-black">
-            {project.data.leadingText}
-          </p>
+    <PrismicLink field={project} className="outline-0">
+      <div className="grid w-full md:w-[var(--slide-width)] md:pt-[8vh]">
+        <span className={`
+          relative col-start-1 col-end-3 row-start-1 translate-x-[-8%] pointer-events-none
+          font-serif text-[clamp(400px,100vw,600px)] text-black leading-none
+          bg-white [.swiper-slide-active_&]:bg-transparent
+        `}
+        >{no}</span>
+        <div
+          className={`
+          relative w-[64vw] md:w-[calc(var(--slide-width)*0.72)] max-h-[80vh] md:max-h-[100vh] justify-self-end
+          flex flex-col md:gap-y-8 place-content-center col-start-2 col-end-3 row-start-1 bg-white
+          [:is(.swiper-slide-prev,.swiper-slide-active,.swiper-slide-next)_&]:before:block
+          before:hidden before:absolute before:w-[1px] before:h-full md:before:h-[300vh] before:bg-black before:top-0 md:before:-top-1/2 before:left-0
+        `}>
+          <div className="pl-[8%]">
+            <h2 className="font-flex font-bold-h1 text-4xl text-black leading-none overflow-clip">
+              <>{project.data.title}&nbsp;</>
+            </h2>
+            <p className="font-flex font-bold-h1 text-lg text-black">
+              {project.data.leadingText}
+            </p>
+          </div>
+          {
+            isFilled.linkToMedia(project.data.featuredMedia) && (
+              <div className="w-full relative border border-[#D2D2D2] border-l-transparent aspect-1">
+                <Image alt={project.data.featuredMedia.name} src={project.data.featuredMedia.url} layout="fill" objectFit="cover" />
+              </div>
+            )
+          }
         </div>
-        {
-          isFilled.linkToMedia(project.data.featuredMedia) && (
-            <div className="w-full relative border border-[#D2D2D2] border-l-transparent aspect-1">
-              <Image alt={project.data.featuredMedia.name} src={project.data.featuredMedia.url} layout="fill" objectFit="cover" />
-            </div>
-          )
-        }
       </div>
-    </div>
+    </PrismicLink>
   )
 }
 

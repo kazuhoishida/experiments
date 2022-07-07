@@ -11,6 +11,7 @@ import { createClient, linkResolver } from "../../prismicio"
 import { components } from "../../slices"
 import { Layout } from "../../components/Layout"
 import { Bounded } from "../../components/Bounded"
+import { asText } from '@prismicio/richtext'
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   month: "short",
@@ -40,7 +41,6 @@ type ProjectProps = {
 }
 
 const Project: NextPage<ProjectProps> = ({ project, creator, navigation }) => {
-
   const date = asDate(
     project.data.publishDate || project.first_publication_date as any
   )
@@ -72,11 +72,11 @@ const Project: NextPage<ProjectProps> = ({ project, creator, navigation }) => {
           </div>
           <div className="flex flex-col">
             {
-              project.data.details.map(detail => (
-                <>
-                  <PrismicRichText field={detail.title} />
-                  <PrismicRichText field={detail.description} />
-                </>
+              project.data.details.map(({title, description}) => (
+                <div key={asText(title)}>
+                  <PrismicRichText field={title} />
+                  <PrismicRichText field={description} />
+                </div>
               ))
             }
           </div>
