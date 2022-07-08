@@ -361,6 +361,17 @@ interface ProjectDocumentData {
      */
     demoLink: prismicT.LinkField;
     /**
+     * GitHub field in *Project*
+     *
+     * - **Field Type**: Link
+     * - **Placeholder**: ソースコードへのリンク
+     * - **API ID Path**: project.github
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+     *
+     */
+    github: prismicT.LinkField;
+    /**
      * Slice Zone (`slices`) field in *Project*
      *
      * - **Field Type**: Slice Zone

@@ -1,14 +1,14 @@
 {
-  "id": "ff82c8fd-d57f-4cad-a056-cb8e314228d7",
-  "uid": "odit-nostrum-sit",
+  "id": "87bd322b-8c25-4157-b1e7-f37c6d05027c",
+  "uid": "nemo-et-iure",
   "type": "project",
   "data": {
-    "title": "productize B2C interfaces",
-    "leadingText": "reintermediate extensible paradigms",
-    "publishDate": "2017-02-27",
+    "title": "transition cutting-edge infrastructures",
+    "leadingText": "monetize cross-media infrastructures",
+    "publishDate": "2014-04-16",
     "creator": {
       "link_type": "Web",
-      "url": "http://google.com"
+      "url": "https://slicemachine.dev"
     },
     "featuredMedia": {
       "link_type": "media",
@@ -17,27 +17,31 @@
     "abstract": [
       {
         "type": "paragraph",
-        "text": "Nulla sint sunt aute velit sint est consequat elit eu occaecat nulla. Ea in ex incididunt esse occaecat proident laboris do ut id exercitation amet enim. Ipsum irure reprehenderit aliquip nostrud.",
+        "text": "Laboris tempor deserunt aliquip cillum nostrud amet. Lorem aliqua anim qui ex et do enim magna. Anim irure magna ex aliqua exercitation deserunt ullamco fugiat.",
         "spans": []
       }
     ],
     "demoLink": {
       "link_type": "Web",
-      "url": "https://slicemachine.dev"
+      "url": "https://prismic.io"
+    },
+    "github": {
+      "link_type": "Web",
+      "url": "http://twitter.com"
     },
     "details": [
       {
         "title": [
           {
             "type": "heading1",
-            "text": "Repurpose real-time niches",
+            "text": "Implement viral mindshare",
             "spans": []
           }
         ],
         "description": [
           {
             "type": "paragraph",
-            "text": "Veniam ipsum ullamco aliquip irure id sit laborum ad ipsum cillum consectetur labore. Dolor minim ut in est enim velit eu elit incididunt Lorem reprehenderit. Sit quis voluptate ipsum laboris sunt dolore.",
+            "text": "Lorem exercitation eu id. Ad eiusmod commodo quis veniam tempor tempor aliquip consectetur consectetur occaecat nulla nostrud excepteur. Deserunt officia mollit voluptate eiusmod.",
             "spans": []
           }
         ]
@@ -46,14 +50,14 @@
         "title": [
           {
             "type": "heading1",
-            "text": "Syndicate rich markets",
+            "text": "E-enable cross-platform infrastructures",
             "spans": []
           }
         ],
         "description": [
           {
             "type": "paragraph",
-            "text": "Anim occaecat laborum deserunt mollit ut in amet nulla mollit consequat.",
+            "text": "Culpa ut eiusmod aute tempor amet reprehenderit do. Velit adipisicing ea est nulla. Do aliquip voluptate qui Lorem sint in pariatur commodo.",
             "spans": []
           }
         ]
@@ -62,30 +66,14 @@
         "title": [
           {
             "type": "heading1",
-            "text": "Synthesize world-class interfaces",
+            "text": "Disintermediate B2C synergies",
             "spans": []
           }
         ],
         "description": [
           {
             "type": "paragraph",
-            "text": "Pariatur magna in pariatur do qui duis laboris quis.",
-            "spans": []
-          }
-        ]
-      },
-      {
-        "title": [
-          {
-            "type": "heading1",
-            "text": "Integrate efficient networks",
-            "spans": []
-          }
-        ],
-        "description": [
-          {
-            "type": "paragraph",
-            "text": "Ad amet sint amet ea veniam voluptate exercitation id sit officia pariatur mollit laboris.",
+            "text": "In nostrud veniam occaecat.",
             "spans": []
           }
         ]
