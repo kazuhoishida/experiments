@@ -50,14 +50,13 @@ const Creators: NextPage<CreatorsProps> = ({ creators, navigation, featuredProje
         <h1 className='font-flex font-squash-h4 text-[48px] text-center'>creators</h1>
         <div className="[background-image:radial-gradient(#E0E0E0_25%,transparent_0%)] [background-size:40px_40px] pt-2 pb-20 mt-4">
           <div className='w-9/10 md:w-4/5 mx-auto'>
-            <div className='grid grid-cols-[var(--sp-cols)] md:grid-cols-[var(--dt-cols)] gap-x-2 gap-y-10 justify-between mt-10'
+            <div className='grid grid-cols-[repeat(var(--cols),minmax(0,1fr))] [--cols:min(2,var(--len))] md:[--cols:min(4,var(--len))] gap-x-2 gap-y-10 justify-between mt-10'
               style={{
-                '--sp-cols': `repeat(${creators.length > 2 ? 2 : 1}, minmax(0, 1fr))`,
-                '--dt-cols': `repeat(${creators.length > 4 ? 4 : creators.length}, minmax(0, 1fr))`
+                '--len': creators.length,
               }}
             >
-              {creators.map((creator: any, i: number) => (
-                <CreatorCard creator={creator} key={i} />
+              {creators.map(creator => (
+                <CreatorCard creator={creator} key={creator.id} />
               ))}
             </div>
           </div>

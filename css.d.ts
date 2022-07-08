@@ -15,7 +15,6 @@ declare module 'csstype' {
     '--cursor-y'?: Coordinate
     '--cursor-scale'?: P.Scale
     '--img-ratio'?: P.AspectRatio
-    '--dt-cols'?: P.GridColumn
-    '--sp-cols'?: P.GridColumn
+    '--len'?: P.GridColumn
   }
 }
