@@ -86,6 +86,10 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
   const face = creator.data?.face?.url ?? null
   const demo = isFilled.link(project.data.demoLink) && project.data.demoLink
   const github = isFilled.link(project.data.github) && project.data.github
+  const router = useRouter()
+  useEffect(() => {
+    router.prefetch('/projects')
+  })
   
   return (
     <Layout nav={nav} >
@@ -136,7 +140,7 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
               `}>VIEW MORE</span>
             </div>
             <div className="h-8"></div>
-            <div className="flex flex-col">
+            <div className="flex flex-col break-words">
               {project.data.details.map(({title, description}) => (
                 <div key={asText(title)}>
                   <PrismicRichText field={title} />
