@@ -1,13 +1,18 @@
 import type { NextPage } from 'next'
 import { createClient } from "../../prismicio"
 import type { NavigationDocument, CreatorDocument } from '../../prismic-models'
+import { useUpdateAtom } from 'jotai/utils'
+import { FeaturedProjectsAtom } from "../../stores"
+import { fetchFeaturedProjects, } from '../../fetches'
 import Image from "next/image"
 import { PrismicLink } from '@prismicio/react'
 import { Layout } from "../../components/Layout"
+import type { FeaturedProjects } from '../../fetches/featuredProject'
 
 type CreatorsProps = {
   creators: CreatorDocument[]
   navigation: NavigationDocument
+  featuredProjects: FeaturedProjects
 }
 
 type CreatorProps = {
@@ -36,7 +41,9 @@ const CreatorCard = ({ creator }: CreatorProps) => {
   )
 }
 
-const Creators: NextPage<CreatorsProps> = ({ creators, navigation } :CreatorsProps) => {
+const Creators: NextPage<CreatorsProps> = ({ creators, navigation, featuredProjects } :CreatorsProps) => {
+  const setFeaturedProjects = useUpdateAtom(FeaturedProjectsAtom)
+  setFeaturedProjects(featuredProjects)
   return (
     <Layout nav={navigation}>
       <div className='bg-v-light-gray min-h-screen pt-10 md:pt-[10vh]'>
@@ -65,6 +72,8 @@ export const getStaticProps = async () => {
   const client = createClient()
   const creators = await client.getAllByType("creator")
 
+  const featuredProjects: FeaturedProjects = await fetchFeaturedProjects(client)
+
   if( !creators?.length ) {
     return {
       notFound: true
@@ -76,6 +85,7 @@ export const getStaticProps = async () => {
   return {
     props: {
       creators,
+      featuredProjects,
       navigation
     },
   }
