@@ -1,8 +1,9 @@
 import type { NextPage } from 'next'
-import type { FilledLinkToMediaField, FilledLinkToDocumentField } from '@prismicio/types'
+import type { FilledLinkToMediaField, } from '@prismicio/types'
 import type { ProjectDocument, CreatorDocument, NavigationDocument, SettingsDocument } from '../../prismic-models'
 import Head from "next/head"
 import Image from 'next/image'
+import FutureImage from '../../next/ImgixImage'
 import { PrismicLink, PrismicRichText, SliceZone } from "@prismicio/react"
 import * as prismicH from "@prismicio/helpers"
 import { asDate, isFilled } from '@prismicio/helpers'
@@ -10,7 +11,6 @@ import { asDate, isFilled } from '@prismicio/helpers'
 import { createClient, linkResolver } from "../../prismicio"
 import { components } from "../../slices"
 import { Layout } from "../../components/Layout"
-import { Bounded } from "../../components/Bounded"
 import { asText } from '@prismicio/richtext'
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
@@ -25,8 +25,8 @@ const Media = ({field}: {field: FilledLinkToMediaField}) => {
   }
   if( field.kind === 'image' ) {
     return (
-      <div className="relative w-full h-[50vh]">
-        <Image src={field.url} alt={field.name} layout="fill" objectFit="contain" />
+      <div className="relative w-full">
+        <FutureImage src={field.url} alt={field.name} className="w-full object-cover" />
       </div>
     )
   } else {
@@ -35,9 +35,9 @@ const Media = ({field}: {field: FilledLinkToMediaField}) => {
 }
 
 type ProjectProps = {
-  project: ProjectDocument<string>
-  creator: CreatorDocument<string>
-  navigation: NavigationDocument<string>
+  project: ProjectDocument
+  creator: CreatorDocument
+  navigation: NavigationDocument
 }
 
 const Project: NextPage<ProjectProps> = ({ project, creator, navigation }) => {
@@ -54,7 +54,7 @@ const Project: NextPage<ProjectProps> = ({ project, creator, navigation }) => {
       </Head>
       <main>
         <article>
-          <Bounded className="pb-0">
+          <div>
             {featuredMedia && <Media field={featuredMedia} />}
             <h1 className="mb-3 text-3xl font-semibold tracking-tighter text-slate-800 md:text-4xl">
               {project.data.title}
@@ -63,10 +63,10 @@ const Project: NextPage<ProjectProps> = ({ project, creator, navigation }) => {
               {dateFormatter.format(date!)}
             </p>
             <PrismicLink className="flex place-items-center gap-x-2" document={creator}>
-              {face && <Image className="rounded-full" src={face} alt={creator.data?.face?.alt || ''} width={50} height={50} />}
+              {face && <Image className="rounded-full" src={face} alt={creator.data?.face?.alt ?? ''} width={50} height={50} />}
               {creator.data.name}
             </PrismicLink>
-          </Bounded>
+          </div>
           <div>
             <PrismicRichText field={project.data.abstract} />
           </div>
