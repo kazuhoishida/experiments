@@ -27,6 +27,13 @@
           "thumbnails": []
         }
       },
+      "occupation": {
+        "type": "Text",
+        "config": {
+          "label": "Occupation",
+          "placeholder": ""
+        }
+      },
       "slices": {
         "type": "Slices",
         "fieldset": "Slice Zone",
