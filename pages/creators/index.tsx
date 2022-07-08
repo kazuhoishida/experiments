@@ -4,7 +4,7 @@ import type { NavigationDocument, CreatorDocument } from '../../prismic-models'
 import { useUpdateAtom } from 'jotai/utils'
 import { FeaturedProjectsAtom } from "../../stores"
 import { fetchFeaturedProjects, } from '../../fetches'
-import Image from "next/image"
+import FutureImage from "../../next/ImgixImage"
 import { PrismicLink } from '@prismicio/react'
 import { Layout } from "../../components/Layout"
 import type { FeaturedProjects } from '../../fetches/featuredProject'
@@ -25,8 +25,8 @@ const CreatorCard = ({ creator }: CreatorProps) => {
 
   return (
     <figure className='text-center'>
-      <div className='w-full max-w-[180px] h-auto aspect-square mb-4 p-4 md:p-0 mx-auto'>
-        {face?.url && <Image alt={face.alt || 'profile'} src={face.url} layout="responsive" objectFit="contain" width={face.dimensions?.width} height={face.dimensions?.height} className="rounded-full" />}
+      <div className='w-full max-w-[180px] h-auto aspect-square mb-4 p-4 md:p-0 mx-auto flex place-items-center place-content-center'>
+        {face?.url && <FutureImage alt={face.alt || 'profile'} src={face.url} className="rounded-full" />}
       </div>
       <figcaption>
         <h2 className='font-bold'>{creator.data?.name}</h2>
