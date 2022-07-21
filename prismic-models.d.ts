@@ -103,6 +103,39 @@ interface CreatorDocumentData {
      */
     occupation: prismicT.KeyTextField;
     /**
+     * Introduction field in *Creator*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: creator.Introduction
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    Introduction: prismicT.RichTextField;
+    /**
+     * Git Hub field in *Creator*
+     *
+     * - **Field Type**: Link
+     * - **Placeholder**: *None*
+     * - **API ID Path**: creator.GitHub
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+     *
+     */
+    GitHub: prismicT.LinkField;
+    /**
+     * Contact field in *Creator*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: creator.Contact
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    Contact: prismicT.KeyTextField;
+    /**
      * Slice Zone (`slices`) field in *Creator*
      *
      * - **Field Type**: Slice Zone
@@ -959,6 +992,16 @@ interface WorkSliceDefaultPrimary {
      *
      */
     link: prismicT.LinkField;
+    /**
+     * Thumbnail field in *Work → Primary*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: work.primary.Thumbnail
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    Thumbnail: prismicT.ImageField<null>;
 }
 /**
  * Default variation for Work Slice

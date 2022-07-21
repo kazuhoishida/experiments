@@ -597,6 +597,14 @@
                     "placeholder": "",
                     "select": null
                   }
+                },
+                "Thumbnail": {
+                  "type": "Image",
+                  "config": {
+                    "label": "Thumbnail",
+                    "constraint": {},
+                    "thumbnails": []
+                  }
                 }
               },
               "items": {},
@@ -611,18 +619,27 @@
             "slice_type": "work",
             "items": [],
             "primary": {
-              "date": "2020-10-27",
+              "date": "2021-03-08",
               "title": [
                 {
                   "type": "heading1",
-                  "text": "Orchestrate plug-and-play vortals",
+                  "text": "Synergize turn-key web-readiness",
                   "spans": []
                 }
               ],
-              "role": "reintermediate vertical paradigms",
+              "role": "brand strategic e-services",
               "link": {
                 "link_type": "Web",
-                "url": "http://twitter.com"
+                "url": "https://slicemachine.dev"
+              },
+              "Thumbnail": {
+                "dimensions": {
+                  "width": 900,
+                  "height": 500
+                },
+                "alt": "Placeholder image",
+                "copyright": null,
+                "url": "https://images.unsplash.com/photo-1591012911207-0dbac31f37da?w=900&h=500&fit=crop"
               }
             }
           }
