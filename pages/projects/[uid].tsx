@@ -30,7 +30,7 @@ const Media = ({field}: {field: FilledLinkToMediaField}) => {
   if( field.kind === 'image' ) {
     return (
       <div className="relative w-full">
-        <FutureImage src={field.url} alt={field.name} className="w-full max-h-[30vh] object-cover" />
+        <FutureImage src={field.url} alt={field.name} className="w-full max-h-[30vh] object-cover md:object-contain md:max-h-[70vh] object-right" />
       </div>
     )
   } else {
@@ -43,17 +43,17 @@ const GoBackNav = () => {
   const back = () => router.back()
   return (
     <div className="flex place-content-center">
-      <button className="flex place-items-center gap-x-10" onClick={back}>
+      <button className="flex place-items-center gap-x-6" onClick={back}>
         <div className="grid gap-[2px] grid-cols-3">
-          <div className="w-[9px] h-[9px] bg-black"></div>
-          <div className="w-[9px] h-[9px] bg-black"></div>
-          <div className="w-[9px] h-[9px] bg-black"></div>
-          <div className="w-[9px] h-[9px] bg-black"></div>
-          <div className="w-[9px] h-[9px] bg-black"></div>
-          <div className="w-[9px] h-[9px] bg-black"></div>
-          <div className="w-[9px] h-[9px] bg-black"></div>
-          <div className="w-[9px] h-[9px] bg-black"></div>
-          <div className="w-[9px] h-[9px] bg-black"></div>
+          <div className="w-[8px] h-[8px] bg-black"></div>
+          <div className="w-[8px] h-[8px] bg-black"></div>
+          <div className="w-[8px] h-[8px] bg-black"></div>
+          <div className="w-[8px] h-[8px] bg-black"></div>
+          <div className="w-[8px] h-[8px] bg-black"></div>
+          <div className="w-[8px] h-[8px] bg-black"></div>
+          <div className="w-[8px] h-[8px] bg-black"></div>
+          <div className="w-[8px] h-[8px] bg-black"></div>
+          <div className="w-[8px] h-[8px] bg-black"></div>
         </div>
         <nav className="font-flex font-bold-h1 font-[640] text-3xl">Go Back</nav>
       </button>
@@ -86,10 +86,14 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
   const face = creator.data?.face?.url ?? null
   const demo = isFilled.link(project.data.demoLink) && project.data.demoLink
   const github = isFilled.link(project.data.github) && project.data.github
+  
   const router = useRouter()
+  const back = () => router.back()
   useEffect(() => {
     router.prefetch('/projects')
   })
+
+  const [isShowText, setIsShowText] = useState(false)
   
   return (
     <Layout nav={nav} >
@@ -97,11 +101,15 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
         <title>{project.data.title}</title>
       </Head>
       <main>
-        <article>
-          {featuredMedia && <Media field={featuredMedia} />}
-          <div className="px-4">
-            <div>
-              <h1 className="text-3xl md:text-4xl font-serif font-semibold py-8">
+        <article className='mb-12 md:mt-10'>
+        <button className='text-sm px-3 py-3 md:hidden' onClick={back}>&lt;<span className='pl-3'>Go Back</span></button>
+          <div className='relative md:hidden'>
+            {featuredMedia && <Media field={featuredMedia} />}
+          </div>
+          <div className='px-4 md:px-0'>
+            <div className="md:px-[5vw] md:mb-[max(10vh,30px)] md:flex">
+              <h1 className="text-3xl md:text-[7vw] font-serif font-bold pt-6 pb-3 md:p-0 md:leading-none md:flex
+              md:after:content-[''] md:after:w-[1px] md:after:h-full md:after:inline-block md:after:bg-black md:after:rotate-[30deg] md:after:mx-[4vw]">
                 {project.data.title}
               </h1>
               <div className="flex gap-x-4 place-items-center">
@@ -121,62 +129,77 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
                 </div>
               </div>
             </div>
-            <div className="flex gap-x-6 py-4">
-              {demo && (
-                <PrismicLink field={demo} className="font-flex text-v-red rounded-md border border-v-red w-20 flex place-items-center place-content-center">DEMO</PrismicLink>
-              )}
-              {github && (
-                <PrismicLink field={github} className="font-flex rounded-md border border-black w-20 flex place-items-center place-content-center">GitHub</PrismicLink>
-              )}
-            </div>
-            <div className="font-flex text-sm">
-              <PrismicRichText field={project.data.abstract} />
-            </div>
-            <div className="flex place-content-center py-4">
-              <span className={`
-                relative font-flex font-squash-h1 font-[800] text-sm
-                before:absolute before:w-3/5 before:h-px before:rotate-[20deg] before:origin-right before:bg-black before:-translate-x-full before:top-[180%] before:left-1/2
-                after:absolute after:w-3/5 after:h-px after:-rotate-[20deg] after:origin-left after:bg-black after:top-[180%] after:left-1/2
-              `}>VIEW MORE</span>
-            </div>
-            <div className="h-8"></div>
-            <div className="flex flex-col break-words">
-              {project.data.details.map(({title, description}) => (
-                <div key={asText(title)}>
-                  <PrismicRichText field={title} />
-                  <PrismicRichText field={description} />
+            <div className='md:flex'>
+              <div className='md:w-2/5 md:pl-[5vw] md:pr-10'>
+                <div className="flex gap-x-6 py-6 empty:!py-0">
+                  {demo && (
+                    <PrismicLink field={demo} className="font-flex text-v-red rounded-md border border-v-red w-20 md:w-28 md:py-1 flex place-items-center place-content-center">DEMO</PrismicLink>
+                  )}
+                  {github && (
+                    <PrismicLink field={github} className="font-flex rounded-md border border-black w-20 flex place-items-center place-content-center">GitHub</PrismicLink>
+                  )}
                 </div>
-              ))}
+                <div className="font-flex text-sm mt-4">
+                  <PrismicRichText field={project.data.abstract} />
+                </div>
+              </div>
+              <div className='hidden md:block md:w-3/5'>
+                {featuredMedia && <Media field={featuredMedia} />}
+              </div>
             </div>
-            <SliceZone slices={project.data.slices} components={components} />
+
+            <div className='md:flex md:flex-row-reverse md:mt-28 md:mb-32 md:w-[90vw] mx-auto'>
+              {project.data.details[0] && (
+                <div className='md:w-1/2'>
+                  <div className={`flex flex-col break-words transition-opacity md:!opacity-100 md:!h-auto ${isShowText ? 'visible my-8' : 'hidden md:!block md:!m-0 md:!pl-[5vw]'}`}>
+                    {project.data.details.map(({title, description}) => (
+                      <div key={asText(title)} className="[&>h2]:text-[20px] [&>h2]:!mb-2 [&>p]:text-[14px]">
+                        <PrismicRichText field={title} />
+                        <PrismicRichText field={description} />
+                      </div>
+                    ))}
+                  </div>
+                  <div className={`flex place-content-center py-4 my-4 md:hidden ${isShowText ? 'rotate-180' : 'rotate-0'}`} onClick={() => setIsShowText(!isShowText)}>
+                    <span className={`
+                      relative font-flex font-squash-h1 font-[800] text-[12px]
+                      before:absolute before:w-3/5 before:h-px before:rotate-[20deg] before:origin-right before:bg-black before:-translate-x-full before:top-[180%] before:left-1/2
+                      after:absolute after:w-3/5 after:h-px after:-rotate-[20deg] after:origin-left after:bg-black after:top-[180%] after:left-1/2
+                    `}>{isShowText ? `CLOSE` : `VIEW MORE`}</span>
+                  </div>
+                </div>
+              )}
+              <div className='mt-12 md:w-1/2 md:mt-0 [&_*]:mb-6 md:[&_*]:mb-10 last:[&_*]:mb-0 [&_iframe]:w-full [&_iframe]:h-auto'>
+                <SliceZone slices={project.data.slices} components={components} />
+              </div>
+            </div>
           </div>
           {demo && (
             <PrismicLink
               field={demo}
-              className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-black/80 drop-shadow rounded-lg flex place-content-center px-12 py-2"
+              className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-black/70 drop-shadow rounded-lg flex place-content-center backdrop-blur-sm px-12 py-2 md:px-16 md:py-3 whitespace-nowrap"
             >
-              <span className="font-flex text-xs text-white">デモを見る</span>
+              <span className="font-flex text-sm text-white">デモを見る</span>
             </PrismicLink>
           )}
         </article>
-        <div className="h-8"></div>
         <GoBackNav />
-        <div className="h-8"></div>
-        <div className="flex flex-nowrap gap-x-4 overflow-x-scroll bg-v-light-gray p-8">
+        
+        <div className="flex flex-nowrap gap-x-4 overflow-x-scroll bg-v-light-gray px-4 py-8 mt-16 md:mb-20 md:px-[5vw] md:py-28 md:gap-x-12">
           {featuredProjects.data.projects.map(({project}) =>
             isFilled.contentRelationship(project) && isFilled.linkToMedia(project.data?.featuredMedia) && (
-            <div key={project.id} className="flex flex-col shrink-0 gap-y-4 w-[50vw]">
-              <FutureImage
-                src={project.data?.featuredMedia.url ?? ''}
-                alt={project.data?.title ?? 'PROJECT'}
-                className="object-cover w-[50vw] h-[30vw]"
-              />
-              <div className="font-flex font-bold-h6 font-extrabold text-xl overflow-ellipsis">{project.data?.title}</div>
-              <div className="font-flex text-xs overflow-ellipsis">{project.data?.leadingText}</div>
-            </div>
+              <PrismicLink field={project} key={project.id} >
+                <div className="flex flex-col shrink-0 gap-y-4 w-[50vw] md:w-[30vw]">
+                  <FutureImage
+                    src={project.data?.featuredMedia.url ?? ''}
+                    alt={project.data?.title ?? 'PROJECT'}
+                    className="object-cover w-full aspect-[5/3]"
+                  />
+                  <div className="font-flex font-bold-h6 font-extrabold text-xl overflow-ellipsis">{project.data?.title}</div>
+                  <div className="font-flex text-xs overflow-ellipsis">{project.data?.leadingText}</div>
+                </div>
+              </PrismicLink>
           ))}
         </div>
-        <div className="h-8"></div>
         <div className="px-4">
           <div className="w-full h-px bg-black"></div>
         </div>
