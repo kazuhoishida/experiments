@@ -9,7 +9,7 @@ const Image = ({ slice }) => {
 
   return (
     <Bounded as="section" size={slice.variation === "wide" ? "widest" : "base"}>
-      <figure className="grid grid-cols-1 gap-4">
+      <figure className="grid grid-cols-1 gap-1">
         {prismicH.isFilled.image(image) && (
           <div className="bg-gray-100">
             <NextImage
@@ -25,7 +25,7 @@ const Image = ({ slice }) => {
           </div>
         )}
         {prismicH.isFilled.richText(slice.primary.caption) && (
-          <figcaption className="text-center font-serif italic tracking-tight text-slate-500">
+          <figcaption className="font-serif italic tracking-tight text-slate-500">
             <PrismicRichText field={slice.primary.caption} />
           </figcaption>
         )}

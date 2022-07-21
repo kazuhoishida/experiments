@@ -60,8 +60,8 @@ const ProjectCard = ({ project, isVisible, media, title, leading, style }: Proje
       >
         <PrismicLink field={documentToLinkField(project)} className="cursor-none">
           <div className={`hidden md:grid gap-2 absolute top-8 left-2 z-10 transition-all text-white duration-[400ms] ${isCursorVisible ? 'opacity-100 -translate-y-2' : 'opacity-0 translate-y-0'}`}>
-            <h2 className='text-[32px] leading-none font-flex font-bold-h1'>{title}</h2>
-            <p className='text-[18px]'>{leading}</p>
+            <h2 className='text-[30px] leading-none font-flex font-bold-h1'>{title}</h2>
+            <p className='text-[13px] leading-tight'>{leading}</p>
           </div>
           <Media field={media} className="w-full h-[66.6vw] md:h-[33.3vw] lg:h-[26.6vw]" objectFit="cover" />
         </PrismicLink>

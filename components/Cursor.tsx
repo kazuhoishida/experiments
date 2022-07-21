@@ -23,8 +23,8 @@ const Cursor = ({isVisible, position}: Props) => {
         transition-transform duration-[400ms] backdrop-invert pointer-events-none cursor-none
       `}
       style={{
-        '--cursor-x': `${position.x}px`,
-        '--cursor-y': `${position.y}px`,
+        '--cursor-x': `${position.x - 6}px`,
+        '--cursor-y': `${position.y - 10}px`,
         '--cursor-scale': `${scale}%`,
       }}
     >VIEW</div>
