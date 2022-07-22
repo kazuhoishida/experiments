@@ -12,7 +12,7 @@ import { useRef, forwardRef, useState, useEffect } from "react"
 import { useUpdateAtom } from 'jotai/utils'
 import FooterNavigation from "../components/FooterNavigation"
 import Head from "next/head"
-import Image from "next/image"
+import FutureImage from "../next/ImgixImage"
 import type { FeaturedProject, FeaturedProjects } from '../fetches/featuredProject'
 import type { NavigationDocument, SettingsDocument, TopDocument } from "../prismic-models"
 import type { Swiper as SwiperClass } from 'swiper'
@@ -28,32 +28,34 @@ const Project = ({ no, project }: ProjectProps) => {
   }
   return (
     <PrismicLink field={project} className="outline-0">
-      <div className="grid w-full md:w-[var(--slide-width)] md:pt-[8vh]">
+      <div className="grid items-end w-full md:w-[var(--slide-width)] md:pt-0 duration-500 opacity-0 [.swiper-slide-active_&]:opacity-100 md:opacity-100">
         <span className={`
-          relative col-start-1 col-end-3 row-start-1 translate-x-[-8%] pointer-events-none
-          font-serif text-[clamp(400px,100vw,600px)] text-black leading-none
-          bg-white [.swiper-slide-active_&]:bg-transparent
+          relative col-start-1 col-end-3 row-start-1 translate-x-[4%] [.swiper-slide-active_&]:translate-x-[-5%] md:[.swiper-slide-active_&]:translate-x-[-25%] transition-all duration-[500ms] pointer-events-none
+          font-serif text-[clamp(400px,100vw,600px)] md:text-[50vw] text-black leading-none
+          [.swiper-slide-active_&]:bg-transparent
+          md:[clip-path:polygon(0_0,16%_0%,16%_100%,0%_100%)] [clip-path:polygon(0_0,31%_0%,31%_100%,0%_100%)] md:[.swiper-slide-active_&]:[clip-path:polygon(0_0,45%_0%,45%_100%,0%_100%)]
         `}
         >{no}</span>
         <div
           className={`
-          relative w-[64vw] md:w-[calc(var(--slide-width)*0.72)] max-h-[80vh] md:max-h-[100vh] justify-self-end
-          flex flex-col md:gap-y-8 place-content-center col-start-2 col-end-3 row-start-1 bg-white
+          relative w-[68vw] md:w-[calc(var(--slide-width)*0.8)] max-h-[80vh] justify-self-end
+          flex flex-col gap-y-4 md:gap-y-8 place-content-end col-start-2 col-end-3 row-start-1 bg-white
+          translate-y-[-4%] md:translate-y-[-20%]
           [:is(.swiper-slide-prev,.swiper-slide-active,.swiper-slide-next)_&]:before:block
-          before:hidden before:absolute before:w-[1px] before:h-full md:before:h-[300vh] before:bg-black before:top-0 md:before:-top-1/2 before:left-0
+          before:hidden before:absolute before:w-[1px] before:h-[300vh] before:bg-black before:top-[-100vh] before:left-0
         `}>
           <div className="pl-[8%]">
-            <h2 className="font-flex font-bold-h1 text-4xl text-black leading-none overflow-clip">
+            <h2 className="font-flex font-bold-h1 text-[32px] md:text-[3vw] text-black leading-none mb-2">
               <>{project.data.title}&nbsp;</>
             </h2>
-            <p className="font-flex font-bold-h1 text-lg text-black">
+            <p className="font-flex font-bold-h1 text-md md:text-[1vw] text-black leading-none">
               {project.data.leadingText}
             </p>
           </div>
           {
             isFilled.linkToMedia(project.data.featuredMedia) && (
-              <div className="w-full relative border border-[#D2D2D2] border-l-transparent aspect-1">
-                <Image alt={project.data.featuredMedia.name} src={project.data.featuredMedia.url} layout="fill" objectFit="cover" />
+              <div className="w-full relative border border-[#D2D2D2] border-l-transparent aspect-[4/3]">
+                <FutureImage alt={project.data.featuredMedia.name} src={project.data.featuredMedia.url} className="w-full h-full object-cover" />
               </div>
             )
           }
@@ -71,7 +73,7 @@ type CarouseNavigationProps = {
 const CarouseNavigation = forwardRef<HTMLButtonElement, CarouseNavigationProps>(
   function CarouseNavigation({ label, className }, ref) { // ここで関数名を付けないとeslintに引っかかる
     return (
-      <button className={`${className} z-30 md:fixed md:bottom-[1vh]`} ref={ref}>{label}</button>
+      <button className={`${className} font-flex font-arrow font-extrabold text-[20px] z-30 fixed bottom-20 md:bottom-[3vh]`} ref={ref}>{label}</button>
     )
   }
 )
@@ -96,9 +98,6 @@ const ProjectCarousel = ({ featuredProjects }: ProjectCarouselProps) => {
     const _r = Math.max(400, window.screen.width * 0.4)
     setR(_r)
     const _y = (1 + Math.cos(theta)) * _r
-    console.log('Math.cos(theta) : ', Math.cos(theta))
-    console.log('_r : ', _r)
-    console.log('_y : ', _y)
     setY(_y)
     load(true)
   }, [])
@@ -106,8 +105,8 @@ const ProjectCarousel = ({ featuredProjects }: ProjectCarouselProps) => {
     <>
       <div
         className={`
-        max-h-[100vh] md:[--slide-width:calc(clamp(768px,100vw,1023px)*0.5)] lg:[--slide-width:calc(clamp(1024px,100vw,1600px)*0.4)]
-        translate-x-[calc(var(--slide-width)*0.14)]
+        max-h-[100vh] md:[--slide-width:calc(clamp(768px,100vw,1023px)*0.5)] lg:[--slide-width:calc(max(1024px,100vw)*0.35)]
+        translate-x-[calc(var(--slide-width)*0.24)] translate-y-[-6vh] md:translate-y-[calc(var(--slide-width)*-0.1)]
       `}>
         {
           isLoaded && (
@@ -119,35 +118,33 @@ const ProjectCarousel = ({ featuredProjects }: ProjectCarouselProps) => {
               slidesPerView={isWide ? 3 : 1}
               centeredSlides
               mousewheel={true}
+              speed={isWide ? 550 : 300}
               navigation={{
                 prevEl: prev.current,
                 nextEl: next.current,
               }}
-              freeMode={true}
+              freeMode={false}
               creativeEffect={{
                 limitProgress: 3,
                 prev: {
                   translate: [-r, translateY, 0],
                   rotate: [0, 0, -theta],
                   origin: 'center bottom',
-                  // origin: '28% bottom',
                 },
                 next: {
                   translate: [r, translateY, 0],
                   rotate: [0, 0, theta],
                   origin: 'center bottom',
-                  // origin: '28% bottom',
                 },
               }}
               loop={true}
               onSwiper={onSwiper}
-              onSlideChange={() => console.log('slide change')}
             >
               {featuredProjects.data.projects.map((item, i) =>
                 isFilled.contentRelationship(item.project) && (
                   <SwiperSlide
                     key={i}
-                    className={`!overflow-visible bg-white`}
+                    className={`!overflow-visible`}
                   >
                     <Project no={i+1} project={item.project} />
                   </SwiperSlide>
@@ -158,8 +155,8 @@ const ProjectCarousel = ({ featuredProjects }: ProjectCarouselProps) => {
         }
       </div>
       <div className="w-full flex justify-between md:contents">
-        <CarouseNavigation label="← Prev" className="font-flex font-arrow font-extrabold text-base -rotate-[9deg] md:left-[2vw]" ref={prev} />
-        <CarouseNavigation label="Next →" className="font-flex font-arrow font-extrabold text-base rotate-[9deg] md:right-[2vw]" ref={next} />
+        <CarouseNavigation label="← Prev." className="-rotate-[9deg] left-[4vw] md:left-[2vw]" ref={prev} />
+        <CarouseNavigation label="Next →" className="rotate-[9deg] right-[4vw] md:right-[2vw]" ref={next} />
       </div>
     </>
   )
@@ -183,11 +180,11 @@ const Index = ({top, featuredProjects, nav, settings }: Props) => {
       <Head>
         <title>{asText(settings.data.name)}</title>
       </Head>
-      <main className="flex flex-col grow pb-[8vh]">
-        <div className="h-full flex flex-col justify-between md:justify-start px-[4vw] md:px-0 md:fixed md:top-14 md:left-4 md:w-screen md:h-screen">
-          <div>
-            <h1 className="font-flex font-squash-h4 text-4xl text-black">{asText(top.data.title)}</h1>
-            <p className="font-flex text-xs text-black opacity-50">{asText(top.data.comment)}</p>
+      <main>
+        <div className="h-full px-[4vw] md:px-0 md:fixed md:left-4 md:w-screen md:h-screen">
+          <div className='md:absolute md:-top-6 md:left-[5vw] z-50 mb-6 md:mb-0'>
+            <h1 className="font-flex font-squash-h4 text-[9vw] md:text-[5vw] text-black leading-none mb-2 md:mb-[0.2vw]">{asText(top.data.title)}</h1>
+            <p className="font-flex font-bold text-[14px] text-black pl-[0.5vw]">{asText(top.data.comment)}</p>
           </div>
           <ProjectCarousel featuredProjects={featuredProjects} />
         </div>
