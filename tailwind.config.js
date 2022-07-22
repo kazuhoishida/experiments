@@ -2,8 +2,8 @@ const theme = require('tailwindcss/defaultTheme')
 const plugin = require('tailwindcss/plugin')
 
 /** @type {import('tailwindcss').Config} */
- module.exports = {
-  content: ["./pages/**/*.tsx", "./components/**/*.tsx", "./slices/**/*.tsx"],
+module.exports = {
+  content: ["./pages/**/*.{js,jsx,ts,tsx}", "./components/**/*.{js,jsx,ts,tsx}", "./slices/**/*.{js,jsx,ts,tsx}"],
   theme: {
     fontFamily: {
       flex: "'Roboto Flex', 'Noto Sans JP', sans-serif",

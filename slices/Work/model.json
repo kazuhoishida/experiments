@@ -40,6 +40,14 @@
             "placeholder": "",
             "select": null
           }
+        },
+        "Thumbnail": {
+          "type": "Image",
+          "config": {
+            "label": "Thumbnail",
+            "constraint": {},
+            "thumbnails": []
+          }
         }
       },
       "items": {},

@@ -1,6 +1,7 @@
 import type { PropsWithChildren } from 'react'
 import type { NavigationDocument } from '../prismic-models'
 import { Header } from "./Header"
+import { PageFooter } from "./PageFooter"
 
 type Props = PropsWithChildren & {
   nav: NavigationDocument
@@ -12,6 +13,7 @@ export function Layout({ nav, children, className, }: Props) {
     <div className={`text-black ${className}`}>
       <Header nav={nav} />
       {children}
+      <PageFooter nav={nav} />
     </div>
   )
 }
