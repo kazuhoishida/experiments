@@ -1,28 +1,25 @@
-import React, { Suspense, useEffect, useRef, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import * as THREE from 'three'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import { PerspectiveCamera, Environment, MeshDistortMaterial } from '@react-three/drei'
 import { useTexture } from '@react-three/drei'
 import { BubbleAtom } from "../stores/BubbleAtom"
-import { useAtom } from 'jotai'
+import { useAtomValue } from 'jotai/utils'
 
 function Scene() {
-  const sphere = useRef<THREE.Mesh>(null)
-  const [bubbleThumb, setBubbleThumb] = useAtom(BubbleAtom)
+  const bubbleThumb = useAtomValue(BubbleAtom)
 
-  const customMap: any = useTexture(bubbleThumb)
+  const customMap: THREE.Texture = useTexture(bubbleThumb)
 
   const [screenWide, setScreenWide] = useState(1440)
   useEffect(() => {
     setScreenWide(window.screen.width)
     
     const handleResize = () => {
-      window.addEventListener('resize', () => {
-        setScreenWide(window.screen.width)
-      })
+      setScreenWide(window.screen.width)
     }
-    handleResize()
+    window.addEventListener('resize', handleResize)
 
     return () => window.removeEventListener('resize', handleResize);
   }, [])
@@ -33,10 +30,7 @@ function Scene() {
         <ambientLight intensity={0.5} />
       </PerspectiveCamera>
       <Suspense fallback={null}>
-        <mesh
-          ref={sphere}
-          rotation-y={Math.PI * -0.5}
-        >
+        <mesh rotation-y={Math.PI * -0.5}>
           <sphereBufferGeometry args={[1, 64, 64]} />
           <MeshDistortMaterial map={customMap} envMapIntensity={1} clearcoat={0.4} clearcoatRoughness={0} metalness={0.8} speed={1} distort={0.3} />
         </mesh>

@@ -12,7 +12,7 @@ import type { NavigationDocument } from '../prismic-models'
 import { useRouter } from 'next/router'
 import Bubble from './Bubble'
 import { BubbleAtom } from "../stores/BubbleAtom"
-import { useAtom } from 'jotai'
+import { useUpdateAtom } from 'jotai/utils'
 
 type Props = {
   nav: NavigationDocument
@@ -24,7 +24,7 @@ type NavItemProps = {
 }
 
 const NavItem = ({ item, children }: NavItemProps) => {
-  const [bubbleThumb, setBubbleThumb] = useAtom(BubbleAtom)
+  const setBubbleThumb = useUpdateAtom(BubbleAtom)
   const setThumbnail = () => {
     if (item == undefined) return
     if(isFilled.linkToMedia(item.data?.featuredMedia)) {
@@ -101,11 +101,9 @@ const MenuModal = ({nav, isOpen}: MenuModalProps) => {
     setWide(window.screen.width >= 768)
     
     const handleResize = () => {
-      window.addEventListener('resize', () => {
-        setWide(window.screen.width >= 768)
-      })
+      setWide(window.screen.width >= 768)
     }
-    handleResize()
+    window.addEventListener('resize', handleResize)
 
     return () => window.removeEventListener('resize', handleResize);
   }, [])
