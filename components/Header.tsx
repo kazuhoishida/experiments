@@ -7,18 +7,32 @@ import { PrismicLink, PrismicText } from "@prismicio/react"
 import { useAtomValue } from 'jotai/utils'
 import clsx from 'clsx'
 import Image from 'next/image'
-import type { FeaturedProject, FeaturedProjects } from '../fetches/featuredProject'
+import type { FeaturedProject } from '../fetches/featuredProject'
 import type { NavigationDocument } from '../prismic-models'
-import type { PropsWithChildren } from 'react'
 import { useRouter } from 'next/router'
+import Bubble from './Bubble'
+import { BubbleAtom } from "../stores/BubbleAtom"
+import { useAtom } from 'jotai'
 
 type Props = {
   nav: NavigationDocument
 }
 
-const NavItem = ({ children }: PropsWithChildren) => {
+type NavItemProps = {
+  children: any
+  item: any
+}
+
+const NavItem = ({ item, children }: NavItemProps) => {
+  const [bubbleThumb, setBubbleThumb] = useAtom(BubbleAtom)
+  const setThumbnail = () => {
+    if (item == undefined) return
+    if(isFilled.linkToMedia(item.data?.featuredMedia)) {
+      setBubbleThumb(item.data?.featuredMedia?.url ?? '')
+    }
+  }
   return (
-    <li className="font-[640] text-[36px] leading-none">{children}</li>
+    <li className="font-[640] text-[36px] leading-none md:hover:opacity-50 md:hover:translate-x-4 duration-[300ms]" onMouseEnter={setThumbnail}>{children}</li>
   )
 }
 
@@ -42,17 +56,18 @@ const FeaturedProjectItem = ({project}: FeaturedProjectProps) => {
 
 const Navigation = ({nav}: Props) => {
   const featuredProjects = useAtomValue(FeaturedProjectsAtom)
+
   return nav && (
-    <div className="flex flex-col gap-y-[30px] z-[1]">
+    <div className="flex flex-col gap-y-[30px] md:gap-y-[7vh] z-[1] md:w-1/2">
       <nav className="text-white font-flex font-bold-h1">
         <ul className="flex flex-col justify-center gap-y-[30px]">
-          <NavItem>
+          <li className="font-[640] text-[36px] leading-none md:hover:opacity-50 md:hover:translate-x-4 duration-[300ms]">
             <PrismicLink href="/" className="outline-0">
               <PrismicText field={nav.data.homepageLabel} />
             </PrismicLink>
-          </NavItem>
+          </li>
           {nav.data.links.map(item => (
-            <NavItem key={asText(item.label)}>
+            <NavItem key={asText(item.label)} item={item}>
               <PrismicLink field={item.link} className="outline-0">
                 <PrismicText field={item.label} />
               </PrismicLink>
@@ -63,7 +78,7 @@ const Navigation = ({nav}: Props) => {
       <nav className="text-black font-flex font-bold-h1">
         <ul className="flex flex-col justify-center gap-y-[30px]">
           {featuredProjects?.data.projects.map(({project}) => isFilled.contentRelationship(project) && (
-            <NavItem key={project.id}>
+            <NavItem key={project.id} item={project}>
               <PrismicLink field={project} className="outline-0">
                 <FeaturedProjectItem project={project} />
               </PrismicLink>
@@ -81,6 +96,20 @@ type MenuModalProps = {
 }
 
 const MenuModal = ({nav, isOpen}: MenuModalProps) => {
+  const [isWide, setWide] = useState(false)
+  useEffect(() => {
+    setWide(window.screen.width >= 768)
+    
+    const handleResize = () => {
+      window.addEventListener('resize', () => {
+        setWide(window.screen.width >= 768)
+      })
+    }
+    handleResize()
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, [])
+
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-30" onClose={()=>{}}>
@@ -95,7 +124,7 @@ const MenuModal = ({nav, isOpen}: MenuModalProps) => {
         >
           <div className="fixed inset-0 bg-black bg-opacity-25" />
         </Transition.Child>
-        <div className="fixed inset-0 overflow-y-auto">
+        <div className="fixed inset-0">
           <div className="flex min-h-full items-center justify-center text-center">
             <Transition.Child
               as={Fragment}
@@ -107,14 +136,16 @@ const MenuModal = ({nav, isOpen}: MenuModalProps) => {
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel className="w-screen h-screen transform overflow-hidden text-left align-middle shadow-xl transition-all">
-                <div className={clsx('bg-[#D2D2D2] transition-all delay-300 w-full h-full pl-[29px] md:pl-40 pt-28', {'opacity-0': !isOpen})}>
-                  <div className="contents md:grid md:grid-cols-2">
+                <div className={clsx('bg-v-dark-gray transition-all delay-300 w-full h-full pl-[10vw]', {'opacity-0': !isOpen})}>
+                  <div className="h-full py-[10vh] overflow-y-auto">
                     <Navigation nav={nav} />
-                    <div className="relative hidden md:block z-0">
-                      <Image src="https://images.prismic.io/nextjs-starter-blog-myzt/3f6c62e2-0788-44ba-9b6b-a80fd0ff48fd_bubbles.png?auto=compress,format" alt="あわわわわ" layout="fixed" width={719} height={691} />
-                    </div>
                   </div>
                 </div>
+                {isWide && (
+                  <div className="fixed top-0 right-0 w-1/2 h-screen hidden md:block z-0 cursor-grab">
+                    <Bubble />
+                  </div>
+                )}
               </Dialog.Panel>
             </Transition.Child>
           </div>
