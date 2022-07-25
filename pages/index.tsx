@@ -54,7 +54,7 @@ const Project = ({ no, project }: ProjectProps) => {
           </div>
           {
             isFilled.linkToMedia(project.data.featuredMedia) && (
-              <div className="w-full relative border border-[#D2D2D2] border-l-transparent aspect-[4/3]">
+              <div className="w-full relative border border-v-dark-gray border-l-transparent aspect-[4/3]">
                 <FutureImage alt={project.data.featuredMedia.name} src={project.data.featuredMedia.url} className="w-full h-full object-cover" />
               </div>
             )

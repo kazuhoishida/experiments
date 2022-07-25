@@ -27,7 +27,7 @@ const FooterNavigation = ({nav}: Props) => {
   )
   return nav && (
     <Provider>
-      <div className="fixed bottom-[3vh] left-1/2 -translate-x-1/2 z-50">
+      <div className="fixed bottom-[3vh] left-1/2 -translate-x-1/2 z-30">
         <ul
           className={`
             flex justify-between gap-x-[12vw] md:gap-x-[42px] px-8 py-2

@@ -19,7 +19,10 @@
     "@prismicio/react": "^2.4.2",
     "@prismicio/richtext": "^2.1.0",
     "@prismicio/slice-simulator-react": "^0.2.2",
+    "@react-three/drei": "^9.17.3",
+    "@react-three/fiber": "^8.2.1",
     "@tanstack/react-virtual": "^3.0.0-beta.2",
+    "@types/three": "^0.142.0",
     "clsx": "^1.1.1",
     "gsap": "^3.10.4",
     "jotai": "^1.7.3",
@@ -27,6 +30,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "swiper": "^8.2.4",
+    "three": "^0.142.0",
     "underscore": "^1.13.4"
   },
   "devDependencies": {
