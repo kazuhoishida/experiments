@@ -13,6 +13,7 @@ import { useRouter } from 'next/router'
 import Bubble from './Bubble'
 import { BubbleAtom } from "../stores/BubbleAtom"
 import { useUpdateAtom } from 'jotai/utils'
+import CubeIcon from '../components/CubeIcon'
 
 type Props = {
   nav: NavigationDocument
@@ -161,10 +162,10 @@ export function Header({ nav, }: Props) {
   }, [router.asPath])
   const toggleMenu = () => toggle(!isOpen)
   return (
-    <header className="sticky top-0 left-0 p-4 w-full flex justify-between z-50">
+    <header className="sticky top-0 left-0 px-4 py-2 w-full flex justify-between items-center z-50">
       <Logo />
-      <div className="relative w-9 h-9 drop-shadow">
-        <Image onClick={toggleMenu} src="http://localhost:38888/cube.png" alt="MENU" layout="fill" objectFit="contain"/>
+      <div className="relative w-16 h-16 hover:cursor-pointer" onClick={toggleMenu}>
+        <CubeIcon />
       </div>
       <MenuModal nav={nav} isOpen={isOpen} />
     </header>

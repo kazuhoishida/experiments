@@ -1,7 +1,7 @@
 import { createClient, } from "../../prismicio"
 import { Disclosure, Transition, } from '@headlessui/react'
 import { FeaturedProjectsAtom } from "../../stores"
-import { fetchFeaturedProjects } from '../../fetches/featuredProject'
+import { type FeaturedProjects, fetchFeaturedProjects } from '../../fetches/featuredProject'
 import { FilledLinkToMediaField } from '@prismicio/types'
 import { Fragment, MouseEventHandler, useEffect, useMemo, useRef, useState } from 'react'
 import { isFilled, documentToLinkField } from '@prismicio/helpers'
@@ -16,9 +16,8 @@ import Cursor from '../../components/Cursor'
 import FilterIcon from '../../components/FilterIcon'
 import FooterNavigation from '../../components/FooterNavigation'
 import Head from "next/head"
-import type { FeaturedProjects } from '../../fetches/featuredProject'
-import type { InputHTMLAttributes, } from 'react'
-import type { NextPage, } from 'next'
+import type { InputHTMLAttributes } from 'react'
+import type { NextPage } from 'next'
 import type { OnChange } from "../../components/Select"
 import type { ProjectDocument, NavigationDocument } from '../../prismic-models'
 
@@ -145,7 +144,10 @@ const ProjectsGrid = ({projects, selectedTag}: ProjectsGridProps) => {
     ...loopSlice(projects, virtual.offset, perPage),
     ...loopSlice(projects, virtual.offset + perPage, overscan)
   ], [projects, virtual.offset, overscan, perPage])
-  const gallery = selectedTag === '' ? infiniteProjects : projects
+  // NEED TO UPDATE
+  // temporarily disabled the infinite scroll
+  // const gallery = selectedTag === '' ? infiniteProjects : projects
+  const gallery = projects
   return (
     <div className="z-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-4 md:px-4 mt-12 mb-[100px] md:mb-[140px]">
       {gallery.map((project, i) =>
@@ -176,6 +178,7 @@ const Projects: NextPage<ProjectsProps> = ({ projects, featuredProjects, nav }: 
   const [selectedTag, setTags] = useState('')
   const onChange: OnChange = (newValue) => setTags(newValue)
   const selectProps = {options, onChange}
+
   return (
     <Layout nav={nav} >
       <Head>
@@ -186,11 +189,11 @@ const Projects: NextPage<ProjectsProps> = ({ projects, featuredProjects, nav }: 
           <Disclosure>
             <div
               className={`
-                inline-flex gap-4 justify-between px-6 py-1
+                inline-flex gap-2 justify-between items-center
                 font-serif text-[17px] leading-none text-white bg-v-soft-black/70 backdrop-blur-sm rounded-sm
               `}
             >
-              <Disclosure.Button>
+              <Disclosure.Button className={`px-6 py-1`}>
                 <FilterIcon />
               </Disclosure.Button>
               <Transition
@@ -202,10 +205,10 @@ const Projects: NextPage<ProjectsProps> = ({ projects, featuredProjects, nav }: 
                 leaveFrom="transform opacity-100"
                 leaveTo="transform opacity-0"
               >
-                <Disclosure.Panel className="inline-flex font-flex font-squash-h6 leading-6s">
+                <Disclosure.Panel className="inline-flex font-flex font-squash-h6 leading-6s pr-6 py-1">
                   <label className="flex gap-2 place-items-center text-[17px] leading-none">
                     <div className="h-full">
-                      <span className="leading-none align-middle">category</span>
+                      <span className="leading-none align-middle uppercase">CATEGORY:</span>
                     </div>
                     <Select {...selectProps} />
                     <CarretIcon />
