@@ -37,14 +37,14 @@ export const PageFooter = ({nav}: ProjectProps) => {
             className={`w-4/5 mx-auto flex justify-between md:justify-start md:gap-x-8 mb-8 md:m-0 px-12 py-2 font-serif text-sm`}
           >
             <NavItem>
-              <PrismicLink href="/">
+              <PrismicLink href="/" className='relative before:content-[""] before:block before:w-full before:h-[1px] before:bg-black before:absolute before:-bottom-1 before:left-0 before:origin-top-left before:scale-0 md:hover:before:scale-100 before:duration-[400ms]'>
                 <PrismicText field={nav.data.homepageLabel} />
               </PrismicLink>
             </NavItem>
             {nav.data.links.map(item => {
               return (
               <NavItem key={asText(item.label)}>
-                <PrismicLink field={item.link}>
+                <PrismicLink field={item.link} className='relative before:content-[""] before:block before:w-full before:h-[1px] before:bg-black before:absolute before:-bottom-1 before:left-0 before:origin-top-left before:scale-0 md:hover:before:scale-100 before:duration-[400ms]'>
                   <PrismicText field={item.label} />
                 </PrismicLink>
               </NavItem>
