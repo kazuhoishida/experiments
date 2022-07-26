@@ -14,7 +14,9 @@ import type { FeaturedProjects } from '../../fetches/featuredProject'
 import type { FilledLinkToMediaField, } from '@prismicio/types'
 import type { NextPage } from 'next'
 import type { ProjectDocument, CreatorDocument, NavigationDocument } from '../../prismic-models'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { useInView } from 'react-intersection-observer'
+import ArrowIcon from '../../components/ArrowIcon'
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   month: "short",
@@ -42,19 +44,13 @@ const GoBackNav = () => {
   const back = () => router.back()
   return (
     <div className="flex place-content-center">
-      <button className="flex place-items-center gap-x-6" onClick={back}>
+      <button className="flex place-items-center gap-x-6 group" onClick={back}>
         <div className="grid gap-[2px] grid-cols-3">
-          <div className="w-[8px] h-[8px] bg-black"></div>
-          <div className="w-[8px] h-[8px] bg-black"></div>
-          <div className="w-[8px] h-[8px] bg-black"></div>
-          <div className="w-[8px] h-[8px] bg-black"></div>
-          <div className="w-[8px] h-[8px] bg-black"></div>
-          <div className="w-[8px] h-[8px] bg-black"></div>
-          <div className="w-[8px] h-[8px] bg-black"></div>
-          <div className="w-[8px] h-[8px] bg-black"></div>
-          <div className="w-[8px] h-[8px] bg-black"></div>
+          {[...Array(9)].map((_, i) => (
+            <div key={i} className="w-[8px] h-[8px] bg-black group-hover:scale-0 duration-[400ms]" />
+          ))}
         </div>
-        <nav className="font-flex font-bold-h1 font-[640] text-3xl">Go Back</nav>
+        <nav className="font-flex font-bold-h1 font-[640] text-3xl group-hover:-translate-x-4 duration-[500ms]">Go Back</nav>
       </button>
     </div>
   )
@@ -85,6 +81,10 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
   })
 
   const [isShowText, setIsShowText] = useState(false)
+
+  const { ref, inView } = useInView({
+    rootMargin: '-50px'
+  });
   
   return (
     <Layout nav={nav} >
@@ -104,7 +104,11 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
                 {project.data.title}
               </h1>
               <div className="flex gap-x-4 place-items-center">
-                {face && <FutureImage className="rounded-full w-12 h-12 aspect-1" src={face} alt={(creator.data?.face?.alt || creator.data.name) ?? 'CREATOR'}/>}
+                {face && (
+                  <PrismicLink className="flex place-items-center gap-x-2 font-flex font-[640] [font-stretch:32%]" document={creator}>
+                    <FutureImage className="rounded-full w-12 h-12 aspect-1" src={face} alt={(creator.data?.face?.alt || creator.data.name) ?? 'CREATOR'}/>
+                  </PrismicLink>
+                )}
                 <div className="flex flex-col">
                   <PrismicLink className="flex place-items-center gap-x-2 font-flex font-[640] [font-stretch:32%]" document={creator}>
                     {creator.data.name}
@@ -124,10 +128,10 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
               <div className='md:w-2/5 md:pl-[5vw] md:pr-10'>
                 <div className="flex gap-x-6 py-6 empty:!py-0">
                   {demo && (
-                    <PrismicLink field={demo} className="font-flex text-v-red rounded-md border border-v-red w-20 md:w-28 md:py-1 flex place-items-center place-content-center">DEMO</PrismicLink>
+                    <PrismicLink field={demo} className="font-flex text-v-red rounded-md border border-v-red w-20 md:w-28 md:py-1 flex place-items-center place-content-center md:hover:bg-v-red md:hover:text-white">DEMO</PrismicLink>
                   )}
                   {github && (
-                    <PrismicLink field={github} className="font-flex rounded-md border border-black w-20 flex place-items-center place-content-center">GitHub</PrismicLink>
+                    <PrismicLink field={github} className="font-flex rounded-md border border-black w-20 md:w-28 md:py-1 flex place-items-center place-content-center md:hover:bg-black md:hover:text-white">GitHub</PrismicLink>
                   )}
                 </div>
                 <div className="font-flex text-sm mt-4">
@@ -167,25 +171,26 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
           {demo && (
             <PrismicLink
               field={demo}
-              className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-black/70 drop-shadow rounded-lg flex place-content-center backdrop-blur-sm px-12 py-2 md:px-16 md:py-3 whitespace-nowrap"
+              className={`fixed bottom-4 left-1/2 -translate-x-1/2 bg-black/70 drop-shadow rounded-lg flex place-content-center items-center gap-x-2 backdrop-blur-sm px-12 py-2 md:px-16 md:py-3 whitespace-nowrap md:hover:bg-black/100 transition-all duration-[400ms] group ${inView ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
             >
               <span className="font-flex text-sm text-white">デモを見る</span>
+              <span className='[&>svg]:w-[9px] [&>svg]:fill-white md:group-hover:translate-x-[2px] md:group-hover:-translate-y-[2px] duration-[200ms]'><ArrowIcon /></span>
             </PrismicLink>
           )}
         </article>
         <GoBackNav />
         
-        <div className="flex flex-nowrap gap-x-4 overflow-x-scroll bg-v-light-gray px-4 py-8 mt-16 md:mb-20 md:px-[5vw] md:py-28 md:gap-x-12">
+        <div className="flex flex-nowrap gap-x-4 overflow-x-scroll bg-v-light-gray px-4 py-8 mt-16 mb-16 md:mb-20 md:px-[5vw] md:pt-28 md:pb-20 md:gap-x-12 no-scrollbar" ref={ref}>
           {featuredProjects.data.projects.map(({project}) =>
             isFilled.contentRelationship(project) && isFilled.linkToMedia(project.data?.featuredMedia) && (
-              <PrismicLink field={project} key={project.id} >
-                <div className="flex flex-col shrink-0 gap-y-4 w-[50vw] md:w-[30vw]">
+              <PrismicLink field={project} key={project.id} className='md:hover:opacity-60 duration-[400ms]' >
+                <div className="flex flex-col shrink-0 w-[50vw] md:w-[30vw]">
                   <FutureImage
                     src={project.data?.featuredMedia.url ?? ''}
                     alt={project.data?.title ?? 'PROJECT'}
-                    className="object-cover w-full aspect-[5/3]"
+                    className="object-cover w-full aspect-[5/3] mb-2"
                   />
-                  <div className="font-flex font-bold-h6 font-extrabold text-xl overflow-ellipsis">{project.data?.title}</div>
+                  <div className="font-flex font-bold-h6 font-extrabold text-md md:text-xl overflow-ellipsis">{project.data?.title}</div>
                   <div className="font-flex text-xs overflow-ellipsis">{project.data?.leadingText}</div>
                 </div>
               </PrismicLink>

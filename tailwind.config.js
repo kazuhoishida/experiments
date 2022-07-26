@@ -24,6 +24,9 @@ module.exports = {
       fontFamily: {
         sans: [ 'Noto Sans JP', ...theme.fontFamily.sans, ]
       },
+      width: {
+        '9/10': '90%',
+      }
     },
   },
   plugins: [
