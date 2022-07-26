@@ -135,7 +135,7 @@ const MenuModal = ({nav, isOpen}: MenuModalProps) => {
             >
               <Dialog.Panel className="w-screen h-screen transform overflow-hidden text-left align-middle shadow-xl transition-all">
                 <div className={clsx('bg-v-dark-gray transition-all delay-300 w-full h-full pl-[10vw]', {'opacity-0': !isOpen})}>
-                  <div className="h-full py-[10vh] overflow-y-auto">
+                  <div className="h-full py-[10vh] overflow-y-auto no-scrollbar">
                     <Navigation nav={nav} />
                   </div>
                 </div>

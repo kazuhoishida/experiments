@@ -14,7 +14,8 @@ import type { FeaturedProjects } from '../../fetches/featuredProject'
 import type { FilledLinkToMediaField, } from '@prismicio/types'
 import type { NextPage } from 'next'
 import type { ProjectDocument, CreatorDocument, NavigationDocument } from '../../prismic-models'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { useInView } from 'react-intersection-observer'
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   month: "short",
@@ -85,6 +86,10 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
   })
 
   const [isShowText, setIsShowText] = useState(false)
+
+  const { ref, inView } = useInView({
+    rootMargin: '-50px'
+  });
   
   return (
     <Layout nav={nav} >
@@ -167,7 +172,7 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
           {demo && (
             <PrismicLink
               field={demo}
-              className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-black/70 drop-shadow rounded-lg flex place-content-center backdrop-blur-sm px-12 py-2 md:px-16 md:py-3 whitespace-nowrap"
+              className={`fixed bottom-4 left-1/2 -translate-x-1/2 bg-black/70 drop-shadow rounded-lg flex place-content-center backdrop-blur-sm px-12 py-2 md:px-16 md:py-3 whitespace-nowrap transition-opacity duration-[400ms] ${inView ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
             >
               <span className="font-flex text-sm text-white">デモを見る</span>
             </PrismicLink>
@@ -175,7 +180,7 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
         </article>
         <GoBackNav />
         
-        <div className="flex flex-nowrap gap-x-4 overflow-x-scroll bg-v-light-gray px-4 py-8 mt-16 md:mb-20 md:px-[5vw] md:py-28 md:gap-x-12">
+        <div className="flex flex-nowrap gap-x-4 overflow-x-scroll bg-v-light-gray px-4 py-8 mt-16 mb-16 md:mb-20 md:px-[5vw] md:py-28 md:gap-x-12 no-scrollbar" ref={ref}>
           {featuredProjects.data.projects.map(({project}) =>
             isFilled.contentRelationship(project) && isFilled.linkToMedia(project.data?.featuredMedia) && (
               <PrismicLink field={project} key={project.id} >

@@ -2,7 +2,6 @@ import { isFilled } from "@prismicio/helpers"
 import { PrismicLink, PrismicText } from "@prismicio/react"
 import { asText } from "@prismicio/richtext"
 import { Provider } from 'jotai'
-import { useAtomValue } from 'jotai/utils'
 import { InputHTMLAttributes, PropsWithChildren, useEffect, useState } from "react"
 import type { NavigationDocument, NavigationDocumentDataLinksItem, Simplify } from "../prismic-models"
 
