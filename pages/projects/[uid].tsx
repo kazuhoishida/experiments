@@ -3,14 +3,13 @@ import { asText } from '@prismicio/richtext'
 import { components } from "../../slices"
 import { createClient, linkResolver } from "../../prismicio"
 import { FeaturedProjectsAtom } from '../../stores'
-import { fetchFeaturedProjects } from '../../fetches/featuredProject'
+import { type FeaturedProjects, fetchFeaturedProjects } from '../../fetches/featuredProject'
 import { Layout } from "../../components/Layout"
 import { PrismicLink, PrismicRichText, PrismicText, SliceZone } from "@prismicio/react"
 import { useRouter } from 'next/router'
 import { useUpdateAtom } from 'jotai/utils'
 import FutureImage from '../../next/ImgixImage'
 import Head from "next/head"
-import type { FeaturedProjects } from '../../fetches/featuredProject'
 import type { FilledLinkToMediaField, } from '@prismicio/types'
 import type { NextPage } from 'next'
 import type { ProjectDocument, CreatorDocument, NavigationDocument } from '../../prismic-models'

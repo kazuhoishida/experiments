@@ -9,8 +9,7 @@ import { Layout } from "../../components/Layout"
 import { Bounded } from "../../components/Bounded"
 import { ProjectDocument, CreatorDocument, NavigationDocument } from '../../prismic-models'
 import { FeaturedProjectsAtom } from '../../stores'
-import { fetchFeaturedProjects } from '../../fetches/featuredProject'
-import type { FeaturedProjects } from '../../fetches/featuredProject'
+import { type FeaturedProjects, fetchFeaturedProjects } from '../../fetches/featuredProject'
 import { useUpdateAtom } from 'jotai/utils'
 
 type CreatorProps = {

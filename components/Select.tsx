@@ -31,7 +31,7 @@ export const Select = ({options, onChange, className = ''}: Props) => {
   return(
     <Listbox value={selectedOption} onChange={onChangeHandler}>
       <Listbox.Button className={`font-flex font-squash-h6 bg-transparent relative hover:opacity-60`}>
-        { ((v) => v === '' ? ': ALL' : `: ${v}`)(isLabeledOption(selectedOption) ? selectedOption.label : `${selectedOption}`) }
+        { ((v) => v === '' ? 'ALL' : `${v}`)(isLabeledOption(selectedOption) ? selectedOption.label : `${selectedOption}`) }
       </Listbox.Button>
       <Transition
         as={Fragment}
