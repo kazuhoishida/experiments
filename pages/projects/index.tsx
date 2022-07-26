@@ -11,7 +11,7 @@ import { pluck, union } from 'underscore'
 import { PrismicLink, } from "@prismicio/react"
 import { Select } from "../../components/Select"
 import { useUpdateAtom, } from 'jotai/utils'
-import ArrowIcon from '../../components/ArrowIcon'
+import CarretIcon from '../../components/CarretIcon'
 import Cursor from '../../components/Cursor'
 import FilterIcon from '../../components/FilterIcon'
 import FooterNavigation from '../../components/FooterNavigation'
@@ -208,7 +208,7 @@ const Projects: NextPage<ProjectsProps> = ({ projects, featuredProjects, nav }: 
                       <span className="leading-none align-middle">category</span>
                     </div>
                     <Select {...selectProps} />
-                    <ArrowIcon />
+                    <CarretIcon />
                   </label>
                 </Disclosure.Panel>
               </Transition>

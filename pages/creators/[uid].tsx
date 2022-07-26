@@ -44,7 +44,7 @@ const Creator: NextPage<CreatorProps> = ({ creator, navigation, featuredProjects
             <div className='md:w-1/2 md:pt-10'>
               <div className='flex gap-x-4 mb-8 font-bold text-sm'>
                 {github && (
-                  <PrismicLink field={github} className="font-flex rounded-md border text-v-red border-v-red w-20 flex place-items-center place-content-center">GitHub</PrismicLink>
+                  <PrismicLink field={github} className="font-flex rounded-md border text-v-red border-v-red w-20 flex place-items-center place-content-center md:hover:bg-v-red md:hover:text-white">GitHub</PrismicLink>
                 )}
                 {creator.data.Contact && <p>{creator.data.Contact}</p>}
               </div>
