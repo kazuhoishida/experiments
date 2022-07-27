@@ -6,7 +6,6 @@ import { Logo } from "./Logo"
 import { PrismicLink, PrismicText } from "@prismicio/react"
 import { useAtomValue } from 'jotai/utils'
 import clsx from 'clsx'
-import Image from 'next/image'
 import type { FeaturedProject } from '../fetches/featuredProject'
 import type { NavigationDocument } from '../prismic-models'
 import { useRouter } from 'next/router'

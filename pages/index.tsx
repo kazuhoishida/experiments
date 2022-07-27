@@ -28,7 +28,7 @@ const Project = ({ no, project }: ProjectProps) => {
   }
   return (
     <PrismicLink field={project} className="outline-0">
-      <div className="grid items-end w-full md:w-[var(--slide-width)] md:pt-0 duration-500 opacity-0 [.swiper-slide-active_&]:opacity-100 md:opacity-100">
+      <div className="grid items-end w-full md:w-[var(--slide-width)] md:pt-0 duration-500">
         <span className={`
           relative col-start-1 col-end-3 row-start-1 translate-x-[4%] [.swiper-slide-active_&]:translate-x-[-5%] md:[.swiper-slide-active_&]:translate-x-[-25%] transition-all duration-[500ms] pointer-events-none
           font-serif text-[clamp(400px,100vw,600px)] md:text-[50vw] text-black leading-none

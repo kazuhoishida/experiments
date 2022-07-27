@@ -11,7 +11,7 @@ import { pluck, union } from 'underscore'
 import { PrismicLink, } from "@prismicio/react"
 import { Select } from "../../components/Select"
 import { useUpdateAtom, } from 'jotai/utils'
-import CarretIcon from '../../components/CarretIcon'
+import CaretIcon from '../../components/CaretIcon'
 import Cursor from '../../components/Cursor'
 import FilterIcon from '../../components/FilterIcon'
 import FooterNavigation from '../../components/FooterNavigation'
@@ -50,17 +50,15 @@ const ProjectCard = ({ project, isVisible, media, title, leading, style }: Proje
         onMouseLeave={leave}
         onMouseMove={move}
         className={`
-          relative w-full h-full flex-col translate-y-[var(--translateY)]
-          border border-v-dark-gray overflow-hidden
-          hover:cursor-none
+          relative w-full h-full flex-col translate-y-[var(--translateY)] overflow-hidden drop-shadow-sm
           ${isVisible ? 'flex' : 'hidden'}
         `}
         style={style}
       >
-        <PrismicLink field={documentToLinkField(project)} className="cursor-none">
+        <PrismicLink field={documentToLinkField(project)}>
           <div className={`hidden md:grid gap-2 absolute top-8 left-2 z-10 transition-all text-white duration-[400ms] ${isCursorVisible ? 'opacity-100 -translate-y-2' : 'opacity-0 translate-y-0'}`}>
-            <h2 className='text-[30px] leading-none font-flex font-bold-h1'>{title}</h2>
-            <p className='text-[13px] leading-tight'>{leading}</p>
+            <h2 className='text-[30px] leading-none font-flex font-bold-h1 drop-shadow'>{title}</h2>
+            <p className='text-[13px] leading-tight drop-shadow'>{leading}</p>
           </div>
           <Media field={media} className="w-full h-[66.6vw] md:h-[33.3vw] lg:h-[26.6vw]" objectFit="cover" />
         </PrismicLink>
@@ -185,36 +183,24 @@ const Projects: NextPage<ProjectsProps> = ({ projects, featuredProjects, nav }: 
         <title>Projects</title>
       </Head>
       <main>
-        <div className="z-20 fixed top-[76px] left-4 md:left-8 w-fit drop-shadow-2xl">
+        <div className="z-20 fixed top-[76px] left-4 w-fit drop-shadow-2xl">
           <Disclosure>
             <div
               className={`
                 inline-flex gap-2 justify-between items-center
                 font-serif text-[17px] leading-none text-white bg-v-soft-black/70 backdrop-blur-sm rounded-sm
+                md:hover:bg-black/70 duration-[400ms]
               `}
             >
-              <Disclosure.Button className={`px-6 py-1`}>
-                <FilterIcon />
-              </Disclosure.Button>
-              <Transition
-                as={Fragment}
-                enter="transition duration-300 ease-out"
-                enterFrom="transform opacity-0"
-                enterTo="transform opacity-100"
-                leave="transition duration-200 ease-out"
-                leaveFrom="transform opacity-100"
-                leaveTo="transform opacity-0"
-              >
-                <Disclosure.Panel className="inline-flex font-flex font-squash-h6 leading-6s pr-6 py-1">
-                  <label className="flex gap-2 place-items-center text-[17px] leading-none">
-                    <div className="h-full">
-                      <span className="leading-none align-middle uppercase">CATEGORY:</span>
-                    </div>
-                    <Select {...selectProps} />
-                    <CarretIcon />
-                  </label>
-                </Disclosure.Panel>
-              </Transition>
+              <div className="inline-flex font-flex font-squash-h6 leading-6s px-6 py-1">
+                <label className="flex gap-2 place-items-center text-[17px] leading-none">
+                  <div className="h-full">
+                    <span className="leading-none align-middle uppercase">CATEGORY:</span>
+                  </div>
+                  <Select {...selectProps} />
+                  <CaretIcon />
+                </label>
+              </div>
             </div>
           </Disclosure>
         </div>
