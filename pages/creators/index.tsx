@@ -25,14 +25,16 @@ const CreatorCard = ({ creator }: CreatorProps) => {
 
   return (
     <figure className='text-center'>
-      <div className='w-full max-w-[180px] h-auto aspect-square mb-4 p-4 md:p-0 mx-auto flex place-items-center place-content-center'>
-        {face?.url && <FutureImage alt={face.alt || 'profile'} src={face.url} className="rounded-full" />}
-      </div>
+      <PrismicLink document={creator} className='md:hover:opacity-60'>
+        <div className='w-full max-w-[180px] h-auto aspect-square mb-4 p-4 md:p-0 mx-auto flex place-items-center place-content-center'>
+          {face?.url && <FutureImage alt={face.alt || 'profile'} src={face.url} className="rounded-full" />}
+        </div>
+      </PrismicLink>
       <figcaption>
         <h2 className='font-bold'>{creator.data?.name}</h2>
         {occupation && <p>{occupation}</p>}
         <PrismicLink document={creator}>
-          <span className='font-serif text-[12px] md:text-[14px] border border-black rounded-full px-6 py-2 md:px-10 md:py-3 inline-block mt-4 md:mt-8 whitespace-nowrap'>
+          <span className='font-serif text-[12px] md:text-[14px] border border-black rounded-full px-6 py-2 md:px-10 md:py-3 inline-block mt-4 md:mt-8 whitespace-nowrap md:hover:bg-black md:hover:text-white'>
             VIEW PROFILE
           </span>
         </PrismicLink>
@@ -46,7 +48,7 @@ const Creators: NextPage<CreatorsProps> = ({ creators, navigation, featuredProje
   setFeaturedProjects(featuredProjects)
   return (
     <Layout nav={navigation}>
-      <div className='bg-v-light-gray min-h-[calc(var(--vh,_1vh)_*_100)] pt-10 md:pt-[10vh]'>
+      <div className='pt-10 md:pt-[6vh] md:pb-[10vh]'>
         <h1 className='font-flex font-squash-h4 text-[48px] text-center'>creators</h1>
         <div className="[background-image:radial-gradient(#E0E0E0_25%,transparent_0%)] [background-size:40px_40px] pt-2 pb-20 mt-4">
           <div className='w-9/10 md:w-4/5 mx-auto'>

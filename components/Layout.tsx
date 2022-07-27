@@ -1,4 +1,4 @@
-import { type PropsWithChildren, useEffect } from 'react'
+import { type PropsWithChildren, useEffect, useState } from 'react'
 import type { NavigationDocument } from '../prismic-models'
 import { Header } from "./Header"
 import { PageFooter } from "./PageFooter"
@@ -14,8 +14,13 @@ export function Layout({ nav, children, className, }: Props) {
     document.documentElement.style.setProperty('--vh', `${vh}px`);
   }, [])
 
+  const [pathname, setPathname] = useState<string>()
+  useEffect(() => {
+    typeof window === 'object' && setPathname(window.location.pathname)
+  },[])
+
   return (
-    <div className={`text-black ${className}`}>
+    <div className={`text-black min-h-[calc(var(--vh,_1vh)_*_100)] ${pathname === '/creators' && 'bg-v-light-gray'} ${className}`}>
       <Header nav={nav} />
       {children}
       <PageFooter nav={nav} />

@@ -33,7 +33,7 @@ type ProjectCardProps = InputHTMLAttributes<HTMLDivElement> & {
 
 const ProjectCard = ({ project, isVisible, media, title, leading, style }: ProjectCardProps) => {
   const [isCursorVisible, setCursorVisibility] = useState(false)
-  const [position, setPosition] = useState({x: 0, y:0})
+  const [position, setPosition] = useState({x: 0, y: 0})
   const card = useRef<HTMLDivElement>(null)
   const enter: MouseEventHandler<HTMLDivElement> = (e) => setCursorVisibility(true)
   const leave: MouseEventHandler<HTMLDivElement> = (e) => setCursorVisibility(false)
