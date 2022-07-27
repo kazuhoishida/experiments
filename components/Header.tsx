@@ -134,14 +134,14 @@ const MenuModal = ({nav, isOpen}: MenuModalProps) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-screen h-screen transform overflow-hidden text-left align-middle shadow-xl transition-all">
-                <div className={clsx('bg-v-dark-gray transition-all delay-300 w-full h-full pl-[10vw]', {'opacity-0': !isOpen})}>
+              <Dialog.Panel className="w-screen h-[calc(var(--vh,_1vh)_*_100)] transform overflow-hidden text-left align-middle shadow-xl transition-all">
+                <div className={clsx('bg-v-dark-gray transition-all delay-300 w-full h-full px-[10vw] md:pl-[10vw] md:pr-0', {'opacity-0': !isOpen})}>
                   <div className="h-full py-[10vh] overflow-y-auto no-scrollbar">
                     <Navigation nav={nav} />
                   </div>
                 </div>
                 {isWide && (
-                  <div className="fixed top-0 right-0 w-1/2 h-screen hidden md:block z-0 cursor-grab">
+                  <div className="fixed top-0 right-0 w-1/2 h-[calc(var(--vh,_1vh)_*_100)] hidden md:block z-0 cursor-grab">
                     <Bubble />
                   </div>
                 )}
