@@ -27,4 +27,4 @@ yarn serve
 yarn slicemachine
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser.
+Open [http://localhost:38888](http://localhost:38888) with your browser.
