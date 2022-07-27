@@ -175,13 +175,13 @@ const Index = ({top, featuredProjects, nav, settings }: Props) => {
   return (
     <Layout
       nav={nav}
-      className="h-[calc(var(--vh,_1vh)_*_100)] overflow-hidden flex flex-col"
+      className="overflow-hidden flex flex-col"
     >
       <Head>
         <title>{asText(settings.data.name)}</title>
       </Head>
       <main>
-        <div className="h-full px-[4vw] md:px-0 md:fixed md:left-4 md:w-screen md:h-[calc(var(--vh,_1vh)_*_100)]">
+        <div className="h-full px-[4vw] md:px-0 md:fixed md:left-4 w-screen">
           <div className='md:absolute md:-top-6 md:left-[5vw] z-50 mb-6 md:mb-0'>
             <h1 className="font-flex font-squash-h4 text-[9vw] md:text-[5vw] text-black leading-none mb-2 md:mb-[0.2vw]">{asText(top.data.title)}</h1>
             <p className="font-flex font-bold text-[14px] text-black pl-[0.5vw]">{asText(top.data.comment)}</p>

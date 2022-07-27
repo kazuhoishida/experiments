@@ -9,18 +9,13 @@ type Props = PropsWithChildren & {
 }
 
 export function Layout({ nav, children, className, }: Props) {
-  useEffect(() => {
-    let vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
-  }, [])
-
   const [pathname, setPathname] = useState<string>()
   useEffect(() => {
     typeof window === 'object' && setPathname(window.location.pathname)
   },[])
 
   return (
-    <div className={`text-black min-h-[calc(var(--vh,_1vh)_*_100)] ${pathname === '/creators' && 'bg-v-light-gray'} ${className}`}>
+    <div className={`text-black min-h-screen [min-height:100svh] ${pathname === '/creators' && 'bg-v-light-gray'} ${className}`}>
       <Header nav={nav} />
       {children}
       <PageFooter nav={nav} />
