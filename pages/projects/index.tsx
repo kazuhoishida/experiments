@@ -20,6 +20,7 @@ import type { InputHTMLAttributes } from 'react'
 import type { NextPage } from 'next'
 import type { OnChange } from "../../components/Select"
 import type { ProjectDocument, NavigationDocument } from '../../prismic-models'
+import gsap from 'gsap'
 
 
 type ProjectCardProps = InputHTMLAttributes<HTMLDivElement> & {
@@ -43,6 +44,20 @@ const ProjectCard = ({ project, isVisible, media, title, leading, style }: Proje
     const y = e.clientY - bounding.top
     setPosition({x: x, y:y})
   }
+
+  // fade in each project card with gsap
+  useEffect(() => {
+    gsap.set('.project-card', {
+      opacity: 0,
+    })
+
+    gsap.to('.project-card', {
+      stagger: 0.08,
+      opacity: 1,
+      ease: 'power2.out'
+      })
+  }, [style])
+
   return (
       <div
         ref={card}
@@ -50,7 +65,7 @@ const ProjectCard = ({ project, isVisible, media, title, leading, style }: Proje
         onMouseLeave={leave}
         onMouseMove={move}
         className={`
-          relative w-full h-full flex-col translate-y-[var(--translateY)] overflow-hidden drop-shadow-sm
+          project-card opacity-0 duration-[200ms] relative w-full h-full flex-col translate-y-[var(--translateY)] overflow-hidden drop-shadow-sm
           ${isVisible ? 'flex' : 'hidden'}
         `}
         style={style}
@@ -193,7 +208,7 @@ const Projects: NextPage<ProjectsProps> = ({ projects, featuredProjects, nav }: 
               `}
             >
               <div className="inline-flex font-flex font-squash-h6 leading-6s px-6 py-1">
-                <label className="flex gap-2 place-items-center text-[17px] leading-none">
+                <label className="flex gap-2 place-items-center text-[17px] leading-none cursor-pointer">
                   <div className="h-full">
                     <span className="leading-none align-middle uppercase">CATEGORY:</span>
                   </div>
