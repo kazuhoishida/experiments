@@ -28,7 +28,7 @@ const Project = ({ no, project }: ProjectProps) => {
   }
   return (
     <PrismicLink field={project} className="outline-0">
-      <div className="grid items-end w-full md:w-[var(--slide-width)] md:pt-0 duration-500 opacity-0 [.swiper-slide-active_&]:opacity-100 md:opacity-100">
+      <div className="grid items-end w-full md:w-[var(--slide-width)] md:pt-0 duration-500">
         <span className={`
           relative col-start-1 col-end-3 row-start-1 translate-x-[4%] [.swiper-slide-active_&]:translate-x-[-5%] md:[.swiper-slide-active_&]:translate-x-[-25%] transition-all duration-[500ms] pointer-events-none
           font-serif text-[clamp(400px,100vw,600px)] md:text-[50vw] text-black leading-none
@@ -175,13 +175,13 @@ const Index = ({top, featuredProjects, nav, settings }: Props) => {
   return (
     <Layout
       nav={nav}
-      className="h-screen overflow-hidden flex flex-col"
+      className="overflow-hidden flex flex-col"
     >
       <Head>
         <title>{asText(settings.data.name)}</title>
       </Head>
       <main>
-        <div className="h-full px-[4vw] md:px-0 md:fixed md:left-4 md:w-screen md:h-screen">
+        <div className="h-full px-[4vw] md:px-0 md:fixed md:left-4 w-screen">
           <div className='md:absolute md:-top-6 md:left-[5vw] z-50 mb-6 md:mb-0'>
             <h1 className="font-flex font-squash-h4 text-[9vw] md:text-[5vw] text-black leading-none mb-2 md:mb-[0.2vw]">{asText(top.data.title)}</h1>
             <p className="font-flex font-bold text-[14px] text-black pl-[0.5vw]">{asText(top.data.comment)}</p>

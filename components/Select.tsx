@@ -1,5 +1,5 @@
-import { Listbox, Transition, } from '@headlessui/react'
-import { Fragment, ChangeEvent, useState } from 'react'
+import { Listbox, Transition, Disclosure } from '@headlessui/react'
+import { Fragment, useState } from 'react'
 
 type LabeledOption = {
   label: string
@@ -43,7 +43,7 @@ export const Select = ({options, onChange, className = ''}: Props) => {
         leaveTo="transform origin-top scale-y-[40%] opacity-0"
       >
         <Listbox.Options
-          className={`font-flex font-squash-h6 bg-v-soft-black/70 backdrop-blur-sm drop-shadow-md py-1 rounded-sm focus:outline-none top-[35px] left-0 md:left-20 w-fit absolute`}
+          className={`bg-v-soft-black/70 hover:bg-black/70 duration-[400ms] backdrop-blur-sm drop-shadow-md py-1 rounded-sm focus:outline-none top-[35px] left-0 md:left-[7em] w-fit absolute`}
         >
           {options.map((option, i) => {
             const [value, label] = isLabeledOption(option) ? [option.value, option.label] : [option, option]
@@ -53,7 +53,9 @@ export const Select = ({options, onChange, className = ''}: Props) => {
                 key={`${label}-${i}`}
                 value={value}
               >
-                {label === '' ? 'ALL' : label}
+                <Disclosure.Button className={`font-flex font-squash-h6`}>
+                  {label === '' ? 'ALL' : label}
+                </Disclosure.Button>
               </Listbox.Option>
             )
           })}

@@ -49,7 +49,6 @@ function Scene() {
 
     useEffect(() => {
       if(cameraRef.current == undefined) return
-      console.log(cameraRef.current.position)
 
       if(hovered) {
         gsap.to(cameraRef.current.position, {duration: 0.2, x: 0, y: 0, z: 5.5})

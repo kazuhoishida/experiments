@@ -26,22 +26,23 @@ const FooterNavigation = ({nav}: Props) => {
   )
   return nav && (
     <Provider>
-      <div className="fixed bottom-[3vh] left-1/2 -translate-x-1/2 z-30">
+      <div className="fixed bottom-[2.5vh] left-1/2 -translate-x-1/2 z-30">
         <ul
           className={`
-            flex justify-between gap-x-[12vw] md:gap-x-[42px] px-8 py-2
+            flex justify-between gap-x-[12vw] md:gap-x-[42px] px-8 py-3
             font-serif text-sm text-white bg-v-soft-black/70 backdrop-blur-sm rounded-sm drop-shadow-md
+            md:hover:bg-black/70 duration-[400ms]
           `}
         >
-          <NavItem className={`${ pathname === '/' ? 'font-bold' : '' }`}>
-            <PrismicLink href="/">
+          <NavItem className={`relative md:hover:font-bold ${ pathname === '/' ? 'font-bold' : '' }`}>
+            <PrismicLink href="/" className='before:content-[""] before:block before:w-full before:h-[1px] before:bg-white before:absolute before:-bottom-1 before:left-0 before:origin-top-left before:scale-0 md:hover:before:scale-100 before:duration-[400ms]'>
               <PrismicText field={nav.data.homepageLabel} />
             </PrismicLink>
           </NavItem>
           {nav.data.links.map(item => {
             return (
-            <NavItem key={asText(item.label)} className={`${ isCurrent(item) ? 'font-bold' : '' }`}>
-              <PrismicLink field={item.link}>
+            <NavItem key={asText(item.label)} className={`relative md:hover:font-bold ${ isCurrent(item) ? 'font-bold' : '' }`}>
+              <PrismicLink field={item.link} className='before:content-[""] before:block before:w-full before:h-[1px] before:bg-white before:absolute before:-bottom-1 before:left-0 before:origin-top-left before:scale-0 md:hover:before:scale-100 before:duration-[400ms]'>
                 <PrismicText field={item.label} />
               </PrismicLink>
             </NavItem>

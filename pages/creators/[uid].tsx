@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import type { NextPage } from 'next'
 import FutureImage from '../../next/ImgixImage'
 import Head from "next/head"
@@ -11,6 +12,7 @@ import { ProjectDocument, CreatorDocument, NavigationDocument } from '../../pris
 import { FeaturedProjectsAtom } from '../../stores'
 import { type FeaturedProjects, fetchFeaturedProjects } from '../../fetches/featuredProject'
 import { useUpdateAtom } from 'jotai/utils'
+import CreatorBubble from '../../components/CreatorBubble'
 
 type CreatorProps = {
   creator: CreatorDocument<string>
@@ -24,6 +26,18 @@ const Creator: NextPage<CreatorProps> = ({ creator, navigation, featuredProjects
   setFeaturedProjects(featuredProjects)
   const github = prismicH.isFilled.link(creator.data.GitHub) && creator.data.GitHub
 
+  const [isWide, setWide] = useState(false)
+  useEffect(() => {
+    setWide(window.screen.width >= 768)
+    
+    const handleResize = () => {
+      setWide(window.screen.width >= 768)
+    }
+    window.addEventListener('resize', handleResize)
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, [])
+
   return (
     <Layout nav={navigation} >
       <Head>
@@ -31,9 +45,14 @@ const Creator: NextPage<CreatorProps> = ({ creator, navigation, featuredProjects
       </Head>
       <main>
         <article className='pt-10'>
-          <Bounded className="pb-0 px-4 [&>div]:max-w-none md:w-4/5 md:mx-auto md:[&>div]:flex md:[&>div]:gap-x-[4vw] md:mb-20">
+          <Bounded className="relative pb-0 px-4 md:px-[10vw] [&>div]:max-w-none md:mx-auto md:[&>div]:flex md:[&>div]:gap-x-[4vw] md:pb-20">
+            {isWide && (
+              <div className='absolute top-0 left-0 w-2/3 h-full z-10 pointer-events-none'>
+                <CreatorBubble />
+              </div>
+            )}
             <div className='mb-8 flex md:block gap-x-4 items-center md:w-1/2 h-full'>
-              <h1 className="mb-3 font-serif text-[60px] md:text-[min(9vw,120px)] !leading-none font-semibold tracking-tighter text-slate-800 md:text-4xl">
+              <h1 className="mb-3 font-serif text-[60px] md:text-[min(9vw,120px)] !leading-none font-semibold tracking-tighter md:text-4xl [word-break:keep-all]">
                 {creator.data.name}
               </h1>
               {creator.data?.face?.url && (
@@ -52,17 +71,19 @@ const Creator: NextPage<CreatorProps> = ({ creator, navigation, featuredProjects
               </div>
             </div>
           </Bounded>
-          <div className='bg-v-light-gray py-10 md:py-20 min-h-[calc(26vw+4rem)]'>
-            <div className='px-4 md:w-4/5 md:mx-auto md:flex md:gap-x-20'>
-              <div>
-                <h2 className='font-flex font-squash-h4 text-[40px]'>Works</h2>
-                <p className='font-flex font-bold text-[24px] mb-8'>制作実績</p>
-              </div>
-              <div className='grid gap-y-10 w-full relative'>
-                <SliceZone slices={creator.data.slices} components={components} />
+          {creator.data.slices.length > 0 && (
+            <div className='bg-v-light-gray py-10 md:py-20 min-h-[calc(26vw+4rem)]'>
+              <div className='px-4 md:w-4/5 md:mx-auto md:flex md:gap-x-20'>
+                <div>
+                  <h2 className='font-flex font-squash-h4 text-[40px]'>Works</h2>
+                  <p className='font-flex font-bold text-[24px] mb-8'>制作実績</p>
+                </div>
+                <div className='grid gap-y-10 w-full relative'>
+                  <SliceZone slices={creator.data.slices} components={components} />
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </article>
 
         <div className="grid grid-cols-1 md:grid-cols-4 md:items-end gap-y-16 py-8 mt-8 mb-20 md:mb-20 md:px-[5vw] md:py-10 md:gap-x-12">

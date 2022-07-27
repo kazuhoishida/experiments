@@ -16,5 +16,7 @@ declare module 'csstype' {
     '--cursor-scale'?: P.Scale
     '--img-ratio'?: P.AspectRatio
     '--len'?: P.GridColumn
+    'text-stroke'?: P.TextStroke
+    '-webkit-text-stroke'?: P.TextStroke
   }
 }
