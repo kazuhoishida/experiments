@@ -24,7 +24,7 @@ export const PageFooter = ({nav}: ProjectProps) => {
   },[])
 
   return (
-    <footer className={`mb-8 ${ pathname === '/' ? 'hidden' : 'block' }`}>
+    <footer className={`pb-8 ${ pathname === '/' ? 'hidden' : 'block' }`}>
       <div className="px-8 md:p-0 md:w-9/10 mx-auto">
         <div className="w-full h-px bg-black"></div>
       </div>

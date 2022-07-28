@@ -51,8 +51,8 @@ const Creator: NextPage<CreatorProps> = ({ creator, navigation, featuredProjects
                 <CreatorBubble />
               </div>
             )}
-            <div className='mb-8 flex md:block gap-x-4 items-center md:w-1/2 h-full'>
-              <h1 className="mb-3 font-serif text-[60px] md:text-[min(9vw,120px)] !leading-none font-semibold tracking-tighter md:text-4xl [word-break:keep-all]">
+            <div className='mb-8 md:block gap-x-4 items-center md:w-1/2 h-full'>
+              <h1 className="mb-3 font-serif text-[60px] md:text-[min(9vw,120px)] !leading-none font-semibold md:text-4xl [word-break:keep-all]">
                 {creator.data.name}
               </h1>
               {creator.data?.face?.url && (
@@ -72,8 +72,8 @@ const Creator: NextPage<CreatorProps> = ({ creator, navigation, featuredProjects
             </div>
           </Bounded>
           {creator.data.slices.length > 0 && (
-            <div className='bg-v-light-gray py-10 md:py-20 min-h-[calc(26vw+4rem)]'>
-              <div className='px-4 md:w-4/5 md:mx-auto md:flex md:gap-x-20'>
+            <div className='bg-v-light-gray pt-10 pb-14 md:py-20 min-h-[calc(26vw+4rem)]'>
+              <div className='px-4 md:w-4/5 md:mx-auto lg:flex md:gap-x-20'>
                 <div>
                   <h2 className='font-flex font-squash-h4 text-[40px]'>Works</h2>
                   <p className='font-flex font-bold text-[24px] mb-8'>制作実績</p>
@@ -86,15 +86,15 @@ const Creator: NextPage<CreatorProps> = ({ creator, navigation, featuredProjects
           )}
         </article>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 md:items-end gap-y-16 py-8 mt-8 mb-20 md:mb-20 md:px-[5vw] md:py-10 md:gap-x-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 md:items-end py-8 mt-8 mb-20 md:mb-20 md:px-[5vw] md:py-10 md:gap-x-10">
           {projects.slice(0, 8).map((project, index) =>
             prismicH.isFilled.linkToMedia(project.data?.featuredMedia) && (
-              <PrismicLink field={prismicH.documentToLinkField(project)} key={project.id}>
-                <div className="flex flex-col shrink-0 gap-y-4 w-full md:border-l border-black py-20">
+              <PrismicLink field={prismicH.documentToLinkField(project)} key={project.id} className='h-full md:border-l border-black'>
+                <div className="flex flex-col shrink-0 gap-y-4 w-full py-8 md:py-12">
                   <div className='px-4 relative'>
-                    <span className='absolute top-0 right-3 text-white tracking-tighter [-webkit-text-stroke:1px_black] text-[44px]'>{String(index + 1).padStart(2, '0')}</span>
-                    <div className="pt-16 font-flex font-bold-h1 text-[40px] font-extrabold text-xl mb-2">{project.data?.title}</div>
-                    <div className="font-flex text-md overflow-ellipsis">{project.data?.leadingText}</div>
+                    <span className='absolute top-0 md:-top-6 right-3 text-white tracking-tighter [-webkit-text-stroke:1px_black] text-[48px] md:text-[4vw]'>{String(index + 1).padStart(2, '0')}</span>
+                    <div className="pt-16 font-flex font-bold-h1 text-[38px] font-extrabold">{project.data?.title}</div>
+                    <div className="font-flex text-md overflow-ellipsis leading-tight">{project.data?.leadingText}</div>
                   </div>
                   <FutureImage
                     src={project.data?.featuredMedia.url ?? ''}
