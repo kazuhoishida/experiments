@@ -17,17 +17,36 @@ import type { FeaturedProject, FeaturedProjects } from '../fetches/featuredProje
 import type { NavigationDocument, SettingsDocument, TopDocument } from "../prismic-models"
 import type { Swiper as SwiperClass } from 'swiper'
 import { PrismicLink } from '@prismicio/react'
+import gsap from 'gsap'
+import Projects from './projects'
 
 type ProjectProps = {
   no: number
   project: FeaturedProject
+  length: number
 }
-const Project = ({ no, project }: ProjectProps) => {
+const Project = ({ no, project, length }: ProjectProps) => {
+  useEffect(() => {
+    gsap.set('.featured-project-card', {
+      opacity: 0,
+    })
+
+    gsap.to('.featured-project-card', {
+      stagger: 0.1,
+      opacity: 1,
+      ease: 'power2.out'
+    })
+  }, [])
+
+  const setLoadingEager = (num: number) => {
+    return (num === 1 || num === 2 || num === length)
+  }
+
   if( !isFilled.contentRelationship(project) || !project.data) {
     return <></>
   }
   return (
-    <PrismicLink field={project} className="outline-0">
+    <PrismicLink field={project} className="featured-project-card duration-[400ms] opacity-0 outline-0">
       <div className="grid items-end w-full md:w-[var(--slide-width)] md:pt-0 duration-500">
         <span className={`
           relative col-start-1 col-end-3 row-start-1 translate-x-[4%] [.swiper-slide-active_&]:translate-x-[-5%] md:[.swiper-slide-active_&]:translate-x-[-25%] transition-all duration-[500ms] pointer-events-none
@@ -55,7 +74,7 @@ const Project = ({ no, project }: ProjectProps) => {
           {
             isFilled.linkToMedia(project.data.featuredMedia) && (
               <div className="w-full relative border border-v-dark-gray border-l-transparent aspect-[4/3]">
-                <FutureImage alt={project.data.featuredMedia.name} src={project.data.featuredMedia.url} className="w-full h-full object-cover" />
+                <FutureImage alt={project.data.featuredMedia.name} src={project.data.featuredMedia.url} loading={setLoadingEager(no) ? 'eager' : 'lazy'} className="w-full h-full object-cover" />
               </div>
             )
           }
@@ -146,7 +165,7 @@ const ProjectCarousel = ({ featuredProjects }: ProjectCarouselProps) => {
                     key={i}
                     className={`!overflow-visible`}
                   >
-                    <Project no={i+1} project={item.project} />
+                    <Project no={i+1} length={featuredProjects.data.projects.length} project={item.project} />
                   </SwiperSlide>
                 ))
               }

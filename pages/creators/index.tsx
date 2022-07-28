@@ -48,7 +48,7 @@ const Creators: NextPage<CreatorsProps> = ({ creators, navigation, featuredProje
   setFeaturedProjects(featuredProjects)
   return (
     <Layout nav={navigation}>
-      <div className='pt-10 md:pt-[6vh] md:pb-[10vh]'>
+      <div className='pt-6 md:pt-[6vh] md:pb-[10vh]'>
         <h1 className='font-flex font-squash-h4 text-[48px] text-center'>creators</h1>
         <div className="[background-image:radial-gradient(#E0E0E0_25%,transparent_0%)] [background-size:40px_40px] pt-2 pb-20 mt-4">
           <div className='w-9/10 md:w-4/5 mx-auto'>

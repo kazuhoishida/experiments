@@ -23,14 +23,14 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
   year: "numeric",
 })
 
-const Media = ({field}: {field: FilledLinkToMediaField}) => {
+const Media = ({field, isCoverImage = false}: {field: FilledLinkToMediaField, isCoverImage: boolean}) => {
   if( field.link_type !== 'Media' ) {
     return <></>
   }
   if( field.kind === 'image' ) {
     return (
       <div className="relative w-full">
-        <FutureImage src={field.url} alt={field.name} className="w-full max-h-[30vh] object-cover md:object-contain md:max-h-[70vh] object-right" />
+        <FutureImage src={field.url} alt={field.name} loading={isCoverImage ? 'eager' : 'lazy'} className="w-full max-h-[30vh] object-cover md:object-contain md:max-h-[70vh] object-right" />
       </div>
     )
   } else {
@@ -94,7 +94,7 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
         <article className='mb-12 md:mt-10'>
         <button className='text-sm px-3 py-3 md:hidden' onClick={back}>&lt;<span className='pl-3'>Go Back</span></button>
           <div className='relative md:hidden'>
-            {featuredMedia && <Media field={featuredMedia} />}
+            {featuredMedia && <Media field={featuredMedia} isCoverImage={true} />}
           </div>
           <div className='px-4 md:px-0'>
             <div className="md:px-[5vw] md:mb-[max(10vh,30px)] md:flex">
@@ -138,7 +138,7 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
                 </div>
               </div>
               <div className='hidden md:block md:w-3/5'>
-                {featuredMedia && <Media field={featuredMedia} />}
+                {featuredMedia && <Media field={featuredMedia} isCoverImage={true} />}
               </div>
             </div>
 
