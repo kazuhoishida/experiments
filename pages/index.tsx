@@ -18,7 +18,6 @@ import type { NavigationDocument, SettingsDocument, TopDocument } from "../prism
 import type { Swiper as SwiperClass } from 'swiper'
 import { PrismicLink } from '@prismicio/react'
 import gsap from 'gsap'
-import Projects from './projects'
 
 type ProjectProps = {
   no: number
