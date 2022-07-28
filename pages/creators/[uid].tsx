@@ -13,6 +13,7 @@ import { FeaturedProjectsAtom } from '../../stores'
 import { type FeaturedProjects, fetchFeaturedProjects } from '../../fetches/featuredProject'
 import { useUpdateAtom } from 'jotai/utils'
 import CreatorBubble from '../../components/CreatorBubble'
+import FooterNavigation from '../../components/FooterNavigation'
 
 type CreatorProps = {
   creator: CreatorDocument<string>
@@ -107,6 +108,7 @@ const Creator: NextPage<CreatorProps> = ({ creator, navigation, featuredProjects
           )}
         </div>
       </main>
+      <FooterNavigation nav={navigation} />
     </Layout>
   )
 }
