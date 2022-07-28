@@ -18,8 +18,10 @@ type Props = {
 }
 const FooterNavigation = ({nav}: Props) => {
   const [pathname, setPathname] = useState<string>()
+  const [loaded, setLoad] = useState<boolean>(false)
   useEffect(() => {
     typeof window === 'object' && setPathname(window.location.pathname)
+    setLoad(true)
   },[])
   const isCurrent = (navItem: Simplify<NavigationDocumentDataLinksItem>) => (
     isFilled.contentRelationship(navItem.link) && navItem.link.url === pathname
@@ -30,18 +32,18 @@ const FooterNavigation = ({nav}: Props) => {
         <ul
           className={`
             flex justify-between gap-x-[12vw] md:gap-x-[42px] px-8 py-3
-            font-serif text-sm text-white bg-v-soft-black/70 backdrop-blur-sm rounded-sm drop-shadow-md
-            md:hover:bg-black/70 duration-[400ms]
+            font-serif text-sm text-white ${loaded ? 'bg-v-soft-black/70 translate-y-0' : 'bg-v-soft-black/0 translate-y-2'} backdrop-blur-sm rounded-sm drop-shadow-md
+            md:hover:bg-black/70 duration-[400ms] delay-[800ms]
           `}
         >
-          <NavItem className={`relative md:hover:font-bold ${ pathname === '/' ? 'font-bold' : '' }`}>
+          <NavItem className={`relative ${ pathname === '/' ? 'font-bold' : '' }`}>
             <PrismicLink href="/" className='before:content-[""] before:block before:w-full before:h-[1px] before:bg-white before:absolute before:-bottom-1 before:left-0 before:origin-top-left before:scale-0 md:hover:before:scale-100 before:duration-[400ms]'>
               <PrismicText field={nav.data.homepageLabel} />
             </PrismicLink>
           </NavItem>
           {nav.data.links.map(item => {
             return (
-            <NavItem key={asText(item.label)} className={`relative md:hover:font-bold ${ isCurrent(item) ? 'font-bold' : '' }`}>
+            <NavItem key={asText(item.label)} className={`relative ${ isCurrent(item) ? 'font-bold' : '' }`}>
               <PrismicLink field={item.link} className='before:content-[""] before:block before:w-full before:h-[1px] before:bg-white before:absolute before:-bottom-1 before:left-0 before:origin-top-left before:scale-0 md:hover:before:scale-100 before:duration-[400ms]'>
                 <PrismicText field={item.label} />
               </PrismicLink>

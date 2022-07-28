@@ -177,10 +177,10 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
         </article>
         <GoBackNav />
         
-        <div className="flex flex-nowrap gap-x-4 overflow-x-scroll bg-v-light-gray px-4 py-8 mt-16 mb-16 md:mb-20 md:px-[5vw] md:pt-28 md:pb-20 md:gap-x-12 no-scrollbar" ref={ref}>
+        <div className="flex flex-nowrap gap-x-4 overflow-x-scroll bg-v-light-gray py-8 mt-16 mb-16 md:mb-20 md:pt-28 md:pb-20 md:gap-x-12 no-scrollbar" ref={ref}>
           {featuredProjects.data.projects.map(({project}) =>
             isFilled.contentRelationship(project) && isFilled.linkToMedia(project.data?.featuredMedia) && (
-              <PrismicLink field={project} key={project.id} className='md:hover:opacity-60 duration-[400ms]' >
+              <PrismicLink field={project} key={project.id} className='md:hover:opacity-60 duration-[400ms] first:pl-4 md:first:pl-[5vw] last:pr-4 md:last:pr-[5vw]'>
                 <div className="flex flex-col shrink-0 w-[50vw] md:w-[30vw]">
                   <FutureImage
                     src={project.data?.featuredMedia.url ?? ''}

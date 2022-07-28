@@ -26,11 +26,8 @@ type ProjectProps = {
 }
 const Project = ({ no, project, length }: ProjectProps) => {
   useEffect(() => {
-    gsap.set('.featured-project-card', {
-      opacity: 0,
-    })
-
     gsap.to('.featured-project-card', {
+      delay: 0.5,
       stagger: 0.1,
       opacity: 1,
       ease: 'power2.out'
@@ -45,7 +42,7 @@ const Project = ({ no, project, length }: ProjectProps) => {
     return <></>
   }
   return (
-    <PrismicLink field={project} className="featured-project-card duration-[400ms] opacity-0 outline-0">
+    <PrismicLink field={project} className="featured-project-card duration-[400ms] block opacity-0 outline-0">
       <div className="grid items-end w-full md:w-[var(--slide-width)] md:pt-0 duration-500">
         <span className={`
           relative col-start-1 col-end-3 row-start-1 translate-x-[4%] [.swiper-slide-active_&]:translate-x-[-5%] md:[.swiper-slide-active_&]:translate-x-[-25%] transition-all duration-[500ms] pointer-events-none
@@ -191,6 +188,11 @@ type Props = {
 const Index = ({top, featuredProjects, nav, settings }: Props) => {
   const setFeaturedProjects = useUpdateAtom(FeaturedProjectsAtom)
   setFeaturedProjects(featuredProjects)
+
+  const [loaded, setLoad] = useState<boolean>(false)
+  useEffect(() => {
+    setLoad(true)
+  }, [])
   return (
     <Layout
       nav={nav}
@@ -202,8 +204,8 @@ const Index = ({top, featuredProjects, nav, settings }: Props) => {
       <main>
         <div className="h-full px-[4vw] md:px-0 md:fixed md:left-4 w-screen">
           <div className='md:absolute md:-top-6 md:left-[5vw] z-50 md:mb-0'>
-            <h1 className="font-flex font-squash-h4 text-[9vw] md:text-[5vw] text-black leading-none mb-2 md:mb-[0.2vw]">{asText(top.data.title)}</h1>
-            <p className="font-flex font-bold text-[14px] text-black pl-[0.5vw]">{asText(top.data.comment)}</p>
+            <h1 className={`font-flex font-squash-h4 text-[9vw] md:text-[5vw] text-black leading-none mb-2 md:mb-[0.2vw] overflow-hidden`}><span className={`inline-block duration-[800ms] delay-[200ms] ${loaded ? 'translate-y-0' : 'translate-y-[100%]'}`}>{asText(top.data.title)}</span></h1>
+            <p className={`font-flex font-bold text-[14px] text-black pl-[0.5vw] overflow-hidden`}><span className={`inline-block duration-[800ms] delay-[300ms] ${loaded ? 'translate-y-0' : 'translate-y-[100%]'}`}>{asText(top.data.comment)}</span></p>
           </div>
           <ProjectCarousel featuredProjects={featuredProjects} />
         </div>
