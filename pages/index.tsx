@@ -92,7 +92,7 @@ type CarouseNavigationProps = {
 const CarouseNavigation = forwardRef<HTMLButtonElement, CarouseNavigationProps>(
   function CarouseNavigation({ label, className }, ref) { // ここで関数名を付けないとeslintに引っかかる
     return (
-      <button className={`${className} font-flex font-arrow font-extrabold text-[20px] z-30 fixed bottom-20 md:bottom-[3vh]`} ref={ref}>{label}</button>
+      <button className={`${className} font-flex font-arrow font-extrabold text-[20px] z-30 fixed bottom-24 md:bottom-[3vh]`} ref={ref}>{label}</button>
     )
   }
 )
@@ -120,12 +120,13 @@ const ProjectCarousel = ({ featuredProjects }: ProjectCarouselProps) => {
     setY(_y)
     load(true)
   }, [])
+
   return (
     <>
       <div
         className={`
         max-h-[100vh] md:[--slide-width:calc(clamp(768px,100vw,1023px)*0.5)] lg:[--slide-width:calc(max(1024px,100vw)*0.35)]
-        translate-x-[calc(var(--slide-width)*0.24)] translate-y-[-6vh] md:translate-y-[calc(var(--slide-width)*-0.1)]
+        md:translate-x-[calc(var(--slide-width)*0.24)]
       `}>
         {
           isLoaded && (
@@ -159,10 +160,10 @@ const ProjectCarousel = ({ featuredProjects }: ProjectCarouselProps) => {
               loop={true}
               onSwiper={onSwiper}
             >
-              {featuredProjects.data.projects.map((item, i) =>
+              {featuredProjects.data.projects.slice(0, 9).map((item, i) =>
                 isFilled.contentRelationship(item.project) && (
                   <SwiperSlide
-                    key={i}
+                    key={item.project.id}
                     className={`!overflow-visible`}
                   >
                     <Project no={i+1} length={featuredProjects.data.projects.length} project={item.project} />
@@ -173,7 +174,7 @@ const ProjectCarousel = ({ featuredProjects }: ProjectCarouselProps) => {
           )
         }
       </div>
-      <div className="w-full flex justify-between md:contents">
+      <div className="xs:hidden w-full flex justify-between md:contents">
         <CarouseNavigation label="← Prev." className="-rotate-[9deg] left-[4vw] md:left-[2vw]" ref={prev} />
         <CarouseNavigation label="Next →" className="rotate-[9deg] right-[4vw] md:right-[2vw]" ref={next} />
       </div>
@@ -201,7 +202,7 @@ const Index = ({top, featuredProjects, nav, settings }: Props) => {
       </Head>
       <main>
         <div className="h-full px-[4vw] md:px-0 md:fixed md:left-4 w-screen">
-          <div className='md:absolute md:-top-6 md:left-[5vw] z-50 mb-6 md:mb-0'>
+          <div className='md:absolute md:-top-6 md:left-[5vw] z-50 md:mb-0'>
             <h1 className="font-flex font-squash-h4 text-[9vw] md:text-[5vw] text-black leading-none mb-2 md:mb-[0.2vw]">{asText(top.data.title)}</h1>
             <p className="font-flex font-bold text-[14px] text-black pl-[0.5vw]">{asText(top.data.comment)}</p>
           </div>

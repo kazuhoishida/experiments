@@ -19,6 +19,7 @@ module.exports = {
         "v-soft-black": "#565656"
       },
       screens: {
+        'xs': { max: '400px' },
         '2xl': '1600px',
       },
       fontFamily: {

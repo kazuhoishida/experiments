@@ -162,7 +162,7 @@ const ProjectsGrid = ({projects, selectedTag}: ProjectsGridProps) => {
   // const gallery = selectedTag === '' ? infiniteProjects : projects
   const gallery = projects
   return (
-    <div className="z-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-4 md:px-4 mt-12 mb-[100px] md:mb-[140px]">
+    <div className="z-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-4 md:px-4 mt-10 mb-[100px] md:mb-[140px]">
       {gallery.map((project, i) =>
         <ValidProject
           project={project}
@@ -207,8 +207,8 @@ const Projects: NextPage<ProjectsProps> = ({ projects, featuredProjects, nav }: 
                 md:hover:bg-black/70 duration-[400ms]
               `}
             >
-              <div className="inline-flex font-flex font-squash-h6 leading-6s px-6 py-1">
-                <label className="flex gap-2 place-items-center text-[17px] leading-none cursor-pointer">
+              <div className="inline-flex font-flex font-squash-h6 leading-6s px-6 py-2">
+                <label className="flex gap-2 place-items-center text-[12px] sm:text-[17px] leading-none cursor-pointer">
                   <div className="h-full">
                     <span className="leading-none align-middle uppercase">CATEGORY:</span>
                   </div>

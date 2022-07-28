@@ -49,7 +49,7 @@ const FeaturedProjectItem = ({project}: FeaturedProjectProps) => {
     <div className="flex flex-col md:flex-row md:items-center md:gap-x-3">
       <div className="text-[36px] whitespace-nowrap">{project.data?.title}</div>
       <div className="hidden md:block md:w-24 md:h-px md:bg-black shrink-0"></div>
-      <div className="text-[20px] whitespace-nowrap"><>{name}</></div>
+      <div className="xs:hidden text-[20px] whitespace-nowrap"><>{name}</></div>
     </div>
   )
 }
@@ -161,7 +161,7 @@ export function Header({ nav, }: Props) {
   }, [router.asPath])
   const toggleMenu = () => toggle(!isOpen)
   return (
-    <header className="sticky top-0 left-0 px-4 py-2 w-full flex justify-between items-center z-50">
+    <header className="sticky top-0 left-0 pl-4 pr-2 xs:py-0 py-2 w-full flex justify-between items-center z-50">
       <Logo />
       <div className="relative w-16 h-16 hover:cursor-pointer" onClick={toggleMenu}>
         <CubeIcon />

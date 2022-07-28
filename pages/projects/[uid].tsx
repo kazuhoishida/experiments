@@ -74,7 +74,6 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
   const github = isFilled.link(project.data.github) && project.data.github
   
   const router = useRouter()
-  const back = () => router.back()
   useEffect(() => {
     router.prefetch('/projects')
   })
@@ -92,7 +91,6 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
       </Head>
       <main>
         <article className='mb-12 md:mt-10'>
-        <button className='text-sm px-3 py-3 md:hidden' onClick={back}>&lt;<span className='pl-3'>Go Back</span></button>
           <div className='relative md:hidden'>
             {featuredMedia && <Media field={featuredMedia} isCoverImage={true} />}
           </div>
@@ -145,7 +143,7 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
             <div className='md:flex md:flex-row-reverse md:mt-28 md:mb-32 md:w-[90vw] mx-auto'>
               {project.data.details[0] && (
                 <div className='md:w-1/2'>
-                  <div className={`flex flex-col break-words transition-opacity md:!opacity-100 md:!h-auto ${isShowText ? 'visible my-8' : 'hidden md:!block md:!m-0 md:!pl-[5vw]'}`}>
+                  <div className={`flex flex-col break-words transition-opacity md:!opacity-100 md:!h-auto transform-all md:transform-none duration-[200ms] ${isShowText ? 'visible my-8 opacity-100' : 'h-0 opacity-0 md:!block md:!m-0 md:!pl-[5vw]'}`}>
                     {project.data.details.map(({title, description}) => (
                       <div key={asText(title)} className="[&>h2]:text-[20px] [&>h2]:!mb-2 [&>p]:text-[14px]">
                         <PrismicRichText field={title} />
@@ -153,7 +151,7 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
                       </div>
                     ))}
                   </div>
-                  <div className={`flex place-content-center py-4 my-4 md:hidden ${isShowText ? 'rotate-180' : 'rotate-0'}`} onClick={() => setIsShowText(!isShowText)}>
+                  <div className={`flex place-content-center py-4 my-4 md:hidden duration-[200ms] ${isShowText ? 'rotate-180' : 'rotate-0'}`} onClick={() => setIsShowText(!isShowText)}>
                     <span className={`
                       relative font-flex font-squash-h1 font-[800] text-[12px]
                       before:absolute before:w-3/5 before:h-px before:rotate-[20deg] before:origin-right before:bg-black before:-translate-x-full before:top-[180%] before:left-1/2
