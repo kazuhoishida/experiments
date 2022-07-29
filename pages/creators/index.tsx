@@ -8,6 +8,7 @@ import FutureImage from "../../next/ImgixImage"
 import { PrismicLink } from '@prismicio/react'
 import { Layout } from "../../components/Layout"
 import type { FeaturedProjects } from '../../fetches/featuredProject'
+import FooterNavigation from "../../components/FooterNavigation"
 
 type CreatorsProps = {
   creators: CreatorDocument[]
@@ -64,6 +65,7 @@ const Creators: NextPage<CreatorsProps> = ({ creators, navigation, featuredProje
           </div>
         </div>
       </div>
+      <FooterNavigation nav={navigation} />
     </Layout>
   )
 }

@@ -1,7 +1,6 @@
 import { useState, useEffect, InputHTMLAttributes, PropsWithChildren } from 'react'
 import { PrismicLink, PrismicText } from "@prismicio/react"
 import type { NavigationDocument } from '../prismic-models'
-import { Bounded } from "./Bounded"
 import { Logo } from "./Logo"
 import { asText } from '@prismicio/richtext'
 

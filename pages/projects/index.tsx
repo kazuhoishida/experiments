@@ -49,23 +49,27 @@ const ProjectCard = ({ project, isVisible, media, title, leading, style }: Proje
   useEffect(() => {
     gsap.set('.project-card', {
       opacity: 0,
+      y: '20px',
     })
 
     gsap.to('.project-card', {
-      stagger: 0.08,
+      stagger: 0.1,
       opacity: 1,
+      y: 0,
+      duration: 0.5,
       ease: 'power2.out'
       })
   }, [style])
 
   return (
+    <div className="project-card opacity-0 translate-y-[20px]">
       <div
         ref={card}
         onMouseEnter={enter}
         onMouseLeave={leave}
         onMouseMove={move}
         className={`
-          project-card opacity-0 duration-[200ms] relative w-full h-full flex-col translate-y-[var(--translateY)] overflow-hidden drop-shadow-sm
+          relative w-full h-full flex-col translate-y-[var(--translateY)] overflow-hidden drop-shadow
           ${isVisible ? 'flex' : 'hidden'}
         `}
         style={style}
@@ -79,6 +83,7 @@ const ProjectCard = ({ project, isVisible, media, title, leading, style }: Proje
         </PrismicLink>
         <Cursor isVisible={isCursorVisible} position={position}/>
       </div>
+    </div>
   )
 }
 
