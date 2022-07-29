@@ -69,7 +69,7 @@ const ProjectCard = ({ project, isVisible, media, title, leading, style }: Proje
         onMouseLeave={leave}
         onMouseMove={move}
         className={`
-          relative w-full h-full flex-col translate-y-[var(--translateY)] overflow-hidden drop-shadow-sm
+          relative w-full h-full flex-col translate-y-[var(--translateY)] overflow-hidden drop-shadow
           ${isVisible ? 'flex' : 'hidden'}
         `}
         style={style}

@@ -33,7 +33,7 @@ const FooterNavigation = ({nav}: Props) => {
           className={`
             flex justify-between gap-x-[12vw] md:gap-x-[42px] px-8 py-3
             font-serif text-sm text-white ${loaded ? 'bg-v-soft-black/70 translate-y-0' : 'bg-v-soft-black/0 translate-y-2'} backdrop-blur-sm rounded-sm drop-shadow-md
-            md:hover:bg-black/70 duration-[400ms] delay-[800ms]
+            md:hover:bg-black/70 duration-[400ms] delay-[300ms]
           `}
         >
           <NavItem className={`relative ${ pathname === '/' ? 'font-bold' : '' }`}>

@@ -43,14 +43,17 @@ const Project = ({ no, project, length }: ProjectProps) => {
   }
   return (
     <PrismicLink field={project} className="featured-project-card duration-[400ms] block opacity-0 outline-0">
-      <div className="grid items-end w-full md:w-[var(--slide-width)] md:pt-0 duration-500">
-        <span className={`
-          relative col-start-1 col-end-3 row-start-1 translate-x-[4%] [.swiper-slide-active_&]:translate-x-[-5%] md:[.swiper-slide-active_&]:translate-x-[-25%] transition-all duration-[500ms] pointer-events-none
-          font-serif text-[clamp(400px,100vw,600px)] md:text-[50vw] text-black leading-none
-          [.swiper-slide-active_&]:bg-transparent
-          md:[clip-path:polygon(0_0,16%_0%,16%_100%,0%_100%)] [clip-path:polygon(0_0,31%_0%,31%_100%,0%_100%)] md:[.swiper-slide-active_&]:[clip-path:polygon(0_0,45%_0%,45%_100%,0%_100%)]
-        `}
-        >{no}</span>
+      <div className="grid items-end w-full md:w-[var(--slide-width)] md:pt-0 duration-[300ms] group opacity-0 [.swiper-slide-active_&]:opacity-100 md:opacity-100">
+        <div className={`
+          relative col-start-1 col-end-3 row-start-1 pointer-events-none
+          inline-grid overflow-hidden translate-x-[-73.5%] md:translate-x-[-80%]
+        `}>
+          <span className={`
+            inline-block font-serif text-[clamp(400px,100vw,600px)] md:text-[50vw] text-black leading-none
+            translate-x-[78%] [.swiper-slide-active_&]:translate-x-[70%] md:[.swiper-slide-active_&]:translate-x-[54%] md:group-hover:!translate-x-[45%] transition-all duration-[400ms]
+          `}
+          >{no}</span>
+        </div>
         <div
           className={`
           relative w-[68vw] md:w-[calc(var(--slide-width)*0.8)] max-h-[80vh] justify-self-end
@@ -58,6 +61,8 @@ const Project = ({ no, project, length }: ProjectProps) => {
           translate-y-[-4%] md:translate-y-[-20%]
           [:is(.swiper-slide-prev,.swiper-slide-active,.swiper-slide-next)_&]:before:block
           before:hidden before:absolute before:w-[1px] before:h-[300vh] before:bg-black before:top-[-100vh] before:left-0
+          md:group-hover:translate-y-[-26%]
+          transition-transform duration-[400ms]
         `}>
           <div className="pl-[8%]">
             <h2 className="font-flex font-bold-h1 text-[32px] md:text-[3vw] text-black leading-none mb-2">
@@ -122,7 +127,7 @@ const ProjectCarousel = ({ featuredProjects }: ProjectCarouselProps) => {
       <div
         className={`
         max-h-[100vh] md:[--slide-width:calc(clamp(768px,100vw,1023px)*0.5)] lg:[--slide-width:calc(max(1024px,100vw)*0.35)]
-        md:translate-x-[calc(var(--slide-width)*0.24)]
+        md:translate-x-[calc(var(--slide-width)*0.24)] md:translate-y-[calc(var(--slide-width)*-0.1)]
       `}>
         {
           isLoaded && (
