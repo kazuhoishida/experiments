@@ -48,7 +48,7 @@ const Creator: NextPage<CreatorProps> = ({ creator, navigation, featuredProjects
         <article className='pt-10'>
           <Bounded className="relative pb-0 px-4 md:px-[10vw] [&>div]:max-w-none md:mx-auto md:[&>div]:flex md:[&>div]:gap-x-[4vw] md:pb-20">
             {isWide && (
-              <div className='absolute top-0 left-0 w-2/3 h-full z-10 pointer-events-none'>
+              <div className='absolute top-0 left-0 w-2/3 h-full z-10'>
                 <CreatorBubble />
               </div>
             )}
@@ -63,7 +63,7 @@ const Creator: NextPage<CreatorProps> = ({ creator, navigation, featuredProjects
             <div className='md:w-1/2 md:pt-10'>
               <div className='flex gap-x-4 mb-8 font-bold text-sm'>
                 {github && (
-                  <PrismicLink field={github} className="font-flex rounded-md border text-v-red border-v-red w-20 flex place-items-center place-content-center md:hover:bg-v-red md:hover:text-white">GitHub</PrismicLink>
+                  <PrismicLink field={github} className="font-flex rounded-md border text-v-red border-v-red w-24 h-6 flex place-items-center place-content-center md:hover:bg-v-red md:hover:text-white">GitHub</PrismicLink>
                 )}
                 {creator.data.Contact && <p>{creator.data.Contact}</p>}
               </div>
@@ -90,17 +90,17 @@ const Creator: NextPage<CreatorProps> = ({ creator, navigation, featuredProjects
         <div className="grid grid-cols-1 md:grid-cols-4 md:items-end py-8 mt-8 mb-20 md:mb-20 md:px-[5vw] md:py-10 md:gap-x-10">
           {projects.slice(0, 8).map((project, index) =>
             prismicH.isFilled.linkToMedia(project.data?.featuredMedia) && (
-              <PrismicLink field={prismicH.documentToLinkField(project)} key={project.id} className='h-full md:border-l border-black'>
-                <div className="flex flex-col shrink-0 gap-y-4 w-full py-8 md:py-12">
-                  <div className='px-4 relative'>
-                    <span className='absolute top-0 md:-top-6 right-3 text-white tracking-tighter [-webkit-text-stroke:1px_black] text-[48px] md:text-[4vw]'>{String(index + 1).padStart(2, '0')}</span>
-                    <div className="pt-16 font-flex font-bold-h1 text-[38px] font-extrabold">{project.data?.title}</div>
+              <PrismicLink field={prismicH.documentToLinkField(project)} key={project.id} className='h-full md:border-l border-black relative group'>
+                <div className="flex flex-col shrink-0 gap-y-4 w-full py-8 md:pb-24 md:justify-end md:h-full md:group-hover:-translate-y-3 duration-[200ms]">
+                  <div className='px-4'>
+                    <span className='absolute top-0 md:-top-6 right-4 md:-right-6 text-white tracking-tighter [-webkit-text-stroke:1px_black] text-[48px] md:text-[4vw]'>{String(index + 1).padStart(2, '0')}</span>
+                    <div className="pt-16 font-flex font-bold-h1 text-[38px] font-extrabold leading-none mb-2">{project.data?.title}</div>
                     <div className="font-flex text-md overflow-ellipsis leading-tight">{project.data?.leadingText}</div>
                   </div>
                   <FutureImage
                     src={project.data?.featuredMedia.url ?? ''}
                     alt={project.data?.title ?? 'PROJECT'}
-                    className="object-cover w-[90vw] aspect-[5/3]"
+                    className="object-cover w-[90vw] aspect-[5/3] shadow md:group-hover:shadow-lg duration-[600ms]"
                   />
                 </div>
               </PrismicLink>
