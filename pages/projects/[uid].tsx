@@ -145,7 +145,7 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
                 <div className='md:w-1/2'>
                   <div className={`flex flex-col break-words transition-opacity md:!opacity-100 md:!h-auto transform-all md:transform-none duration-[200ms] ${isShowText ? 'visible my-8 opacity-100' : 'h-0 opacity-0 md:!block md:!m-0 md:!pl-[5vw]'}`}>
                     {project.data.details.map(({title, description}) => (
-                      <div key={asText(title)} className="[&>h2]:text-[20px] [&>h2]:!mb-2 [&>p]:text-[14px]">
+                      <div key={asText(title)} className="[&>h2]:text-[20px] [&>h2]:!mb-2">
                         <PrismicRichText field={title} />
                         <PrismicRichText field={description} />
                       </div>
@@ -160,7 +160,7 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
                   </div>
                 </div>
               )}
-              <div className='mt-12 md:w-1/2 md:mt-0 [&_*]:mb-6 md:[&_*]:mb-10 last:[&_*]:mb-0 [&_iframe]:w-full [&_iframe]:h-auto'>
+              <div className='mt-12 md:w-1/2 md:mt-0 [&_section]:mb-6 md:[&_section]:mb-10 last:[&_*]:mb-0 [&_iframe]:w-full [&_iframe]:h-auto'>
                 <SliceZone slices={project.data.slices} components={components} />
               </div>
             </div>
@@ -188,7 +188,7 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
                     className="object-cover w-full aspect-[5/3] mb-2"
                   />
                   <div className="font-flex font-bold-h6 font-extrabold text-md md:text-xl overflow-ellipsis">{project.data?.title}</div>
-                  <div className="font-flex text-xs overflow-ellipsis">{project.data?.leadingText}</div>
+                  <div className="font-flex text-xs md:text-sm overflow-ellipsis">{project.data?.leadingText}</div>
                 </div>
               </PrismicLink>
           ))}

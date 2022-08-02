@@ -50,7 +50,7 @@ const Project = ({ no, project, length }: ProjectProps) => {
         `}>
           <span className={`
             inline-block font-serif text-[clamp(400px,100vw,600px)] md:text-[50vw] text-black leading-none
-            translate-x-[78%] [.swiper-slide-active_&]:translate-x-[70%] md:[.swiper-slide-active_&]:translate-x-[54%] md:group-hover:!translate-x-[45%] transition-all duration-[400ms]
+            translate-x-[78%] [.swiper-slide-active_&]:translate-x-[70%] md:[.swiper-slide-active_&]:translate-x-[60%] transition-transform duration-[400ms]
           `}
           >{no}</span>
         </div>
@@ -74,7 +74,7 @@ const Project = ({ no, project, length }: ProjectProps) => {
           </div>
           {
             isFilled.linkToMedia(project.data.featuredMedia) && (
-              <div className="w-full relative border border-v-dark-gray border-l-transparent aspect-[4/3]">
+              <div className="w-full relative shadow md:group-hover:shadow-md transition-shadow duratino-[400ms] border-l-transparent aspect-[4/3]">
                 <FutureImage alt={project.data.featuredMedia.name} src={project.data.featuredMedia.url} loading={setLoadingEager(no) ? 'eager' : 'lazy'} className="w-full h-full object-cover" />
               </div>
             )
@@ -112,14 +112,27 @@ const ProjectCarousel = ({ featuredProjects }: ProjectCarouselProps) => {
   const theta = 9
   const [r, setR] = useState(0)
   const [translateY, setY] = useState(0)
-  useEffect(() => {
-    setWide(window.screen.width >= 768)
 
-    const _r = Math.max(400, window.screen.width * 0.4)
+  useEffect(() => {
+    let _r, _y
+
+    setWide(window.screen.width >= 768)
+    _r = Math.max(400, window.screen.width * 0.4)
     setR(_r)
-    const _y = (1 + Math.cos(theta)) * _r
+    _y = (1 + Math.cos(theta)) * _r
     setY(_y)
     load(true)
+
+    const handleResize = () => {
+      setWide(window.screen.width >= 768)
+      _r = Math.max(400, window.screen.width * 0.4)
+      setR(_r)
+      _y = (1 + Math.cos(theta)) * _r
+      setY(_y)
+    }
+    window.addEventListener('resize', handleResize)
+  
+    return () => window.removeEventListener('resize', handleResize);
   }, [])
 
   return (
