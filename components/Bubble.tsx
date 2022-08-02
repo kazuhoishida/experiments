@@ -36,7 +36,7 @@ function Scene() {
 
   return (
     <>
-      <PerspectiveCamera makeDefault position={[0, 0, 2]} fov={1.4 / screenWide * (10 ** 5)} aspect={window.innerWidth / window.innerHeight}>
+      <PerspectiveCamera makeDefault position={[0, 0, 2]} fov={1.65 / screenWide * (10 ** 5)} aspect={window.innerWidth / window.innerHeight}>
         <ambientLight intensity={0.5} />
       </PerspectiveCamera>
       <Suspense fallback={null}>
