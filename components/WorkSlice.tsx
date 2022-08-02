@@ -26,8 +26,8 @@ const WorkSlice = ({ slice, index }: SliceComponentProps<WorkSlice>) => {
 
   return (
     <div className='flex gap-x-4 justify-between' data-index={index}>
-      <div className='flex justify-start gap-x-4 md:w-1/2' onMouseEnter={(e) => handleActiveImage(e)} onMouseLeave={() => setActiveImage(-1)}>
-        {slice.primary.date && <time dateTime={asDate(slice.primary.date).toString()}>{ slice.primary.date.replace(/-/g, '/') }</time>}
+      <div className='flex justify-start gap-x-4 md:gap-x-5 md:w-1/2' onMouseEnter={(e) => handleActiveImage(e)} onMouseLeave={() => setActiveImage(-1)}>
+        {slice.primary.date && <time dateTime={asDate(slice.primary.date).toString()} className="mt-[2px] md:mt-[6px]">{ slice.primary.date.replace(/-/g, '/') }</time>}
         <div>
           <div className='[&>*]:!text-[20px] md:[&>*]:!text-[24px]'>
             {slice.primary.title && <h3>{slice.primary.title[0]?.text}</h3>}

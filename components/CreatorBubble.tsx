@@ -24,6 +24,7 @@ function Scene() {
   }, [])
 
   const ref = useRef<THREE.Mesh>(null)
+  const [hovered, setHover] = useState(false)
 
   useEffect(() => {
     if(ref.current == null) return
@@ -37,7 +38,7 @@ function Scene() {
   }, [mousePos])
 
   const glassMaterial = {
-    color: "#3B6CCF",
+    color: hovered ? "#cf3bb4" : "#3d7190",
     transmission: 0.6,
     roughness: 0.1,
     envMapIntensity: 1,
@@ -50,7 +51,11 @@ function Scene() {
 
   return (
     <Suspense fallback={null}>
-      <mesh ref={ref}>
+      <mesh
+        ref={ref}
+        onPointerOver={() => setHover(true)}
+        onPointerOut={() => setHover(false)}
+      >
         <sphereBufferGeometry args={[1, 64, 64]} />
         <MeshDistortMaterial {...glassMaterial} />
       </mesh>

@@ -7,11 +7,7 @@ import type { NavigationDocument, NavigationDocumentDataLinksItem, Simplify } fr
 
 type NavItemProps = PropsWithChildren & InputHTMLAttributes<HTMLLIElement>
 
-const NavItem = ({ children, className }: NavItemProps) => {
-  return (
-    <li className={className}>{children}</li>
-  )
-}
+const NavItem = ({ children, className }: NavItemProps) => <li className={className}>{children}</li>
 
 type Props = {
   nav: NavigationDocument
@@ -26,9 +22,25 @@ const FooterNavigation = ({nav}: Props) => {
   const isCurrent = (navItem: Simplify<NavigationDocumentDataLinksItem>) => (
     isFilled.contentRelationship(navItem.link) && navItem.link.url === pathname
   )
+
+  // set footer navigation visibility
+  const [isIntersected, setIntersect] = useState(false)
+  useEffect(() => {
+    const pageFooter = document.getElementById('page-footer')
+    if ( pageFooter === null || pageFooter === undefined ) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIntersect(entry.isIntersecting),
+      { threshold: 0.2 },
+    )
+    observer.observe(pageFooter)
+
+    return () => observer.unobserve(pageFooter)
+  }, [])
+
   return nav && (
     <Provider>
-      <div className="fixed bottom-[2.5vh] left-1/2 -translate-x-1/2 z-30">
+      <div className={`fixed bottom-[2.5vh] left-1/2 -translate-x-1/2 z-30 duration-[400ms] ${isIntersected ? 'opacity-0 pointer-events-none' : 'opacity-100'}, ${pathname === '/' ? '!opacity-100' : ''}`}>
         <ul
           className={`
             flex justify-between gap-x-[12vw] md:gap-x-[42px] px-8 py-3

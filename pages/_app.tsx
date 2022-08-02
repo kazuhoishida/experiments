@@ -32,7 +32,7 @@ const richTextComponents: RichTextMapSerializer<JSX.Element> | RichTextFunctionS
       {children}
     </Heading>
   ),
-  paragraph: ({ children }) => <p className="mb-1 last:mb-0">{children}</p>,
+  paragraph: ({ children }) => <p className="text-base leading-7 mb-1 last:mb-0">{children}</p>,
   oList: ({ children }) => (
     <ol className="mb-7 pl-4 last:mb-0 md:pl-6">{children}</ol>
   ),

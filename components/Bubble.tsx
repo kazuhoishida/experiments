@@ -24,6 +24,16 @@ function Scene() {
     return () => window.removeEventListener('resize', handleResize);
   }, [])
 
+  const materials = {
+    map: customMap,
+    envMapIntensity: 1,
+    clearcoat: 0.2,
+    clearcoatRoughness: 0.07,
+    metalness: 0.6,
+    speed: 1.4,
+    distort: 0.2
+  }
+
   return (
     <>
       <PerspectiveCamera makeDefault position={[0, 0, 2]} fov={1.4 / screenWide * (10 ** 5)} aspect={window.innerWidth / window.innerHeight}>
@@ -32,7 +42,7 @@ function Scene() {
       <Suspense fallback={null}>
         <mesh rotation-y={Math.PI * -0.5}>
           <sphereBufferGeometry args={[1, 64, 64]} />
-          <MeshDistortMaterial map={customMap} envMapIntensity={1} clearcoat={0.4} clearcoatRoughness={0} metalness={0.8} speed={1} distort={0.3} />
+          <MeshDistortMaterial {...materials} />
         </mesh>
         <Environment preset="warehouse" />
       </Suspense>
