@@ -40,7 +40,7 @@ const FooterNavigation = ({nav}: Props) => {
 
   return nav && (
     <Provider>
-      <div className={`fixed bottom-[2.5vh] left-1/2 -translate-x-1/2 z-30 duration-[400ms] ${isIntersected ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+      <div className={`fixed bottom-[2.5vh] left-1/2 -translate-x-1/2 z-30 duration-[400ms] ${isIntersected ? 'opacity-0 pointer-events-none' : 'opacity-100'}, ${pathname === '/' ? '!opacity-100' : ''}`}>
         <ul
           className={`
             flex justify-between gap-x-[12vw] md:gap-x-[42px] px-8 py-3
