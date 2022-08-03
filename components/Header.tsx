@@ -98,10 +98,10 @@ type MenuModalProps = {
 const MenuModal = ({nav, isOpen}: MenuModalProps) => {
   const [isWide, setWide] = useState(false)
   useEffect(() => {
-    setWide(window.screen.width >= 768)
+    setWide(window.screen.width >= 1140)
     
     const handleResize = () => {
-      setWide(window.screen.width >= 768)
+      setWide(window.screen.width >= 1140)
     }
     window.addEventListener('resize', handleResize)
 
