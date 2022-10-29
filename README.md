@@ -1,4 +1,4 @@
-This is a anice lab project bootstrapped with NextJS.
+This is an experimental lab tips portfolio bootstrapped with NextJS. This project was originally created for Research & Development project at my former job.
 
 ## What we use
 
@@ -20,11 +20,20 @@ yarn install
 # run the development server
 yarn dev
 
-# to preview
+# preview
 yarn serve
 
-# to edit prismic slices
+# lint check
+yarn lint
+
+# edit prismic slices
 yarn slicemachine
 ```
 
 Open [http://localhost:38888](http://localhost:38888) with your browser.
+
+### Password
+
+Do not open this site to the public.
+
+The whole website must not to be indexed by search engines and should be password protected.
