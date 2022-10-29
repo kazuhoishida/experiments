@@ -1,7 +1,7 @@
 import type { Config } from "prismic-ts-codegen"
 
 const config: Config = {
-  repositoryName: "kazuho-lab-test",
+  repositoryName: "kazuho-lab",
   output: "./prismic-models.d.ts",
 
   models: {
