@@ -9,7 +9,7 @@
         "type": "StructuredText",
         "config": {
           "label": "Title",
-          "placeholder": "anice lab",
+          "placeholder": "lab",
           "allowTargetBlank": false,
           "single": "heading1"
         }
@@ -18,7 +18,7 @@
         "type": "StructuredText",
         "config": {
           "label": "Comment",
-          "placeholder": "は、新しい視点で見つめ直し、習慣・常識・社会通念をあなたの課題に",
+          "placeholder": "",
           "allowTargetBlank": false,
           "single": "paragraph"
         }

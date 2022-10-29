@@ -531,7 +531,7 @@ interface TopDocumentData {
      * Title field in *Top*
      *
      * - **Field Type**: Title
-     * - **Placeholder**: anice lab
+     * - **Placeholder**: lab
      * - **API ID Path**: top.title
      * - **Tab**: Main
      * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
@@ -542,7 +542,7 @@ interface TopDocumentData {
      * Comment field in *Top*
      *
      * - **Field Type**: Rich Text
-     * - **Placeholder**: は、新しい視点で見つめ直し、習慣・常識・社会通念をあなたの課題に
+     * - **Placeholder**: *None*
      * - **API ID Path**: top.comment
      * - **Tab**: Main
      * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
