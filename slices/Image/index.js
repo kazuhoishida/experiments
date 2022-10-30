@@ -1,17 +1,17 @@
-import NextImage from "next/image";
-import * as prismicH from "@prismicio/helpers";
-import { PrismicRichText } from "@prismicio/react";
+import NextImage from "next/image"
+import * as prismicH from "@prismicio/helpers"
+import { PrismicRichText } from "@prismicio/react"
 
-import { Bounded } from "../../components/Bounded";
+import { Bounded } from "../../components/Bounded"
 
 const Image = ({ slice }) => {
-  const image = slice.primary.image;
+  const image = slice.primary.image
 
   return (
     <Bounded as="section" size={slice.variation === "wide" ? "widest" : "base"}>
       <figure className="grid grid-cols-1 gap-1">
         {prismicH.isFilled.image(image) && (
-          <div className="bg-gray-100">
+          <div className="bg-gray-100 shadow-md">
             <NextImage
               src={prismicH.asImageSrc(image, {
                 w: undefined,
@@ -31,7 +31,7 @@ const Image = ({ slice }) => {
         )}
       </figure>
     </Bounded>
-  );
-};
+  )
+}
 
-export default Image;
+export default Image
