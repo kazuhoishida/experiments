@@ -1,13 +1,15 @@
-This is an experimental lab tips portfolio bootstrapped with NextJS. This project was originally created for Research & Development project at my former job.
+This is experimental code sketches bootstrapped with NextJS.
 
-## What we use
+[https://kazuho-lab-tips.netlify.app/](https://kazuho-lab-tips.netlify.app/)
+
+## What I use
 
 - NextJS
 - prismic (as CMS)
-- TailWind
+- tailwind.css
 - Headless UI
-- react three fiber / three.js
-- jotai (for state management)
+- react-three-fiber / three.js
+- jotai
 - swiper
 - gsap
 
@@ -31,9 +33,3 @@ yarn slicemachine
 ```
 
 Open [http://localhost:38888](http://localhost:38888) with your browser.
-
-### Password
-
-Do not open this site to the public.
-
-The whole website must not to be indexed by search engines and should be password protected.
