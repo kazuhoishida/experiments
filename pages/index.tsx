@@ -12,7 +12,7 @@ import { useRef, forwardRef, useState, useEffect } from "react"
 import { useUpdateAtom } from "jotai/utils"
 import FooterNavigation from "../components/FooterNavigation"
 import Head from "next/head"
-import FutureImage from "../next/ImgixImage"
+import Image from "next/image"
 import type { FeaturedProject, FeaturedProjects } from "../fetches/featuredProject"
 import type { NavigationDocument, SettingsDocument, TopDocument } from "../prismic-models"
 import type { Swiper as SwiperClass } from "swiper"
@@ -78,7 +78,7 @@ const Project = ({ no, project, length }: ProjectProps) => {
           </div>
           {isFilled.linkToMedia(project.data.featuredMedia) && (
             <div className="duratino-[400ms] relative aspect-[4/3] w-full border-l-transparent shadow transition-shadow md:group-hover:shadow-md">
-              <FutureImage alt={project.data.featuredMedia.name} src={project.data.featuredMedia.url} loading={setLoadingEager(no) ? "eager" : "lazy"} className="h-full w-full object-cover" />
+              <Image alt={project.data.featuredMedia.name} src={project.data.featuredMedia.url} loading={setLoadingEager(no) ? "eager" : "lazy"} className="h-full w-full object-cover" />
             </div>
           )}
         </div>

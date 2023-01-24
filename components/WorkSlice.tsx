@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { type SliceComponentProps, PrismicLink } from '@prismicio/react'
 import { asDate, isFilled } from '@prismicio/helpers'
-import FutureImage from '../next/ImgixImage'
+import Image from 'next/image'
 import type { WorkSlice } from '../prismic-models'
 import ArrowIcon from './ArrowIcon'
 
@@ -38,7 +38,7 @@ const WorkSlice = ({ slice, index }: SliceComponentProps<WorkSlice>) => {
       </div>
       {isFilled.imageThumbnail(slice.primary.Thumbnail) && (
         <div className={`hidden md:block w-1/2 absolute top-0 -right-6 transition-all duration-[400ms] ${index === activeImage ? 'z-10 scale-[1.16]' : 'z-0'}`}>
-          <FutureImage
+          <Image
             src={slice.primary.Thumbnail?.url ?? ''}
             alt={slice.primary.Thumbnail.alt ?? 'WORK THUMBNAIL'}
             className="object-cover w-full aspect-[5/3] max-h-[40vh] drop-shadow-md"

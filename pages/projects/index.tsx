@@ -79,7 +79,7 @@ const ProjectCard = ({ project, isVisible, media, title, leading, style }: Proje
             <h2 className='text-[30px] leading-none font-flex font-bold-h1 drop-shadow'>{title}</h2>
             <p className='text-[13px] leading-tight drop-shadow'>{leading}</p>
           </div>
-          <Media field={media} className="w-full h-[66.6vw] md:h-[33.3vw] lg:h-[26.6vw]" objectFit="cover" />
+          <Media field={media} className="w-full h-[66.6vw] md:h-[33.3vw] lg:h-[26.6vw]" />
         </PrismicLink>
         <Cursor isVisible={isCursorVisible} position={position}/>
       </div>

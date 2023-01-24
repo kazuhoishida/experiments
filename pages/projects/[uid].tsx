@@ -8,7 +8,7 @@ import { Layout } from "../../components/Layout"
 import { PrismicLink, PrismicRichText, PrismicText, SliceZone } from "@prismicio/react"
 import { useRouter } from "next/router"
 import { useUpdateAtom } from "jotai/utils"
-import FutureImage from "../../next/ImgixImage"
+import Image from "next/image"
 import Head from "next/head"
 import type { FilledLinkToMediaField } from "@prismicio/types"
 import type { NextPage } from "next"
@@ -30,7 +30,7 @@ const Media = ({ field, isCoverImage = false }: { field: FilledLinkToMediaField;
   if (field.kind === "image") {
     return (
       <div className="relative w-full">
-        <FutureImage src={field.url} alt={field.name} loading={isCoverImage ? "eager" : "lazy"} className="max-h-[30vh] w-full object-cover object-right md:max-h-[70vh] md:object-contain" />
+        <Image src={field.url} alt={field.name} loading={isCoverImage ? "eager" : "lazy"} className="max-h-[30vh] w-full object-cover object-right md:max-h-[70vh] md:object-contain" />
       </div>
     )
   } else {
@@ -101,7 +101,7 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
               <div className="flex place-items-center gap-x-4">
                 {face && (
                   <PrismicLink className="flex place-items-center gap-x-2 font-flex font-[640] [font-stretch:32%]" document={creator}>
-                    <FutureImage className="aspect-1 h-12 w-12 rounded-full" src={face} alt={(creator.data?.face?.alt || creator.data.name) ?? "CREATOR"} />
+                    <Image className="aspect-1 h-12 w-12 rounded-full" src={face} alt={(creator.data?.face?.alt || creator.data.name) ?? "CREATOR"} />
                   </PrismicLink>
                 )}
                 <div className="flex flex-col">
@@ -194,7 +194,7 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
               isFilled.linkToMedia(project.data?.featuredMedia) && (
                 <PrismicLink field={project} key={project.id} className="duration-[400ms] first:pl-4 last:pr-4 md:first:pl-[5vw] md:last:pr-[5vw] md:hover:opacity-60">
                   <div className="flex w-[50vw] shrink-0 flex-col md:w-[30vw]">
-                    <FutureImage src={project.data?.featuredMedia.url ?? ""} alt={project.data?.title ?? "PROJECT"} className="mb-2 aspect-[5/3] w-full object-cover" />
+                    <Image src={project.data?.featuredMedia.url ?? ""} alt={project.data?.title ?? "PROJECT"} className="mb-2 aspect-[5/3] w-full object-cover" />
                     <div className="text-md font-bold-h6 overflow-ellipsis font-flex font-extrabold md:text-xl">{project.data?.title}</div>
                     <div className="overflow-ellipsis font-flex text-xs md:text-sm">{project.data?.leadingText}</div>
                   </div>

@@ -20,13 +20,8 @@ const nextConfig = {
         source: "/creators/",
         destination: "/",
       },
-    ];
+    ]
   },
-  experimental: {
-    images: {
-      allowFutureImage: true,
-    },
-  },
-};
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig
