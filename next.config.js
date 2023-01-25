@@ -2,8 +2,6 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    loader: "imgix",
-    path: "",
     domains: ["images.prismic.io"],
   },
   async rewrites() {
@@ -20,13 +18,8 @@ const nextConfig = {
         source: "/creators/",
         destination: "/",
       },
-    ];
+    ]
   },
-  experimental: {
-    images: {
-      allowFutureImage: true,
-    },
-  },
-};
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig

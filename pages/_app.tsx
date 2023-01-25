@@ -10,8 +10,8 @@ import { Meta } from "../components/Meta"
 
 const NextLinkShim: any = ({ href, children, locale, ...props }: any) => {
   return (
-    <Link href={href} locale={locale}>
-      <a {...props}>{children}</a>
+    <Link href={href} locale={locale} {...props}>
+      {children}
     </Link>
   )
 }

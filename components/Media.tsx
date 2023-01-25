@@ -1,5 +1,4 @@
-import Image from 'next/image'
-import type { ImageProps } from 'next/image'
+import Image, { type ImageProps } from 'next/image'
 import type { FilledLinkToMediaField } from '@prismicio/types'
 
 type Props = Partial<ImageProps> & {
@@ -10,7 +9,6 @@ type Props = Partial<ImageProps> & {
 export const Media = ({
   field,
   className='w-full h-[50vh]',
-  objectFit = 'contain'
 }: Props ) =>
 {
   if( field.link_type !== 'Media' ) {
@@ -23,7 +21,7 @@ export const Media = ({
         className={`relative aspect-[var(--img-ratio)] ${className}`}
         style={{'--img-ratio': `${ratio}`}}
       >
-        <Image src={field.url} alt={field.name} layout="fill" objectFit={objectFit} />
+        <Image src={field.url} alt={field.name} fill className='object-cover' />
       </div>
     )
   } else {

@@ -20,7 +20,6 @@ const Image = ({ slice }) => {
               alt={image.alt}
               width={image.dimensions.width}
               height={image.dimensions.height}
-              layout="responsive"
             />
           </div>
         )}
