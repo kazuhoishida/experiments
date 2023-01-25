@@ -103,10 +103,10 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
                   </PrismicLink>
                 )}
                 <div className="flex flex-col">
-                  <PrismicLink className="flex place-items-center gap-x-2 font-flex font-[640] [font-stretch:32%]" document={creator}>
+                  <PrismicLink className="flex place-items-center gap-x-2 font-flex font-[640] [font-stretch:32%] whitespace-nowrap" document={creator}>
                     {creator.data.name}
                   </PrismicLink>
-                  <p className="font-flex font-[640] [font-stretch:32%]">{dateFormatter.format(date!)}</p>
+                  <p className="font-flex font-[640] [font-stretch:32%] whitespace-nowrap">{dateFormatter.format(date!)}</p>
                   <div className="flex flex-wrap gap-1">
                     {project.tags.map((tag) => (
                       <div key={tag} className="font-flex text-sm font-[640] text-black/50 [font-stretch:32%]">{`#${tag}`}</div>
