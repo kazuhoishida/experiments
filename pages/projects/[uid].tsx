@@ -29,9 +29,7 @@ const Media = ({ field, isCoverImage = false }: { field: FilledLinkToMediaField;
   }
   if (field.kind === "image") {
     return (
-      <div className="relative w-full">
-        <Image src={field.url} alt={field.name} loading={isCoverImage ? "eager" : "lazy"} className="max-h-[30vh] w-full object-cover object-right md:max-h-[70vh] md:object-contain" />
-      </div>
+      <Image src={field.url} alt={field.name} fill loading={isCoverImage ? "eager" : "lazy"} className="max-h-[30vh] w-full h-full object-cover object-right md:max-h-[70vh] md:object-contain" />
     )
   } else {
     return <>not image</>
@@ -89,7 +87,7 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
       </Head>
       <main>
         <article className="mb-12 md:mt-10">
-          <div className="relative md:hidden">{featuredMedia && <Media field={featuredMedia} isCoverImage={true} />}</div>
+          <div className="relative aspect-[5/3] md:hidden">{featuredMedia && <Media field={featuredMedia} isCoverImage={true} />}</div>
           <div className="px-4 md:px-0">
             <div className="md:mb-[max(10vh,30px)] md:flex md:px-[5vw]">
               <h1
@@ -100,8 +98,8 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
               </h1>
               <div className="flex place-items-center gap-x-4">
                 {face && (
-                  <PrismicLink className="flex place-items-center gap-x-2 font-flex font-[640] [font-stretch:32%]" document={creator}>
-                    <Image className="aspect-1 h-12 w-12 rounded-full" src={face} alt={(creator.data?.face?.alt || creator.data.name) ?? "CREATOR"} />
+                  <PrismicLink className="flex place-items-center gap-x-2 font-flex font-[640] [font-stretch:32%] relative aspect-1 h-12 w-12" document={creator}>
+                    <Image className="rounded-full" src={face} alt={(creator.data?.face?.alt || creator.data.name) ?? "CREATOR"} fill />
                   </PrismicLink>
                 )}
                 <div className="flex flex-col">
@@ -135,7 +133,7 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
                   <PrismicRichText field={project.data.abstract} />
                 </div>
               </div>
-              <div className="hidden shadow-md md:block md:w-3/5">{featuredMedia && <Media field={featuredMedia} isCoverImage={true} />}</div>
+              <div className="hidden md:block md:w-3/5 aspect-[5/3] relative">{featuredMedia && <Media field={featuredMedia} isCoverImage={true} />}</div>
             </div>
 
             <div className="mx-auto md:mt-28 md:mb-32 md:flex md:w-[90vw] md:flex-row-reverse">
@@ -194,7 +192,7 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
               isFilled.linkToMedia(project.data?.featuredMedia) && (
                 <PrismicLink field={project} key={project.id} className="duration-[400ms] first:pl-4 last:pr-4 md:first:pl-[5vw] md:last:pr-[5vw] md:hover:opacity-60">
                   <div className="flex w-[50vw] shrink-0 flex-col md:w-[30vw]">
-                    <Image src={project.data?.featuredMedia.url ?? ""} alt={project.data?.title ?? "PROJECT"} className="mb-2 aspect-[5/3] w-full object-cover" />
+                    <Image src={project.data?.featuredMedia.url ?? ""} alt={project.data?.title ?? "PROJECT"} fill className="mb-2 aspect-[5/3] w-full object-cover !relative" />
                     <div className="text-md font-bold-h6 overflow-ellipsis font-flex font-extrabold md:text-xl">{project.data?.title}</div>
                     <div className="overflow-ellipsis font-flex text-xs md:text-sm">{project.data?.leadingText}</div>
                   </div>

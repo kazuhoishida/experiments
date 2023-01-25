@@ -41,6 +41,7 @@ const WorkSlice = ({ slice, index }: SliceComponentProps<WorkSlice>) => {
           <Image
             src={slice.primary.Thumbnail?.url ?? ''}
             alt={slice.primary.Thumbnail.alt ?? 'WORK THUMBNAIL'}
+            fill
             className="object-cover w-full aspect-[5/3] max-h-[40vh] drop-shadow-md"
             style={{ transform: `rotate(${deg}deg)` }}
           />

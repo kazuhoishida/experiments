@@ -78,7 +78,7 @@ const Project = ({ no, project, length }: ProjectProps) => {
           </div>
           {isFilled.linkToMedia(project.data.featuredMedia) && (
             <div className="duratino-[400ms] relative aspect-[4/3] w-full border-l-transparent shadow transition-shadow md:group-hover:shadow-md">
-              <Image alt={project.data.featuredMedia.name} src={project.data.featuredMedia.url} loading={setLoadingEager(no) ? "eager" : "lazy"} className="h-full w-full object-cover" />
+              <Image alt={project.data.featuredMedia.name} src={project.data.featuredMedia.url} fill loading={setLoadingEager(no) ? "eager" : "lazy"} className="h-full w-full object-cover" />
             </div>
           )}
         </div>

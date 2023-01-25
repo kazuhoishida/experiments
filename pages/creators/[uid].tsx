@@ -54,8 +54,8 @@ const Creator: NextPage<CreatorProps> = ({ creator, navigation, featuredProjects
             )}
             <div className="mb-8 h-full items-center gap-x-4 md:block md:w-1/2">
               <h1 className="mb-3 font-serif text-[60px] font-semibold !leading-none [word-break:keep-all] md:text-[min(9vw,120px)] md:text-4xl">{creator.data.name}</h1>
-              <span className="aspect-square inline-block h-10 w-10 overflow-hidden rounded-full md:h-[4vw] md:w-[4vw]">
-                {creator.data?.face?.url && <Image src={creator.data?.face?.url} alt={creator.data?.face?.alt ?? ""} className="h-full w-full object-cover" />}
+              <span className="aspect-square inline-block h-10 w-10 overflow-hidden rounded-full md:h-[4vw] md:w-[4vw] relative">
+                {creator.data?.face?.url && <Image src={creator.data?.face?.url} alt={creator.data?.face?.alt ?? ""} fill />}
               </span>
             </div>
             <div className="md:w-1/2 md:pt-10">
@@ -98,7 +98,7 @@ const Creator: NextPage<CreatorProps> = ({ creator, navigation, featuredProjects
                       <div className="font-bold-h1 mb-2 pt-16 font-flex text-[38px] font-extrabold leading-none">{project.data?.title}</div>
                       <div className="text-md overflow-ellipsis font-flex leading-tight">{project.data?.leadingText}</div>
                     </div>
-                    <Image src={project.data?.featuredMedia.url ?? ""} alt={project.data?.title ?? "PROJECT"} className="aspect-[5/3] w-[90vw] object-cover shadow duration-[600ms] md:group-hover:shadow-lg" />
+                    <Image src={project.data?.featuredMedia.url ?? ""} alt={project.data?.title ?? "PROJECT"} fill className="aspect-[5/3] !h-auto w-[90vw] object-cover shadow duration-[600ms] md:group-hover:shadow-lg !relative" />
                   </div>
                 </PrismicLink>
               )

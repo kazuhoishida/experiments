@@ -28,7 +28,7 @@ const CreatorCard = ({ creator }: CreatorProps) => {
     <figure className='text-center'>
       <PrismicLink document={creator} className='md:hover:opacity-60'>
         <div className='w-full max-w-[180px] h-auto aspect-square mb-4 p-4 md:p-0 mx-auto flex place-items-center place-content-center'>
-          {face?.url && <Image alt={face.alt || 'profile'} src={face.url} className="rounded-full" />}
+          {face?.url && <Image alt={face.alt || 'profile'} src={face.url} fill className="rounded-full" />}
         </div>
       </PrismicLink>
       <figcaption>
