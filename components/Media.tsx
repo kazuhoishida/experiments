@@ -14,7 +14,7 @@ export const Media = ({ field, className = "w-full h-[50vh]" }: Props) => {
     const ratio = "auto"
     return (
       <div className={`relative aspect-[var(--img-ratio)] ${className}`} style={{ "--img-ratio": `${ratio}` }}>
-        {field.url.endsWith(".gif") ? <img src={field.url} alt={field.name} className="object-cover" /> : <Image src={field.url} alt={field.name} fill className="object-cover" />}
+        <Image src={field.url} alt={field.name} fill className="object-cover" {...(field.url.match(/.gif/) && { unoptimized: true })} />
       </div>
     )
   } else {

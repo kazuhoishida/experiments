@@ -24,18 +24,20 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
 })
 
 const Media = ({ field, isCoverImage = false }: { field: FilledLinkToMediaField; isCoverImage: boolean }) => {
+  console.log(field.url)
   if (field.link_type !== "Media") {
     return <></>
   }
   if (field.kind === "image") {
     return (
-      <>
-        {field.url.endsWith(".gif") ? (
-          <img src={field.url} alt={field.name} loading={isCoverImage ? "eager" : "lazy"} className="h-full max-h-[30vh] w-full object-cover object-right md:max-h-[70vh] md:object-contain" />
-        ) : (
-          <Image src={field.url} alt={field.name} fill loading={isCoverImage ? "eager" : "lazy"} className="h-full max-h-[30vh] w-full object-cover object-right md:max-h-[70vh] md:object-contain" />
-        )}
-      </>
+      <Image
+        src={field.url}
+        alt={field.name}
+        fill
+        loading={isCoverImage ? "eager" : "lazy"}
+        className="h-full max-h-[30vh] w-full object-cover object-right md:max-h-[70vh] md:object-contain"
+        {...(field.url.match(/.gif/) && { unoptimized: true })}
+      />
     )
   } else {
     return <>not image</>
