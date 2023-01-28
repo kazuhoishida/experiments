@@ -10,7 +10,8 @@
     "slicemachine": "start-slicemachine",
     "type": "prismic-ts-codegen",
     "export": "next build && next export",
-    "serve": "yarn export && serve ./out"
+    "serve": "yarn export && serve ./out",
+    "format": "prettier --write {pages,components}/**/*.{js,jsx,ts,tsx}"
   },
   "dependencies": {
     "@headlessui/react": "^1.6.5",
