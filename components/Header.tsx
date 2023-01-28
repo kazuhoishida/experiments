@@ -2,6 +2,7 @@ import { asText, isFilled } from "@prismicio/helpers"
 import { Dialog, Transition } from "@headlessui/react"
 import { FeaturedProjectsAtom } from "../stores"
 import { Fragment, useEffect, useState } from "react"
+import { Logo } from "./Logo"
 import { PrismicLink, PrismicText } from "@prismicio/react"
 import { useAtomValue } from "jotai/utils"
 import clsx from "clsx"
@@ -145,7 +146,8 @@ export function Header({ nav }: Props) {
   }, [router.asPath])
   const toggleMenu = () => toggle(!isOpen)
   return (
-    <header className="sticky top-0 left-0 z-50 flex w-full items-center justify-end py-2 pl-4 pr-2 xs:py-0">
+    <header className="sticky top-0 left-0 z-50 flex w-full items-center justify-between pl-4 pr-2 xs:py-0">
+      <Logo />
       <div className="relative h-20 w-20" onClick={toggleMenu}>
         <CubeIcon />
       </div>

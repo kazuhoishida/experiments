@@ -8,7 +8,7 @@ export const Logo = () => {
   }, [])
   return (
     <PrismicLink href="/" className={`${pathname === "/" ? "invisible" : "visible"}`}>
-      <h1 className="w-fit text-[32px] font-bold leading-none">LAB</h1>
+      <h1 className="font-squash-h4 w-fit font-flex text-[44px] font-bold leading-none">⚡️</h1>
     </PrismicLink>
   )
 }
