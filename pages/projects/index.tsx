@@ -1,25 +1,28 @@
-import { createClient } from "../../prismicio"
-import { Disclosure } from "@headlessui/react"
-import { FeaturedProjectsAtom } from "../../stores"
-import { type FeaturedProjects, fetchFeaturedProjects } from "../../fetches/featuredProject"
-import { FilledLinkToMediaField } from "@prismicio/types"
-import { MouseEventHandler, useEffect, useMemo, useRef, useState } from "react"
-import { isFilled, documentToLinkField } from "@prismicio/helpers"
-import { Layout } from "../../components/Layout"
-import { Media } from "../../components/Media"
-import { pluck, union } from "underscore"
-import { PrismicLink } from "@prismicio/react"
-import { Select } from "../../components/Select"
-import { useUpdateAtom } from "jotai/utils"
-import CaretIcon from "../../components/CaretIcon"
-import Cursor from "../../components/Cursor"
-import FooterNavigation from "../../components/FooterNavigation"
-import Head from "next/head"
-import type { InputHTMLAttributes } from "react"
-import type { NextPage } from "next"
-import type { OnChange } from "../../components/Select"
-import type { ProjectDocument, NavigationDocument } from "../../prismic-models"
-import gsap from "gsap"
+import { createClient } from '../../prismicio'
+import { Disclosure } from '@headlessui/react'
+import { FeaturedProjectsAtom } from '../../stores'
+import {
+  type FeaturedProjects,
+  fetchFeaturedProjects,
+} from '../../fetches/featuredProject'
+import { FilledLinkToMediaField } from '@prismicio/types'
+import { MouseEventHandler, useEffect, useMemo, useRef, useState } from 'react'
+import { isFilled, documentToLinkField } from '@prismicio/helpers'
+import { Layout } from '../../components/Layout'
+import { Media } from '../../components/Media'
+import { pluck, union } from 'underscore'
+import { PrismicLink } from '@prismicio/react'
+import { Select } from '../../components/Select'
+import { useUpdateAtom } from 'jotai/utils'
+import CaretIcon from '../../components/CaretIcon'
+import Cursor from '../../components/Cursor'
+import FooterNavigation from '../../components/FooterNavigation'
+import Head from 'next/head'
+import type { InputHTMLAttributes } from 'react'
+import type { NextPage } from 'next'
+import type { OnChange } from '../../components/Select'
+import type { ProjectDocument, NavigationDocument } from '../../prismic-models'
+import gsap from 'gsap'
 
 type ProjectCardProps = InputHTMLAttributes<HTMLDivElement> & {
   project: ProjectDocument
@@ -29,12 +32,21 @@ type ProjectCardProps = InputHTMLAttributes<HTMLDivElement> & {
   leading: string
 }
 
-const ProjectCard = ({ project, isVisible, media, title, leading, style }: ProjectCardProps) => {
+const ProjectCard = ({
+  project,
+  isVisible,
+  media,
+  title,
+  leading,
+  style,
+}: ProjectCardProps) => {
   const [isCursorVisible, setCursorVisibility] = useState(false)
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const card = useRef<HTMLDivElement>(null)
-  const enter: MouseEventHandler<HTMLDivElement> = (e) => setCursorVisibility(true)
-  const leave: MouseEventHandler<HTMLDivElement> = (e) => setCursorVisibility(false)
+  const enter: MouseEventHandler<HTMLDivElement> = (e) =>
+    setCursorVisibility(true)
+  const leave: MouseEventHandler<HTMLDivElement> = (e) =>
+    setCursorVisibility(false)
   const move: MouseEventHandler<HTMLDivElement> = (e) => {
     if (!card.current) {
       return
@@ -47,17 +59,17 @@ const ProjectCard = ({ project, isVisible, media, title, leading, style }: Proje
 
   // fade in each project card with gsap
   useEffect(() => {
-    gsap.set(".project-card", {
+    gsap.set('.project-card', {
       opacity: 0,
-      y: "20px",
+      y: '20px',
     })
 
-    gsap.to(".project-card", {
+    gsap.to('.project-card', {
       stagger: 0.1,
       opacity: 1,
       y: 0,
       duration: 0.5,
-      ease: "power2.out",
+      ease: 'power2.out',
     })
   }, [style])
 
@@ -70,16 +82,27 @@ const ProjectCard = ({ project, isVisible, media, title, leading, style }: Proje
         onMouseMove={move}
         className={`
           relative h-full w-full translate-y-[var(--translateY)] flex-col overflow-hidden drop-shadow
-          ${isVisible ? "flex" : "hidden"}
+          ${isVisible ? 'flex' : 'hidden'}
         `}
         style={style}
       >
         <PrismicLink field={documentToLinkField(project)}>
-          <div className={`absolute top-8 left-2 z-10 hidden gap-2 text-white transition-all duration-[400ms] md:grid ${isCursorVisible ? "-translate-y-2 opacity-100" : "translate-y-0 opacity-0"}`}>
-            <h2 className="font-bold-h1 font-flex text-[30px] leading-none drop-shadow">{title}</h2>
+          <div
+            className={`absolute top-8 left-2 z-10 hidden gap-2 text-white transition-all duration-[400ms] md:grid ${
+              isCursorVisible
+                ? '-translate-y-2 opacity-100'
+                : 'translate-y-0 opacity-0'
+            }`}
+          >
+            <h2 className="font-bold-h1 font-flex text-[30px] leading-none drop-shadow">
+              {title}
+            </h2>
             <p className="text-[13px] leading-tight drop-shadow">{leading}</p>
           </div>
-          <Media field={media} className="h-[66.6vw] w-full md:h-[33.3vw] lg:h-[26.6vw]" />
+          <Media
+            field={media}
+            className="h-[66.6vw] w-full md:h-[33.3vw] lg:h-[26.6vw]"
+          />
         </PrismicLink>
         <Cursor isVisible={isCursorVisible} position={position} />
       </div>
@@ -88,16 +111,20 @@ const ProjectCard = ({ project, isVisible, media, title, leading, style }: Proje
 }
 
 type ValidProjectProps = Partial<ProjectCardProps> & {
-  project: ProjectCardProps["project"]
+  project: ProjectCardProps['project']
   selectedTag: string
 }
 
 const ValidProject = ({ project, selectedTag, style }: ValidProjectProps) => {
-  const featuredMedia = isFilled.linkToMedia(project.data.featuredMedia) ? project.data.featuredMedia : null
-  const projectTitle = project.data.title ?? ""
-  const projectLeading = project.data.leadingText ?? ""
-  const creator = isFilled.contentRelationship(project.data.creator) ? project.data.creator : null
-  const isVisible = selectedTag === "" || project.tags.includes(selectedTag)
+  const featuredMedia = isFilled.linkToMedia(project.data.featuredMedia)
+    ? project.data.featuredMedia
+    : null
+  const projectTitle = project.data.title ?? ''
+  const projectLeading = project.data.leadingText ?? ''
+  const creator = isFilled.contentRelationship(project.data.creator)
+    ? project.data.creator
+    : null
+  const isVisible = selectedTag === '' || project.tags.includes(selectedTag)
   if (!creator || !featuredMedia || !isVisible) {
     return <></>
   }
@@ -113,7 +140,14 @@ const ValidProject = ({ project, selectedTag, style }: ValidProjectProps) => {
 }
 
 const loopSlice = function <T>(array: T[], offset = 0, length = 0) {
-  const realOffset = Math.abs(offset) === array.length ? 0 : offset < 0 ? array.length + offset - 1 : offset < array.length ? offset : (offset % array.length) - 1
+  const realOffset =
+    Math.abs(offset) === array.length
+      ? 0
+      : offset < 0
+      ? array.length + offset - 1
+      : offset < array.length
+      ? offset
+      : (offset % array.length) - 1
   const sum = realOffset + length
   const newArray = new Array<T>()
   for (let i = realOffset; i < sum; i++) {
@@ -141,7 +175,7 @@ const ProjectsGrid = ({ projects, selectedTag }: ProjectsGridProps) => {
   const [vw, setVw] = useState(0)
   useEffect(() => {
     if (!window) return
-    window.addEventListener("resize", () => setVw(window.innerWidth))
+    window.addEventListener('resize', () => setVw(window.innerWidth))
     setVw(window.innerWidth)
   }, [setVw])
   useEffect(() => {
@@ -159,7 +193,11 @@ const ProjectsGrid = ({ projects, selectedTag }: ProjectsGridProps) => {
     }
   }, [vw])
   const infiniteProjects = useMemo(
-    () => [...loopSlice(projects, virtual.offset - overscan, overscan), ...loopSlice(projects, virtual.offset, perPage), ...loopSlice(projects, virtual.offset + perPage, overscan)],
+    () => [
+      ...loopSlice(projects, virtual.offset - overscan, overscan),
+      ...loopSlice(projects, virtual.offset, perPage),
+      ...loopSlice(projects, virtual.offset + perPage, overscan),
+    ],
     [projects, virtual.offset, overscan, perPage]
   )
   // NEED TO UPDATE
@@ -174,7 +212,7 @@ const ProjectsGrid = ({ projects, selectedTag }: ProjectsGridProps) => {
           selectedTag={selectedTag}
           key={`${i}-${project.uid}`}
           style={{
-            "--translateY": (i % col) % 2 === 1 ? "50px" : "0",
+            '--translateY': (i % col) % 2 === 1 ? '50px' : '0',
           }}
         />
       ))}
@@ -188,12 +226,16 @@ type ProjectsProps = {
   nav: NavigationDocument
 }
 
-const Projects: NextPage<ProjectsProps> = ({ projects, featuredProjects, nav }: ProjectsProps) => {
+const Projects: NextPage<ProjectsProps> = ({
+  projects,
+  featuredProjects,
+  nav,
+}: ProjectsProps) => {
   const setFeaturedProjects = useUpdateAtom(FeaturedProjectsAtom)
   setFeaturedProjects(featuredProjects)
-  const options = [""]
-  options.push(...union(...pluck(projects, "tags")))
-  const [selectedTag, setTags] = useState("")
+  const options = ['']
+  options.push(...union(...pluck(projects, 'tags')))
+  const [selectedTag, setTags] = useState('')
   const onChange: OnChange = (newValue) => setTags(newValue)
   const selectProps = { options, onChange }
 
@@ -215,7 +257,9 @@ const Projects: NextPage<ProjectsProps> = ({ projects, featuredProjects, nav }: 
               <div className="leading-6s font-squash-h6 inline-flex px-6 py-2 font-flex">
                 <label className="flex cursor-pointer place-items-center gap-2 text-[12px] leading-none sm:text-[17px]">
                   <div className="h-full">
-                    <span className="align-middle uppercase leading-none">CATEGORY:</span>
+                    <span className="align-middle uppercase leading-none">
+                      CATEGORY:
+                    </span>
                   </div>
                   <Select {...selectProps} />
                   <CaretIcon />
@@ -236,8 +280,8 @@ export default Projects
 export const getStaticProps = async () => {
   const client = createClient()
 
-  const projects = await client.getAllByType<ProjectDocument>("project", {
-    fetchLinks: ["creator.name", "creator.face"],
+  const projects = await client.getAllByType<ProjectDocument>('project', {
+    fetchLinks: ['creator.name', 'creator.face'],
   })
   if (!projects?.length) {
     return {
@@ -245,7 +289,7 @@ export const getStaticProps = async () => {
     }
   }
   const featuredProjects: FeaturedProjects = await fetchFeaturedProjects(client)
-  const nav = await client.getSingle<NavigationDocument>("navigation")
+  const nav = await client.getSingle<NavigationDocument>('navigation')
 
   return {
     props: {

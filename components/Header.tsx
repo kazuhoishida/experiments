@@ -1,18 +1,18 @@
-import { asText, isFilled } from "@prismicio/helpers"
-import { Dialog, Transition } from "@headlessui/react"
-import { FeaturedProjectsAtom } from "../stores"
-import { Fragment, useEffect, useState } from "react"
-import { Logo } from "./Logo"
-import { PrismicLink, PrismicText } from "@prismicio/react"
-import { useAtomValue } from "jotai/utils"
-import clsx from "clsx"
-import type { FeaturedProject } from "../fetches/featuredProject"
-import type { NavigationDocument } from "../prismic-models"
-import { useRouter } from "next/router"
-import Bubble from "./Bubble"
-import { BubbleAtom } from "../stores/BubbleAtom"
-import { useUpdateAtom } from "jotai/utils"
-import CubeIcon from "../components/CubeIcon"
+import { asText, isFilled } from '@prismicio/helpers'
+import { Dialog, Transition } from '@headlessui/react'
+import { FeaturedProjectsAtom } from '../stores'
+import { Fragment, useEffect, useState } from 'react'
+import { Logo } from './Logo'
+import { PrismicLink, PrismicText } from '@prismicio/react'
+import { useAtomValue } from 'jotai/utils'
+import clsx from 'clsx'
+import type { FeaturedProject } from '../fetches/featuredProject'
+import type { NavigationDocument } from '../prismic-models'
+import { useRouter } from 'next/router'
+import Bubble from './Bubble'
+import { BubbleAtom } from '../stores/BubbleAtom'
+import { useUpdateAtom } from 'jotai/utils'
+import CubeIcon from '../components/CubeIcon'
 
 type Props = {
   nav: NavigationDocument
@@ -28,11 +28,14 @@ const NavItem = ({ item, children }: NavItemProps) => {
   const setThumbnail = () => {
     if (item == undefined) return
     if (isFilled.linkToMedia(item.data?.featuredMedia)) {
-      setBubbleThumb(item.data?.featuredMedia?.url ?? "")
+      setBubbleThumb(item.data?.featuredMedia?.url ?? '')
     }
   }
   return (
-    <li className="text-[36px] font-[640] leading-none duration-[300ms] md:hover:translate-x-4 md:hover:opacity-50" onMouseEnter={setThumbnail}>
+    <li
+      className="text-[36px] font-[640] leading-none duration-[300ms] md:hover:translate-x-4 md:hover:opacity-50"
+      onMouseEnter={setThumbnail}
+    >
       {children}
     </li>
   )
@@ -43,11 +46,16 @@ type FeaturedProjectProps = {
 }
 
 const FeaturedProjectItem = ({ project }: FeaturedProjectProps) => {
-  if (!isFilled.contentRelationship(project) || !isFilled.contentRelationship(project.data?.creator)) {
+  if (
+    !isFilled.contentRelationship(project) ||
+    !isFilled.contentRelationship(project.data?.creator)
+  ) {
     return <></>
   }
   const name = project.data?.creator?.data?.name
-  return <h2 className="whitespace-nowrap text-[36px]">{project.data?.title}</h2>
+  return (
+    <h2 className="whitespace-nowrap text-[36px]">{project.data?.title}</h2>
+  )
 }
 
 const Navigation = ({ nav }: Props) => {
@@ -104,22 +112,43 @@ const MenuModal = ({ nav, isOpen }: MenuModalProps) => {
     const handleResize = () => {
       setWide(window.screen.width >= 1140)
     }
-    window.addEventListener("resize", handleResize)
+    window.addEventListener('resize', handleResize)
 
-    return () => window.removeEventListener("resize", handleResize)
+    return () => window.removeEventListener('resize', handleResize)
   }, [])
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-30" onClose={() => {}}>
-        <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0">
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
           <div className="fixed inset-0 bg-black bg-opacity-25" />
         </Transition.Child>
         <div className="fixed inset-0">
           <div className="flex min-h-full items-center justify-center text-center">
-            <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0 scale-95" enterTo="opacity-100 scale-100" leave="ease-in duration-200" leaveFrom="opacity-100 scale-100" leaveTo="opacity-0 scale-95">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 scale-95"
+              enterTo="opacity-100 scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 scale-100"
+              leaveTo="opacity-0 scale-95"
+            >
               <Dialog.Panel className="h-screen w-screen transform overflow-hidden text-left align-middle shadow-xl transition-all [height:100svh]">
-                <div className={clsx("h-full w-full bg-v-dark-gray px-[10vw] transition-all delay-300 md:pl-[10vw] md:pr-0", { "opacity-0": !isOpen })}>
+                <div
+                  className={clsx(
+                    'h-full w-full bg-v-dark-gray px-[10vw] transition-all delay-300 md:pl-[10vw] md:pr-0',
+                    { 'opacity-0': !isOpen }
+                  )}
+                >
                   <div className="no-scrollbar relative z-10 inline-block h-full overflow-y-auto py-[10vh] md:pr-4">
                     <Navigation nav={nav} />
                   </div>

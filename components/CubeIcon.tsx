@@ -1,8 +1,8 @@
-import React, { Suspense, useEffect, useState, useRef, useMemo } from "react"
-import * as THREE from "three"
-import { Canvas, useFrame } from "@react-three/fiber"
-import { PerspectiveCamera, useCursor, RoundedBox } from "@react-three/drei"
-import gsap from "gsap"
+import React, { Suspense, useEffect, useState, useRef, useMemo } from 'react'
+import * as THREE from 'three'
+import { Canvas, useFrame } from '@react-three/fiber'
+import { PerspectiveCamera, useCursor, RoundedBox } from '@react-three/drei'
+import gsap from 'gsap'
 
 function Scene() {
   const [hovered, setHover] = useState(false)
@@ -22,9 +22,19 @@ function Scene() {
     if (cameraRef.current == undefined) return
 
     if (hovered) {
-      gsap.to(cameraRef.current.position, { duration: 0.5, x: 0, y: 0, z: 5.3 })
+      gsap.to(cameraRef.current.position, {
+        duration: 0.5,
+        x: 0,
+        y: 0,
+        z: 5.3,
+      })
     } else {
-      gsap.to(cameraRef.current.position, { duration: 0.5, x: 0, y: 0, z: 6.5 })
+      gsap.to(cameraRef.current.position, {
+        duration: 0.5,
+        x: 0,
+        y: 0,
+        z: 6.5,
+      })
     }
   }, [hovered])
 
@@ -51,16 +61,39 @@ function Scene() {
   })
 
   return (
-    <group onPointerOver={() => setHover(true)} onPointerOut={() => setHover(false)}>
-      <PerspectiveCamera makeDefault fov={75} aspect={window.innerWidth / window.innerHeight} ref={cameraRef}>
+    <group
+      onPointerOver={() => setHover(true)}
+      onPointerOut={() => setHover(false)}
+    >
+      <PerspectiveCamera
+        makeDefault
+        fov={75}
+        aspect={window.innerWidth / window.innerHeight}
+        ref={cameraRef}
+      >
         <ambientLight intensity={0.05} castShadow />
-        <pointLight position={[30, 20, 30]} intensity={1.8} castShadow shadow-mapSize-height={1024} />
+        <pointLight
+          position={[30, 20, 30]}
+          intensity={1.8}
+          castShadow
+          shadow-mapSize-height={1024}
+        />
       </PerspectiveCamera>
       <Suspense fallback={null}>
         <group ref={meshRef}>
           {[...Array(8)].map((_, i) => (
-            <RoundedBox key={i} args={[1.9, 1.9, 1.9]} radius={0.1} {...calcPosition(i)} castShadow receiveShadow>
-              <meshStandardMaterial {...objectMaterial} color={hovered ? "#525252" : "white"} />
+            <RoundedBox
+              key={i}
+              args={[1.9, 1.9, 1.9]}
+              radius={0.1}
+              {...calcPosition(i)}
+              castShadow
+              receiveShadow
+            >
+              <meshStandardMaterial
+                {...objectMaterial}
+                color={hovered ? '#525252' : 'white'}
+              />
             </RoundedBox>
           ))}
         </group>

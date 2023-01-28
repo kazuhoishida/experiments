@@ -1,12 +1,16 @@
-import React, { Suspense, useEffect, useState, useRef, useMemo } from "react"
-import * as THREE from "three"
-import { Canvas, useFrame } from "@react-three/fiber"
-import { Loader } from "@react-three/drei"
-import { PerspectiveCamera, Environment, MeshDistortMaterial } from "@react-three/drei"
-import { useTexture } from "@react-three/drei"
-import { BubbleAtom } from "../stores/BubbleAtom"
-import { useAtomValue } from "jotai/utils"
-import { easing } from "maath"
+import React, { Suspense, useEffect, useState, useRef, useMemo } from 'react'
+import * as THREE from 'three'
+import { Canvas, useFrame } from '@react-three/fiber'
+import { Loader } from '@react-three/drei'
+import {
+  PerspectiveCamera,
+  Environment,
+  MeshDistortMaterial,
+} from '@react-three/drei'
+import { useTexture } from '@react-three/drei'
+import { BubbleAtom } from '../stores/BubbleAtom'
+import { useAtomValue } from 'jotai/utils'
+import { easing } from 'maath'
 
 function Scene() {
   const bubbleThumb = useAtomValue(BubbleAtom)
@@ -20,9 +24,9 @@ function Scene() {
     const handleResize = () => {
       setScreenWide(window.screen.width)
     }
-    window.addEventListener("resize", handleResize)
+    window.addEventListener('resize', handleResize)
 
-    return () => window.removeEventListener("resize", handleResize)
+    return () => window.removeEventListener('resize', handleResize)
   }, [])
 
   const materials = {
@@ -46,7 +50,11 @@ function Scene() {
 
   return (
     <>
-      <PerspectiveCamera makeDefault position={[0, 0, 2]} fov={(10 / screenWide) * 10 ** 4}>
+      <PerspectiveCamera
+        makeDefault
+        position={[0, 0, 2]}
+        fov={(10 / screenWide) * 10 ** 4}
+      >
         <ambientLight intensity={0.5} />
       </PerspectiveCamera>
       <Suspense fallback={null}>
@@ -62,7 +70,12 @@ function Scene() {
 
 function CameraRig(): null {
   useFrame((state, delta) => {
-    easing.damp3(state.camera.position, [(state.pointer.x * state.viewport.width) / 3, 1 + state.pointer.y, 2], 0.2, delta)
+    easing.damp3(
+      state.camera.position,
+      [(state.pointer.x * state.viewport.width) / 3, 1 + state.pointer.y, 2],
+      0.2,
+      delta
+    )
     state.camera.lookAt(0, 0, 0)
   })
   return null
@@ -77,7 +90,7 @@ export default function Bubble() {
         </Suspense>
         <CameraRig />
       </Canvas>
-      <Loader containerStyles={{ background: "none" }} />
+      <Loader containerStyles={{ background: 'none' }} />
     </>
   )
 }
