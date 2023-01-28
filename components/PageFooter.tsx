@@ -1,7 +1,6 @@
 import { useState, useEffect, InputHTMLAttributes, PropsWithChildren } from "react"
 import { PrismicLink, PrismicText } from "@prismicio/react"
 import type { NavigationDocument } from "../prismic-models"
-import { Logo } from "./Logo"
 import { asText } from "@prismicio/richtext"
 
 type ProjectProps = {
@@ -21,16 +20,10 @@ export const PageFooter = ({ nav }: ProjectProps) => {
   }, [])
 
   return (
-    <footer id="page-footer" className={`hidden pb-8 ${pathname === "/" ? "hidden" : "!block"}`}>
-      <div className="mx-auto px-8 md:w-9/10 md:p-0">
-        <div className="h-px w-full bg-black"></div>
-      </div>
+    <footer id="page-footer" className={`hidden pb-4 ${pathname === "/" ? "hidden" : "!block"}`}>
       <div className="md:mx-auto md:flex md:w-9/10 md:items-center md:justify-between md:gap-x-4">
         <div className="md:flex md:items-center md:justify-start md:gap-x-4">
-          <div className="my-8 flex w-full place-content-center md:w-auto">
-            <Logo />
-          </div>
-          <ul className={`mx-auto mb-8 flex w-4/5 justify-between px-12 py-2 font-serif text-sm md:m-0 md:justify-start md:gap-x-8`}>
+          <ul className={`mx-auto mb-8 flex w-4/5 justify-between px-12 py-2 font-serif text-sm md:m-0 md:w-auto md:justify-start md:gap-x-8 md:px-0`}>
             <NavItem>
               <PrismicLink
                 href="/"
@@ -53,7 +46,7 @@ export const PageFooter = ({ nav }: ProjectProps) => {
             })}
           </ul>
         </div>
-        <div className="flex w-full place-content-center font-serif text-xs md:place-content-end">all rights reserved.</div>
+        <div className="flex w-full place-content-center font-serif text-[8px] md:place-content-end">K. Ishida All Rights Reserved.</div>
       </div>
     </footer>
   )

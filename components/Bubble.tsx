@@ -46,7 +46,7 @@ function Scene() {
 
   return (
     <>
-      <PerspectiveCamera makeDefault position={[0, 0, 2]} fov={(10 / screenWide) * 10 ** 4} aspect={window.innerWidth / window.innerHeight}>
+      <PerspectiveCamera makeDefault position={[0, 0, 2]} fov={(10 / screenWide) * 10 ** 4}>
         <ambientLight intensity={0.5} />
       </PerspectiveCamera>
       <Suspense fallback={null}>
@@ -62,7 +62,7 @@ function Scene() {
 
 function CameraRig(): null {
   useFrame((state, delta) => {
-    easing.damp3(state.camera.position, [(state.pointer.x * state.viewport.width) / 2, 1 + state.pointer.y, 2], 0.2, delta)
+    easing.damp3(state.camera.position, [(state.pointer.x * state.viewport.width) / 3, 1 + state.pointer.y, 2], 0.2, delta)
     state.camera.lookAt(0, 0, 0)
   })
   return null
@@ -71,7 +71,7 @@ function CameraRig(): null {
 export default function Bubble() {
   return (
     <>
-      <Canvas className="canvas" dpr={[1, 2]}>
+      <Canvas dpr={[1, 2]}>
         <Suspense fallback={null}>
           <Scene />
         </Suspense>
