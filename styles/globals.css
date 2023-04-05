@@ -3,16 +3,21 @@
 @tailwind utilities;
 @layer base {
   :root {
-    --setting-arrow: "opsz" 36, "slnt" 0, "GRAD" 0, "XTRA" 468, "YOPQ" 79, "YTAS" 750, "YTDE" -203, "YTFI" 738, "YTLC" 514, "YTUC" 712, "XOPQ" 96;
-    --stretch-arrow: 138%;
-    --setting-bold-H1: "opsz" 36, "slnt" 0, "GRAD" 0, "XTRA" 468, "YOPQ" 79, "YTAS" 750, "YTDE" -203, "YTFI" 738, "YTLC" 514, "YTUC" 712;
-    --stretch-bold-H1: 32%;
-    --setting-squash-H1: "opsz" 48, "slnt" 0, "GRAD" 0, "XTRA" 468, "YOPQ" 79, "YTAS" 750, "YTDE" -203, "YTFI" 738, "YTLC" 514, "YTUC" 712;
-    --stretch-squash-H1: 140%;
-    --setting-squash-H4: "opsz" 48, "slnt" 0, "GRAD" 0, "XTRA" 468, "YOPQ" 79, "YTAS" 750, "YTDE" -203, "YTFI" 738, "YTLC" 514, "YTUC" 712;
-    --stretch-squash-H4: 140%;
-    --setting-squash-H6: "opsz" 48, "slnt" 0, "GRAD" 0, "XTRA" 468, "YOPQ" 79, "YTAS" 750, "YTDE" -203, "YTFI" 738, "YTLC" 514, "YTUC" 712;
-    --stretch-squash-H6: 138%;
+    --setting-arrow: 'opsz' 36, 'slnt' 0, 'GRAD' 0, 'XTRA' 468, 'YOPQ' 79,
+      'YTAS' 750, 'YTDE' -203, 'YTFI' 738, 'YTLC' 514, 'YTUC' 712, 'XOPQ' 96,
+      'wdth' 138, 'wght' 700;
+    --setting-bold-H1: 'opsz' 36, 'slnt' 0, 'GRAD' 0, 'XTRA' 468, 'YOPQ' 79,
+      'YTAS' 750, 'YTDE' -203, 'YTFI' 738, 'YTLC' 514, 'YTUC' 712, 'wdth' 32,
+      'wght' 700;
+    --setting-squash-H1: 'opsz' 48, 'slnt' 0, 'GRAD' 0, 'XTRA' 468, 'YOPQ' 79,
+      'YTAS' 750, 'YTDE' -203, 'YTFI' 738, 'YTLC' 514, 'YTUC' 712, 'wdth' 140,
+      'wght' 700;
+    --setting-squash-H4: 'opsz' 48, 'slnt' 0, 'GRAD' 0, 'XTRA' 468, 'YOPQ' 79,
+      'YTAS' 750, 'YTDE' -203, 'YTFI' 738, 'YTLC' 514, 'YTUC' 712, 'wdth' 140,
+      'wght' 800;
+    --setting-squash-H6: 'opsz' 48, 'slnt' 0, 'GRAD' 0, 'XTRA' 468, 'YOPQ' 79,
+      'YTAS' 750, 'YTDE' -203, 'YTFI' 738, 'YTLC' 514, 'YTUC' 712, 'wdth' 138,
+      'wght' 800;
   }
 }
 
