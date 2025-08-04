@@ -2,21 +2,22 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["images.prismic.io"],
+    domains: ['images.prismic.io'],
+    unoptimized: true,
   },
   async rewrites() {
     return [
       {
-        source: "/articles/",
-        destination: "/",
+        source: '/articles/',
+        destination: '/',
       },
       {
-        source: "/projects/",
-        destination: "/",
+        source: '/projects/',
+        destination: '/',
       },
       {
-        source: "/creators/",
-        destination: "/",
+        source: '/creators/',
+        destination: '/',
       },
     ]
   },
