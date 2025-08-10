@@ -23,7 +23,7 @@ import {
   type FeaturedProjects,
   fetchFeaturedProjects,
 } from '../../fetches/featuredProject'
-import { useUpdateAtom } from 'jotai/utils'
+import { useSetAtom } from 'jotai'
 import CreatorBubble from '../../components/CreatorBubble'
 import FooterNavigation from '../../components/FooterNavigation'
 
@@ -40,8 +40,12 @@ const Creator: NextPage<CreatorProps> = ({
   featuredProjects,
   projects,
 }) => {
-  const setFeaturedProjects = useUpdateAtom(FeaturedProjectsAtom)
-  setFeaturedProjects(featuredProjects)
+  const setFeaturedProjects = useSetAtom(FeaturedProjectsAtom)
+
+  useEffect(() => {
+    setFeaturedProjects(featuredProjects)
+  }, [featuredProjects, setFeaturedProjects])
+
   const github =
     prismicH.isFilled.link(creator.data.GitHub) && creator.data.GitHub
 
@@ -114,7 +118,7 @@ const Creator: NextPage<CreatorProps> = ({
                 </div>
                 <div className="relative grid w-full gap-y-10">
                   <SliceZone
-                    slices={creator.data.slices}
+                    slices={creator.data.slices as any}
                     components={components}
                   />
                 </div>
@@ -163,8 +167,14 @@ const Creator: NextPage<CreatorProps> = ({
 
 export default Creator
 
-export const getStaticProps = async ({ params, previewData }: any) => {
-  const client = createClient({ previewData })
+export const getStaticProps = async ({
+  params,
+  previewData,
+}: {
+  params?: { uid?: string }
+  previewData?: unknown
+}) => {
+  const client = createClient({ previewData } as any)
 
   const uid = params?.uid ?? ''
   const creator = await client.getByUID('creator', uid)

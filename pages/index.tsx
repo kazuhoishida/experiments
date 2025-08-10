@@ -1,52 +1,52 @@
-import "swiper/css";
-import "swiper/css/effect-creative";
-import "swiper/css/navigation";
-import { asText, isFilled } from "@prismicio/helpers";
-import { createClient } from "../prismicio";
-import { FeaturedProjectsAtom } from "../stores";
-import { fetchFeaturedProjects } from "../fetches";
-import { Layout } from "../components/Layout";
-import { Navigation, A11y, EffectCreative, Mousewheel, FreeMode } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { useRef, forwardRef, useState, useEffect } from "react";
-import { useUpdateAtom } from "jotai/utils";
-import FooterNavigation from "../components/FooterNavigation";
-import Head from "next/head";
-import Image from "next/image";
+import 'swiper/css'
+import 'swiper/css/effect-creative'
+import 'swiper/css/navigation'
+import { asText, isFilled } from '@prismicio/helpers'
+import { createClient } from '../prismicio'
+import { FeaturedProjectsAtom } from '../stores'
+import { fetchFeaturedProjects } from '../fetches'
+import { Layout } from '../components/Layout'
+import { Navigation, A11y, EffectCreative, Mousewheel, FreeMode } from 'swiper'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { useRef, forwardRef, useState, useEffect } from 'react'
+import { useSetAtom } from 'jotai'
+import FooterNavigation from '../components/FooterNavigation'
+import Head from 'next/head'
+import Image from 'next/image'
 import type {
   FeaturedProject,
   FeaturedProjects,
-} from "../fetches/featuredProject";
+} from '../fetches/featuredProject'
 import type {
   NavigationDocument,
   SettingsDocument,
   TopDocument,
-} from "../prismic-models";
-import type { Swiper as SwiperClass } from "swiper";
-import { PrismicLink } from "@prismicio/react";
-import gsap from "gsap";
+} from '../prismic-models'
+import type { Swiper as SwiperClass } from 'swiper'
+import { PrismicLink } from '@prismicio/react'
+import gsap from 'gsap'
 
 type ProjectProps = {
-  no: number;
-  project: FeaturedProject;
-  length: number;
-};
+  no: number
+  project: FeaturedProject
+  length: number
+}
 const Project = ({ no, project, length }: ProjectProps) => {
   useEffect(() => {
-    gsap.to(".featured-project-card", {
+    gsap.to('.featured-project-card', {
       delay: 0.5,
       stagger: 0.1,
       opacity: 1,
-      ease: "power2.out",
-    });
-  }, []);
+      ease: 'power2.out',
+    })
+  }, [])
 
   const setLoadingEager = (num: number) => {
-    return num === 1 || num === 2 || num === length;
-  };
+    return num === 1 || num === 2 || num === length
+  }
 
   if (!isFilled.contentRelationship(project) || !project.data) {
-    return <></>;
+    return <></>
   }
   return (
     <PrismicLink
@@ -94,7 +94,7 @@ const Project = ({ no, project, length }: ProjectProps) => {
                 alt={project.data.featuredMedia.name}
                 src={project.data.featuredMedia.url}
                 fill
-                loading={setLoadingEager(no) ? "eager" : "lazy"}
+                loading={setLoadingEager(no) ? 'eager' : 'lazy'}
                 className="h-full w-full object-cover"
                 {...(project.data.featuredMedia.url.match(/.gif/) && {
                   unoptimized: true,
@@ -105,19 +105,18 @@ const Project = ({ no, project, length }: ProjectProps) => {
         </div>
       </div>
     </PrismicLink>
-  );
-};
+  )
+}
 
 type CarouselNavigationProps = {
-  label: string;
-  className: string;
-};
+  label: string
+  className: string
+}
 
 const CarouselNavigation = forwardRef<
   HTMLButtonElement,
   CarouselNavigationProps
 >(function CarouselNavigation({ label, className }, ref) {
-  // ここで関数名を付けないとeslintに引っかかる
   return (
     <button
       className={`${className} font-arrow fixed -bottom-16 z-30 font-flex text-[20px] font-extrabold md:bottom-[3vh]`}
@@ -125,45 +124,45 @@ const CarouselNavigation = forwardRef<
     >
       {label}
     </button>
-  );
-});
+  )
+})
 
 type ProjectCarouselProps = {
-  featuredProjects: FeaturedProjects;
-};
+  featuredProjects: FeaturedProjects
+}
 
 const ProjectCarousel = ({ featuredProjects }: ProjectCarouselProps) => {
-  const prev = useRef<HTMLButtonElement>(null);
-  const next = useRef<HTMLButtonElement>(null);
-  const [swiper, onSwiper] = useState<SwiperClass>();
-  const [isWide, setWide] = useState(false);
+  const prev = useRef<HTMLButtonElement>(null)
+  const next = useRef<HTMLButtonElement>(null)
+  const [swiper, onSwiper] = useState<SwiperClass>()
+  const [isWide, setWide] = useState(false)
 
-  const [isLoaded, load] = useState(false);
-  const theta = 9;
-  const [r, setR] = useState(0);
-  const [translateY, setY] = useState(0);
+  const [isLoaded, load] = useState(false)
+  const theta = 9
+  const [r, setR] = useState(0)
+  const [translateY, setY] = useState(0)
 
   useEffect(() => {
-    let _r, _y;
+    let _r, _y
 
-    setWide(window.screen.width >= 768);
-    _r = Math.max(400, window.screen.width * 0.4);
-    setR(_r);
-    _y = (1 + Math.cos(theta)) * _r;
-    setY(_y);
-    load(true);
+    setWide(window.screen.width >= 768)
+    _r = Math.max(400, window.screen.width * 0.4)
+    setR(_r)
+    _y = (1 + Math.cos(theta)) * _r
+    setY(_y)
+    load(true)
 
     const handleResize = () => {
-      setWide(window.screen.width >= 768);
-      _r = Math.max(400, window.screen.width * 0.4);
-      setR(_r);
-      _y = (1 + Math.cos(theta)) * _r;
-      setY(_y);
-    };
-    window.addEventListener("resize", handleResize);
+      setWide(window.screen.width >= 768)
+      _r = Math.max(400, window.screen.width * 0.4)
+      setR(_r)
+      _y = (1 + Math.cos(theta)) * _r
+      setY(_y)
+    }
+    window.addEventListener('resize', handleResize)
 
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   return (
     <>
@@ -178,7 +177,7 @@ const ProjectCarousel = ({ featuredProjects }: ProjectCarouselProps) => {
             observer={true}
             className="!overflow-visible"
             modules={[Navigation, A11y, EffectCreative, Mousewheel, FreeMode]}
-            effect={"creative"}
+            effect={'creative'}
             slidesPerView={isWide ? 3 : 1}
             centeredSlides
             mousewheel={true}
@@ -193,12 +192,12 @@ const ProjectCarousel = ({ featuredProjects }: ProjectCarouselProps) => {
               prev: {
                 translate: [-r, translateY, 0],
                 rotate: [0, 0, -theta],
-                origin: "center bottom",
+                origin: 'center bottom',
               },
               next: {
                 translate: [r, translateY, 0],
                 rotate: [0, 0, theta],
-                origin: "center bottom",
+                origin: 'center bottom',
               },
             }}
             loop={true}
@@ -235,24 +234,26 @@ const ProjectCarousel = ({ featuredProjects }: ProjectCarouselProps) => {
         />
       </div>
     </>
-  );
-};
+  )
+}
 
 type Props = {
-  top: TopDocument;
-  featuredProjects: FeaturedProjects;
-  nav: NavigationDocument;
-  settings: SettingsDocument;
-};
+  top: TopDocument
+  featuredProjects: FeaturedProjects
+  nav: NavigationDocument
+  settings: SettingsDocument
+}
 
 const Index = ({ top, featuredProjects, nav, settings }: Props) => {
-  const setFeaturedProjects = useUpdateAtom(FeaturedProjectsAtom);
-  setFeaturedProjects(featuredProjects);
-
-  const [loaded, setLoad] = useState<boolean>(false);
+  const setFeaturedProjects = useSetAtom(FeaturedProjectsAtom)
   useEffect(() => {
-    setLoad(true);
-  }, []);
+    setFeaturedProjects(featuredProjects)
+  }, [featuredProjects, setFeaturedProjects])
+
+  const [loaded, setLoad] = useState<boolean>(false)
+  useEffect(() => {
+    setLoad(true)
+  }, [])
   return (
     <Layout nav={nav} className="flex flex-col overflow-hidden">
       <Head>
@@ -266,7 +267,7 @@ const Index = ({ top, featuredProjects, nav, settings }: Props) => {
             >
               <span
                 className={`inline-block delay-[200ms] duration-[800ms] ${
-                  loaded ? "translate-y-0" : "translate-y-[100%]"
+                  loaded ? 'translate-y-0' : 'translate-y-[100%]'
                 }`}
               >
                 {asText(top.data.title)}
@@ -277,10 +278,10 @@ const Index = ({ top, featuredProjects, nav, settings }: Props) => {
             >
               <span
                 className={`inline-block delay-[300ms] duration-[800ms] ${
-                  loaded ? "translate-y-0" : "translate-y-[100%]"
+                  loaded ? 'translate-y-0' : 'translate-y-[100%]'
                 }`}
               >
-                {asText(top.data.comment)}
+                {asText(top.data.comment as any)}
               </span>
             </p>
           </div>
@@ -289,19 +290,21 @@ const Index = ({ top, featuredProjects, nav, settings }: Props) => {
       </main>
       <FooterNavigation nav={nav} />
     </Layout>
-  );
-};
+  )
+}
 
-export default Index;
+export default Index
 
-export async function getStaticProps({ previewData }: any) {
-  const client = createClient({ previewData });
-  const top = await client.getSingle<TopDocument>("top");
-  const featuredProjects: FeaturedProjects = await fetchFeaturedProjects(
-    client
-  );
-  const nav = await client.getSingle<NavigationDocument>("navigation");
-  const settings = await client.getSingle<SettingsDocument>("settings");
+export async function getStaticProps({
+  previewData,
+}: {
+  previewData?: unknown
+}) {
+  const client = createClient({ previewData } as any)
+  const top = await client.getSingle<TopDocument>('top')
+  const featuredProjects: FeaturedProjects = await fetchFeaturedProjects(client)
+  const nav = await client.getSingle<NavigationDocument>('navigation')
+  const settings = await client.getSingle<SettingsDocument>('settings')
 
   return {
     props: {
@@ -310,5 +313,5 @@ export async function getStaticProps({ previewData }: any) {
       nav,
       settings,
     },
-  };
+  }
 }

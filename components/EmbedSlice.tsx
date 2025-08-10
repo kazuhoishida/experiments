@@ -1,7 +1,6 @@
-import type { SliceComponentProps } from '@prismicio/react'
 import type { EmbedSlice } from '../prismic-models'
 
-const EmbedSlice = ({ slice }: SliceComponentProps<EmbedSlice>) => (
+const EmbedSlice = ({ slice }: { slice: EmbedSlice }) => (
   <div dangerouslySetInnerHTML={{ __html: slice.primary.content.html ?? '' }} />
 )
 

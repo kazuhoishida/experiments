@@ -1,23 +1,33 @@
-import "../styles/globals.css";
-import type { AppProps } from "next/app";
+import '../styles/globals.css'
+import type { AppProps } from 'next/app'
 import type {
   RichTextMapSerializer,
   RichTextFunctionSerializer,
-} from "@prismicio/richtext";
-import Link from "next/link";
-import { PrismicLink, PrismicProvider } from "@prismicio/react";
-import { PrismicPreview } from "@prismicio/next";
-import { repositoryName, linkResolver, createClient } from "../prismicio";
-import { Heading } from "../components/Heading";
-import { Meta } from "../components/Meta";
+} from '@prismicio/richtext'
+import Link from 'next/link'
+import type { LinkProps } from 'next/link'
+import { PrismicLink, PrismicProvider } from '@prismicio/react'
+import { PrismicPreview } from '@prismicio/next'
+import { repositoryName, linkResolver, createClient } from '../prismicio'
+import { Heading } from '../components/Heading'
+import { Meta } from '../components/Meta'
+import type { AnchorHTMLAttributes, ReactNode } from 'react'
 
-const NextLinkShim: any = ({ href, children, locale, ...props }: any) => {
+type NextLinkShimProps = LinkProps &
+  AnchorHTMLAttributes<HTMLAnchorElement> & { children: ReactNode }
+
+const NextLinkShim = ({
+  href,
+  children,
+  locale,
+  ...props
+}: NextLinkShimProps) => {
   return (
     <Link href={href} locale={locale} {...props}>
       {children}
     </Link>
-  );
-};
+  )
+}
 
 const richTextComponents:
   | RichTextMapSerializer<JSX.Element>
@@ -68,7 +78,7 @@ const richTextComponents:
       {children}
     </PrismicLink>
   ),
-};
+}
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -84,5 +94,5 @@ export default function App({ Component, pageProps }: AppProps) {
         </PrismicPreview>
       </PrismicProvider>
     </>
-  );
+  )
 }

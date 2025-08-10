@@ -9,7 +9,7 @@ import {
 } from '@react-three/drei'
 import { useTexture } from '@react-three/drei'
 import { BubbleAtom } from '../stores/BubbleAtom'
-import { useAtomValue } from 'jotai/utils'
+import { useAtomValue } from 'jotai'
 import { easing } from 'maath'
 
 function Scene() {

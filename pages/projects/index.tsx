@@ -13,7 +13,7 @@ import { Media } from '../../components/Media'
 import { pluck, union } from 'underscore'
 import { PrismicLink } from '@prismicio/react'
 import { Select } from '../../components/Select'
-import { useUpdateAtom } from 'jotai/utils'
+import { useSetAtom } from 'jotai'
 import CaretIcon from '../../components/CaretIcon'
 import Cursor from '../../components/Cursor'
 import FooterNavigation from '../../components/FooterNavigation'
@@ -57,7 +57,6 @@ const ProjectCard = ({
     setPosition({ x: x, y: y })
   }
 
-  // fade in each project card with gsap
   useEffect(() => {
     gsap.set('.project-card', {
       opacity: 0,
@@ -144,10 +143,10 @@ const loopSlice = function <T>(array: T[], offset = 0, length = 0) {
     Math.abs(offset) === array.length
       ? 0
       : offset < 0
-      ? array.length + offset - 1
-      : offset < array.length
-      ? offset
-      : (offset % array.length) - 1
+        ? array.length + offset - 1
+        : offset < array.length
+          ? offset
+          : (offset % array.length) - 1
   const sum = realOffset + length
   const newArray = new Array<T>()
   for (let i = realOffset; i < sum; i++) {
@@ -200,9 +199,6 @@ const ProjectsGrid = ({ projects, selectedTag }: ProjectsGridProps) => {
     ],
     [projects, virtual.offset, overscan, perPage]
   )
-  // NEED TO UPDATE
-  // temporarily disabled the infinite scroll
-  // const gallery = selectedTag === '' ? infiniteProjects : projects
   const gallery = projects
   return (
     <div className="z-10 mt-10 mb-[100px] grid grid-cols-2 gap-2 sm:grid-cols-3 md:mb-[140px] md:grid-cols-4 md:gap-4 md:px-4 lg:grid-cols-5">
@@ -231,8 +227,10 @@ const Projects: NextPage<ProjectsProps> = ({
   featuredProjects,
   nav,
 }: ProjectsProps) => {
-  const setFeaturedProjects = useUpdateAtom(FeaturedProjectsAtom)
-  setFeaturedProjects(featuredProjects)
+  const setFeaturedProjects = useSetAtom(FeaturedProjectsAtom)
+  useEffect(() => {
+    setFeaturedProjects(featuredProjects)
+  }, [featuredProjects, setFeaturedProjects])
   const options = ['']
   options.push(...union(...pluck(projects, 'tags')))
   const [selectedTag, setTags] = useState('')

@@ -1,11 +1,21 @@
 import clsx from 'clsx'
+import type { ComponentType, ReactNode } from 'react'
+
+type BoundedSize = 'small' | 'base' | 'wide' | 'widest'
+
+type BoundedProps = {
+  as?: keyof JSX.IntrinsicElements | ComponentType<any>
+  size?: BoundedSize
+  className?: string
+  children?: ReactNode
+}
 
 export const Bounded = ({
   as: Comp = 'div',
   size = 'base',
   className,
   children,
-}: any) => {
+}: BoundedProps) => {
   return (
     <Comp className={className}>
       <div

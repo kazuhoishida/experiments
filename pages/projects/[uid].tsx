@@ -15,7 +15,7 @@ import {
   SliceZone,
 } from '@prismicio/react'
 import { useRouter } from 'next/router'
-import { useUpdateAtom } from 'jotai/utils'
+import { useSetAtom } from 'jotai'
 import Image from 'next/image'
 import Head from 'next/head'
 import type { FilledLinkToMediaField } from '@prismicio/types'
@@ -97,7 +97,7 @@ const Project: NextPage<ProjectProps> = ({
   nav,
   featuredProjects,
 }) => {
-  const setFeaturedProjects = useUpdateAtom(FeaturedProjectsAtom)
+  const setFeaturedProjects = useSetAtom(FeaturedProjectsAtom)
   setFeaturedProjects(featuredProjects)
   const date = asDate(
     project.data.publishDate || (project.first_publication_date as any)
@@ -249,7 +249,7 @@ const Project: NextPage<ProjectProps> = ({
               )}
               <div className="mt-12 md:mt-0 md:w-1/2 [&_section]:mb-6 md:[&_section]:mb-10 last:[&_*]:mb-0 [&_iframe]:h-auto [&_iframe]:w-full">
                 <SliceZone
-                  slices={project.data.slices}
+                  slices={project.data.slices as any}
                   components={components}
                 />
               </div>
@@ -275,10 +275,11 @@ const Project: NextPage<ProjectProps> = ({
           className="no-scrollbar mt-16 mb-16 flex flex-nowrap gap-x-4 overflow-x-scroll bg-v-light-gray py-8 md:mb-20 md:gap-x-12 md:pt-28 md:pb-20"
           ref={ref}
         >
-          {featuredProjects.data.projects.map(
-            ({ project }) =>
-              isFilled.contentRelationship(project) &&
-              isFilled.linkToMedia(project.data?.featuredMedia) && (
+          {featuredProjects.data.projects.map((item) => {
+            const project = item.project as ProjectDocument
+            return (
+              isFilled.contentRelationship(project as any) &&
+              isFilled.linkToMedia(project.data.featuredMedia) && (
                 <PrismicLink
                   field={project}
                   key={project.id}
@@ -300,7 +301,8 @@ const Project: NextPage<ProjectProps> = ({
                   </div>
                 </PrismicLink>
               )
-          )}
+            )
+          })}
         </div>
       </main>
     </Layout>

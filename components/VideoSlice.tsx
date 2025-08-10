@@ -1,8 +1,7 @@
-import type { SliceComponentProps } from '@prismicio/react'
 import type { VideoSlice } from '../prismic-models'
 import { isFilled } from '@prismicio/helpers'
 
-const VideoSlice = ({ slice }: SliceComponentProps<VideoSlice>) => {
+const VideoSlice = ({ slice }: { slice: VideoSlice }) => {
   if (!isFilled.linkToMedia(slice.primary.link)) {
     return <></>
   }

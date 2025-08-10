@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
-import { type SliceComponentProps, PrismicLink } from '@prismicio/react'
-import { asDate, isFilled } from '@prismicio/helpers'
+import { PrismicLink } from '@prismicio/react'
+import { asDate } from '@prismicio/helpers'
 import Image from 'next/image'
 import type { WorkSlice } from '../prismic-models'
 import ArrowIcon from './ArrowIcon'
 
-const WorkSlice = ({ slice, index }: SliceComponentProps<WorkSlice>) => {
+const WorkSlice = ({ slice, index }: { slice: WorkSlice; index: number }) => {
   const randomDeg = () => {
     return (Math.random() - 0.5) * 14
   }
@@ -17,19 +17,27 @@ const WorkSlice = ({ slice, index }: SliceComponentProps<WorkSlice>) => {
     setDeg(randomDeg())
   }, [activeImage])
 
-  const handleActiveImage = (e: any) => {
+  const handleActiveImage = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation()
-    let activeNum: number = parseInt(
-      e.target.closest('[data-index]')?.dataset?.index ?? '-1'
-    )
+    const datasetIndex = (
+      e.currentTarget.closest('[data-index]') as HTMLElement | null
+    )?.dataset?.index
+    const activeNum = parseInt(datasetIndex ?? '-1')
     setActiveImage(activeNum)
   }
+
+  const hasThumb =
+    !!slice.primary.Thumbnail &&
+    typeof slice.primary.Thumbnail === 'object' &&
+    'url' in slice.primary.Thumbnail &&
+    typeof slice.primary.Thumbnail.url === 'string' &&
+    slice.primary.Thumbnail.url.length > 0
 
   return (
     <div className="flex justify-between gap-x-4" data-index={index}>
       <div
         className="flex justify-start gap-x-4 md:w-1/2 md:gap-x-5"
-        onMouseEnter={(e) => handleActiveImage(e)}
+        onMouseEnter={handleActiveImage}
         onMouseLeave={() => setActiveImage(-1)}
       >
         {slice.primary.date && (
@@ -60,15 +68,19 @@ const WorkSlice = ({ slice, index }: SliceComponentProps<WorkSlice>) => {
           )}
         </div>
       </div>
-      {isFilled.imageThumbnail(slice.primary.Thumbnail) && (
+      {hasThumb && (
         <div
           className={`absolute top-0 -right-6 hidden w-1/2 transition-all duration-[400ms] md:block ${
             index === activeImage ? 'z-10 scale-[1.16]' : 'z-0'
           }`}
         >
           <Image
-            src={slice.primary.Thumbnail?.url ?? ''}
-            alt={slice.primary.Thumbnail.alt ?? 'WORK THUMBNAIL'}
+            src={slice.primary.Thumbnail.url}
+            alt={
+              'alt' in slice.primary.Thumbnail && slice.primary.Thumbnail.alt
+                ? slice.primary.Thumbnail.alt
+                : 'WORK THUMBNAIL'
+            }
             fill
             className="aspect-[5/3] max-h-[40vh] w-full object-cover drop-shadow-md"
             style={{ transform: `rotate(${deg}deg)` }}

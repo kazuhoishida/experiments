@@ -4,31 +4,33 @@ import { FeaturedProjectsAtom } from '../stores'
 import { Fragment, useEffect, useState } from 'react'
 import { Logo } from './Logo'
 import { PrismicLink, PrismicText } from '@prismicio/react'
-import { useAtomValue } from 'jotai/utils'
+import { useAtomValue, useSetAtom } from 'jotai'
 import clsx from 'clsx'
 import type { FeaturedProject } from '../fetches/featuredProject'
 import type { NavigationDocument } from '../prismic-models'
 import { useRouter } from 'next/router'
 import Bubble from './Bubble'
 import { BubbleAtom } from '../stores/BubbleAtom'
-import { useUpdateAtom } from 'jotai/utils'
 import CubeIcon from '../components/CubeIcon'
+import type { LinkToMediaField } from '@prismicio/types'
 
 type Props = {
   nav: NavigationDocument
 }
 
 type NavItemProps = {
-  children: any
-  item: any
+  children: React.ReactNode
+  item: unknown
 }
 
 const NavItem = ({ item, children }: NavItemProps) => {
-  const setBubbleThumb = useUpdateAtom(BubbleAtom)
+  const setBubbleThumb = useSetAtom(BubbleAtom)
   const setThumbnail = () => {
-    if (item == undefined) return
-    if (isFilled.linkToMedia(item.data?.featuredMedia)) {
-      setBubbleThumb(item.data?.featuredMedia?.url ?? '')
+    if (!item || typeof item !== 'object') return
+    const data = (item as { data?: { featuredMedia?: LinkToMediaField } }).data
+    const fm = (data?.featuredMedia ?? null) as LinkToMediaField | null
+    if (fm && isFilled.linkToMedia(fm)) {
+      setBubbleThumb(fm.url ?? '')
     }
   }
   return (
@@ -52,7 +54,7 @@ const FeaturedProjectItem = ({ project }: FeaturedProjectProps) => {
   ) {
     return <></>
   }
-  const name = project.data?.creator?.data?.name
+  const name = (project.data?.creator?.data as { name?: string } | null)?.name
   return (
     <h2 className="whitespace-nowrap text-[36px]">{project.data?.title}</h2>
   )
@@ -99,12 +101,13 @@ const Navigation = ({ nav }: Props) => {
   )
 }
 
-type MenuModalProps = {
+function MenuModal({
+  nav,
+  isOpen,
+}: {
   nav: NavigationDocument
   isOpen: boolean
-}
-
-const MenuModal = ({ nav, isOpen }: MenuModalProps) => {
+}) {
   const [isWide, setWide] = useState(false)
   useEffect(() => {
     setWide(window.screen.width >= 1140)
