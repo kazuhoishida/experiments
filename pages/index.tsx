@@ -52,12 +52,13 @@ const Project = ({ no, project, length }: ProjectProps) => {
                 <div
                     className={`
                         pointer-events-none relative col-start-1 col-end-3 row-start-1
-                        inline-grid translate-x-[-73.5%] overflow-hidden md:translate-x-[-80%]
+                        inline-grid translate-x-[-73.5%] md:translate-x-[-80%]
+                        z-[-1]
                     `}
                 >
                     <span
                         className={`
-                            inline-block translate-x-[78%] font-serif text-[clamp(400px,100vw,600px)] leading-[0.9] text-black
+                            inline-block translate-x-[78%] font-serif text-[clamp(400px,100vw,600px)] leading-[0.9] text-[#f2e4cf]
                             transition-transform duration-[400ms] md:text-[50vw] [.swiper-slide-active_&]:translate-x-[70%] md:[.swiper-slide-active_&]:translate-x-[60%]
                         `}
                     >
@@ -66,13 +67,11 @@ const Project = ({ no, project, length }: ProjectProps) => {
                 </div>
                 <div
                     className={`
-                        relative col-start-2 col-end-3 row-start-1 flex
-                        max-h-[80vh] w-[68vw] translate-y-[-4%] flex-col place-content-end gap-y-4 justify-self-end bg-white transition-transform
-                        duration-[400ms] before:absolute
-                        before:top-[-100vh]
-                        before:left-0 before:hidden before:h-[300vh] before:w-[1px] before:bg-black md:w-[calc(var(--slide-width)*0.8)] md:translate-y-[-5%]
+                        relative z-[1] col-start-2 col-end-3 row-start-1 flex
+                        max-h-[80vh] w-[68vw] translate-y-[-4%] flex-col place-content-end gap-y-4 justify-self-end transition-transform
+                        duration-[400ms] md:w-[calc(var(--slide-width)*0.8)] md:translate-y-[-10%]
                         md:gap-y-8
-                        md:group-hover:translate-y-[-14%] [:is(.swiper-slide-prev,.swiper-slide-active,.swiper-slide-next)_&]:before:block
+                        md:group-hover:translate-y-[-12%]
                     `}
                 >
                     <div className="pl-[8%]">
@@ -246,29 +245,29 @@ const Index = ({ top, featuredProjects, nav, settings }: Props) => {
                 <title>{settings.data.name?.[0]?.text || ''}</title>
             </Head>
             <main>
-                <div className="fixed top-[45%] w-screen -translate-y-1/2 px-[4vw] md:top-1/2 md:left-4 md:px-0">
-                    <div className="z-50 grid md:absolute md:top-0 md:left-[5vw] md:mb-0 md:gap-4">
-                        <h1
-                            className={`font-squash-h4 mb-3 overflow-hidden font-flex text-[9vw] leading-[0.9em] text-black md:mb-[0.2vw] md:max-w-[50vw] md:text-[3.6vw]`}
+                <div className="z-50 grid fixed top-[5vh] left-[4vw] gap-4 md:gap-3">
+                    <h1
+                        className={`font-squash-h4 font-flex text-[9vw] leading-[0.9em] text-black md:text-[min(3vw,44px)]`}
+                    >
+                        <span
+                            className={`inline-block delay-[200ms] duration-[800ms] ${
+                                loaded ? 'translate-y-0 opacity-100' : 'translate-y-[0.5em] opacity-0'
+                            }`}
                         >
-                            <span
-                                className={`inline-block delay-[200ms] duration-[800ms] ${
-                                    loaded ? 'translate-y-0' : 'translate-y-[100%]'
-                                }`}
-                            >
-                                {getTextFromField(top.data.title)}
-                            </span>
-                        </h1>
-                        <p className={`overflow-hidden pl-[0.5vw] font-flex text-[14px] font-bold text-black`}>
-                            <span
-                                className={`inline-block delay-[300ms] duration-[800ms] ${
-                                    loaded ? 'translate-y-0' : 'translate-y-[100%]'
-                                }`}
-                            >
-                                {getTextFromField(top.data.comment)}
-                            </span>
-                        </p>
-                    </div>
+                            {getTextFromField(top.data.title)}
+                        </span>
+                    </h1>
+                    <p className="text-xs font-bold text-black">
+                        <span
+                            className={`inline-block delay-[350ms] duration-[800ms] ${
+                                loaded ? 'translate-y-0 opacity-100' : 'translate-y-[0.5em] opacity-0'
+                            }`}
+                        >
+                            {getTextFromField(top.data.comment)}
+                        </span>
+                    </p>
+                </div>
+                <div className="fixed top-[45%] w-screen -translate-y-1/2 px-[4vw] md:top-1/2 md:left-4 md:px-0">
                     <ProjectCarousel featuredProjects={featuredProjects} />
                 </div>
             </main>
@@ -281,10 +280,10 @@ export default Index;
 
 export async function getStaticProps({ previewData }: { previewData?: unknown }) {
     const client = createClient({ previewData } as any);
-    const top = await client.getSingle('top') as TopDocument;
+    const top = (await client.getSingle('top')) as TopDocument;
     const featuredProjects: FeaturedProjects = await fetchFeaturedProjects(client);
-    const nav = await client.getSingle('navigation') as NavigationDocument;
-    const settings = await client.getSingle('settings') as SettingsDocument;
+    const nav = (await client.getSingle('navigation')) as NavigationDocument;
+    const settings = (await client.getSingle('settings')) as SettingsDocument;
 
     return {
         props: {
