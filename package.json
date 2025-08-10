@@ -7,13 +7,13 @@
     },
     "scripts": {
         "dev": "next dev -p 38888",
-        "build": "next build",
+        "build": "npm install --legacy-peer-deps && next build",
         "start": "next start",
         "lint": "next lint",
         "slicemachine": "start-slicemachine",
         "type": "prismic-ts-codegen",
         "export": "next build && next export",
-        "serve": "yarn export && serve ./out",
+        "serve": "npm run export && serve ./out",
         "format": "prettier --write .",
         "clean": "rm -rf .next && rm -rf out && rm -rf node_modules/.cache"
     },
