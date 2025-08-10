@@ -15,10 +15,6 @@ const nextConfig = {
                 source: '/projects/',
                 destination: '/',
             },
-            {
-                source: '/creator/',
-                destination: '/',
-            },
         ];
     },
 };

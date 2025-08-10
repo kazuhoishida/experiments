@@ -50,10 +50,9 @@ type FeaturedProjectProps = {
 };
 
 const FeaturedProjectItem = ({ project }: FeaturedProjectProps) => {
-    if (!isFilled.contentRelationship(project) || !isFilled.contentRelationship(project.data?.creator)) {
+    if (!isFilled.contentRelationship(project)) {
         return <></>;
     }
-    const name = (project.data?.creator?.data as { name?: string } | null)?.name;
     return <h2 className="whitespace-nowrap text-[36px]">{project.data?.title || ''}</h2>;
 };
 

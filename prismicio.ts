@@ -12,13 +12,9 @@ export const linkResolver: LinkResolverFunction<string> = doc => {
     if (doc.type === 'project') {
         return `/projects/${doc.uid}`;
     }
-    if (doc.type === 'creator') {
-        return `/creator/${doc.uid}`;
-    }
     if (doc.type === 'top') {
         return '/';
     }
-
     if (doc.type === 'page') {
         return `/${doc.uid}`;
     }
