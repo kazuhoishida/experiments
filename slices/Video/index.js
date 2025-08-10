@@ -1,2 +1,2 @@
-import VideoSlice from "../../components/VideoSlice"
-export default VideoSlice
+import VideoSlice from '../../components/VideoSlice';
+export default VideoSlice;

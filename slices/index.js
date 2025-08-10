@@ -11,28 +11,17 @@ import Video from './Video';
 import Work from './Work';
 import Works from './Works';
 
-export {
-	ContactForm,
-	Embed,
-	Image,
-	Project,
-	Quote,
-	Text,
-	TitledText,
-	Video,
-	Work,
-	Works,
-};
+export { ContactForm, Embed, Image, Project, Quote, Text, TitledText, Video, Work, Works };
 
 export const components = {
-	contact_form: ContactForm,
-	embed: Embed,
-	image: Image,
-	project: Project,
-	quote: Quote,
-	text: Text,
-	titled_text: TitledText,
-	video: Video,
-	work: Work,
-	works: Works,
+    contact_form: ContactForm,
+    embed: Embed,
+    image: Image,
+    project: Project,
+    quote: Quote,
+    text: Text,
+    titled_text: TitledText,
+    video: Video,
+    work: Work,
+    works: Works,
 };

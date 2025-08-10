@@ -1,2 +1,2 @@
-import WorkSlice from "../../components/WorkSlice"
-export default WorkSlice
+import WorkSlice from '../../components/WorkSlice';
+export default WorkSlice;

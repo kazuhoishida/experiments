@@ -1,127 +1,125 @@
 {
-  "id": "project",
-  "label": "Project",
-  "repeatable": true,
-  "status": true,
-  "json": {
-    "Main": {
-      "uid": {
-        "type": "UID",
-        "config": {
-          "label": "UID",
-          "placeholder": ""
-        }
-      },
-      "title": {
-        "type": "Text",
-        "config": {
-          "label": "Title",
-          "placeholder": ""
-        }
-      },
-      "leadingText": {
-        "type": "Text",
-        "config": {
-          "label": "Leading Text",
-          "placeholder": ""
-        }
-      },
-      "publishDate": {
-        "type": "Date",
-        "config": {
-          "label": "Publish Date",
-          "placeholder": ""
-        }
-      },
-      "creator": {
-        "type": "Link",
-        "config": {
-          "label": "Creator",
-          "select": "document",
-          "customtypes": [
-            "creator"
-          ]
-        }
-      },
-      "featuredMedia": {
-        "type": "Link",
-        "config": {
-          "label": "Featured Media",
-          "placeholder": "",
-          "select": "media"
-        }
-      },
-      "abstract": {
-        "type": "StructuredText",
-        "config": {
-          "label": "Abstract",
-          "placeholder": "冒頭の短い概要",
-          "allowTargetBlank": true,
-          "multi": "paragraph,strong,em,hyperlink,list-item,o-list-item"
-        }
-      },
-      "details": {
-        "type": "Group",
-        "config": {
-          "label": "Details",
-          "fields": {
+    "id": "project",
+    "label": "Project",
+    "repeatable": true,
+    "status": true,
+    "json": {
+        "Main": {
+            "uid": {
+                "type": "UID",
+                "config": {
+                    "label": "UID",
+                    "placeholder": ""
+                }
+            },
             "title": {
-              "type": "StructuredText",
-              "config": {
-                "label": "Title",
-                "placeholder": "",
-                "allowTargetBlank": true,
-                "single": "heading1,heading2,heading3,heading4,heading5,heading6"
-              }
+                "type": "Text",
+                "config": {
+                    "label": "Title",
+                    "placeholder": ""
+                }
             },
-            "description": {
-              "type": "StructuredText",
-              "config": {
-                "label": "Description",
-                "placeholder": "",
-                "allowTargetBlank": true,
-                "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
-              }
+            "leadingText": {
+                "type": "Text",
+                "config": {
+                    "label": "Leading Text",
+                    "placeholder": ""
+                }
+            },
+            "publishDate": {
+                "type": "Date",
+                "config": {
+                    "label": "Publish Date",
+                    "placeholder": ""
+                }
+            },
+            "creator": {
+                "type": "Link",
+                "config": {
+                    "label": "Creator",
+                    "select": "document",
+                    "customtypes": ["creator"]
+                }
+            },
+            "featuredMedia": {
+                "type": "Link",
+                "config": {
+                    "label": "Featured Media",
+                    "placeholder": "",
+                    "select": "media"
+                }
+            },
+            "abstract": {
+                "type": "StructuredText",
+                "config": {
+                    "label": "Abstract",
+                    "placeholder": "冒頭の短い概要",
+                    "allowTargetBlank": true,
+                    "multi": "paragraph,strong,em,hyperlink,list-item,o-list-item"
+                }
+            },
+            "details": {
+                "type": "Group",
+                "config": {
+                    "label": "Details",
+                    "fields": {
+                        "title": {
+                            "type": "StructuredText",
+                            "config": {
+                                "label": "Title",
+                                "placeholder": "",
+                                "allowTargetBlank": true,
+                                "single": "heading1,heading2,heading3,heading4,heading5,heading6"
+                            }
+                        },
+                        "description": {
+                            "type": "StructuredText",
+                            "config": {
+                                "label": "Description",
+                                "placeholder": "",
+                                "allowTargetBlank": true,
+                                "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+                            }
+                        }
+                    }
+                }
+            },
+            "demoLink": {
+                "type": "Link",
+                "config": {
+                    "label": "Demo Link",
+                    "placeholder": "",
+                    "select": null
+                }
+            },
+            "github": {
+                "type": "Link",
+                "config": {
+                    "label": "GitHub",
+                    "placeholder": "ソースコードへのリンク",
+                    "select": null
+                }
+            },
+            "slices": {
+                "type": "Slices",
+                "fieldset": "Slice Zone",
+                "config": {
+                    "choices": {
+                        "embed": {
+                            "type": "SharedSlice"
+                        },
+                        "video": {
+                            "type": "SharedSlice"
+                        },
+                        "image": {
+                            "type": "SharedSlice"
+                        },
+                        "text": {
+                            "type": "SharedSlice"
+                        }
+                    }
+                }
             }
-          }
         }
-      },
-      "demoLink": {
-        "type": "Link",
-        "config": {
-          "label": "Demo Link",
-          "placeholder": "",
-          "select": null
-        }
-      },
-      "github": {
-        "type": "Link",
-        "config": {
-          "label": "GitHub",
-          "placeholder": "ソースコードへのリンク",
-          "select": null
-        }
-      },
-      "slices": {
-        "type": "Slices",
-        "fieldset": "Slice Zone",
-        "config": {
-          "choices": {
-            "embed": {
-              "type": "SharedSlice"
-            },
-            "video": {
-              "type": "SharedSlice"
-            },
-            "image": {
-              "type": "SharedSlice"
-            },
-            "text": {
-              "type": "SharedSlice"
-            }
-          }
-        }
-      }
     }
-  }
 }

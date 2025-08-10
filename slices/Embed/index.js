@@ -1,3 +1,3 @@
-import Embed from "../../components/EmbedSlice"
+import Embed from '../../components/EmbedSlice';
 
-export default Embed
+export default Embed;

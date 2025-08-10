@@ -1,35 +1,35 @@
 {
-  "id": "top",
-  "label": "Top",
-  "repeatable": false,
-  "status": true,
-  "json": {
-    "Main": {
-      "title": {
-        "type": "StructuredText",
-        "config": {
-          "label": "Title",
-          "placeholder": "lab",
-          "allowTargetBlank": false,
-          "single": "heading1"
+    "id": "top",
+    "label": "Top",
+    "repeatable": false,
+    "status": true,
+    "json": {
+        "Main": {
+            "title": {
+                "type": "StructuredText",
+                "config": {
+                    "label": "Title",
+                    "placeholder": "lab",
+                    "allowTargetBlank": false,
+                    "single": "heading1"
+                }
+            },
+            "comment": {
+                "type": "StructuredText",
+                "config": {
+                    "label": "Comment",
+                    "placeholder": "",
+                    "allowTargetBlank": false,
+                    "single": "paragraph"
+                }
+            },
+            "slices": {
+                "type": "Slices",
+                "fieldset": "Slice Zone",
+                "config": {
+                    "choices": {}
+                }
+            }
         }
-      },
-      "comment": {
-        "type": "StructuredText",
-        "config": {
-          "label": "Comment",
-          "placeholder": "",
-          "allowTargetBlank": false,
-          "single": "paragraph"
-        }
-      },
-      "slices": {
-        "type": "Slices",
-        "fieldset": "Slice Zone",
-        "config": {
-          "choices": {}
-        }
-      }
     }
-  }
 }

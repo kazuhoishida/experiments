@@ -1,28 +1,26 @@
 {
-  "id": "featured-projects",
-  "label": "FeaturedProjects",
-  "repeatable": false,
-  "status": true,
-  "json": {
-    "Main": {
-      "projects": {
-        "type": "Group",
-        "config": {
-          "label": "Projects",
-          "fields": {
-            "project": {
-              "type": "Link",
-              "config": {
-                "label": "Project",
-                "select": "document",
-                "customtypes": [
-                  "project"
-                ]
-              }
+    "id": "featured-projects",
+    "label": "FeaturedProjects",
+    "repeatable": false,
+    "status": true,
+    "json": {
+        "Main": {
+            "projects": {
+                "type": "Group",
+                "config": {
+                    "label": "Projects",
+                    "fields": {
+                        "project": {
+                            "type": "Link",
+                            "config": {
+                                "label": "Project",
+                                "select": "document",
+                                "customtypes": ["project"]
+                            }
+                        }
+                    }
+                }
             }
-          }
         }
-      }
     }
-  }
 }

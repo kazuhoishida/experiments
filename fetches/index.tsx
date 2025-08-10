@@ -1,1 +1,1 @@
-export { fetchFeaturedProjects } from './featuredProject'
+export { fetchFeaturedProjects } from './featuredProject';
