@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
-import * as Collapsible from '@radix-ui/react-collapsible';
 import Link from 'next/link';
 import { isFilled } from '@prismicio/helpers';
 import type { NavigationDocument } from '../prismic-models';
