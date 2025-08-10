@@ -7,18 +7,6 @@ const nextConfig = {
         domains: ['images.prismic.io'],
         unoptimized: true,
     },
-    async rewrites() {
-        return [
-            {
-                source: '/articles/',
-                destination: '/',
-            },
-            {
-                source: '/projects/',
-                destination: '/',
-            },
-        ];
-    },
 };
 
 module.exports = nextConfig;
