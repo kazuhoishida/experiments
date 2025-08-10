@@ -95,6 +95,7 @@ const Project = ({ no, project, length }: ProjectProps) => {
                 src={project.data.featuredMedia.url}
                 fill
                 loading={setLoadingEager(no) ? 'eager' : 'lazy'}
+                priority={setLoadingEager(no)}
                 className="h-full w-full object-cover"
                 {...(project.data.featuredMedia.url.match(/.gif/) && {
                   unoptimized: true,
