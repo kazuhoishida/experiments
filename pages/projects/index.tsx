@@ -1,5 +1,5 @@
 import { createClient } from '../../prismicio';
-import { Disclosure } from '@headlessui/react';
+import * as Collapsible from '@radix-ui/react-collapsible';
 import { FeaturedProjectsAtom } from '../../stores';
 import { type FeaturedProjects, fetchFeaturedProjects } from '../../fetches/featuredProject';
 import { FilledLinkToMediaField } from '@prismicio/types';
@@ -9,7 +9,7 @@ import { Layout } from '../../components/Layout';
 import { Media } from '../../components/Media';
 import { pluck, union } from 'underscore';
 import Link from 'next/link';
-import { Select } from '../../components/Select';
+import { SelectComponent } from '../../components/Select';
 import { useSetAtom } from 'jotai';
 import CaretIcon from '../../components/CaretIcon';
 import Cursor from '../../components/Cursor';
@@ -217,7 +217,7 @@ const Projects: NextPage<ProjectsProps> = ({ projects, featuredProjects, nav }: 
             </Head>
             <main>
                 <div className="fixed top-[76px] left-4 z-20 w-fit drop-shadow-2xl">
-                    <Disclosure>
+                    <Collapsible.Root>
                         <div
                             className={`
                                 inline-flex items-center justify-between gap-2
@@ -230,12 +230,12 @@ const Projects: NextPage<ProjectsProps> = ({ projects, featuredProjects, nav }: 
                                     <div className="h-full">
                                         <span className="align-middle uppercase leading-none">CATEGORY:</span>
                                     </div>
-                                    <Select {...selectProps} />
+                                    <SelectComponent {...selectProps} />
                                     <CaretIcon />
                                 </label>
                             </div>
                         </div>
-                    </Disclosure>
+                    </Collapsible.Root>
                 </div>
                 <ProjectsGrid projects={projects} selectedTag={selectedTag} />
             </main>
@@ -249,16 +249,16 @@ export default Projects;
 export const getStaticProps = async () => {
     const client = createClient();
 
-    const projects = await client.getAllByType('project', {
+    const projects = (await client.getAllByType('project', {
         fetchLinks: ['creator.name', 'creator.face'],
-    }) as ProjectDocument[];
+    })) as ProjectDocument[];
     if (!projects?.length) {
         return {
             notFound: true,
         };
     }
     const featuredProjects: FeaturedProjects = await fetchFeaturedProjects(client);
-    const nav = await client.getSingle('navigation') as NavigationDocument;
+    const nav = (await client.getSingle('navigation')) as NavigationDocument;
 
     return {
         props: {

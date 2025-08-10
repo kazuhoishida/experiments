@@ -1,5 +1,6 @@
-import { useState, useEffect, Fragment } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
+import { useState, useEffect } from 'react';
+import * as Dialog from '@radix-ui/react-dialog';
+import * as Collapsible from '@radix-ui/react-collapsible';
 import Link from 'next/link';
 import { isFilled } from '@prismicio/helpers';
 import type { NavigationDocument } from '../prismic-models';
@@ -120,52 +121,32 @@ function MenuModal({ nav, isOpen }: { nav: NavigationDocument; isOpen: boolean }
     }, []);
 
     return (
-        <Transition appear show={isOpen} as={Fragment}>
-            <Dialog as="div" className="relative z-30" onClose={() => {}}>
-                <Transition.Child
-                    as={Fragment}
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                >
-                    <div className="fixed inset-0 bg-black bg-opacity-25" />
-                </Transition.Child>
-                <div className="fixed inset-0">
+        <Dialog.Root open={isOpen} onOpenChange={() => {}}>
+            <Dialog.Portal>
+                <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-25 z-30" />
+                <div className="fixed inset-0 z-30">
                     <div className="flex min-h-full items-center justify-center text-center">
-                        <Transition.Child
-                            as={Fragment}
-                            enter="ease-out duration-300"
-                            enterFrom="opacity-0 scale-95"
-                            enterTo="opacity-100 scale-100"
-                            leave="ease-in duration-200"
-                            leaveFrom="opacity-100 scale-100"
-                            leaveTo="opacity-0 scale-95"
-                        >
-                            <Dialog.Panel className="h-screen w-screen transform overflow-hidden text-left align-middle shadow-xl transition-all [height:100svh]">
-                                <div
-                                    className={clsx(
-                                        'h-full w-full bg-v-dark-gray px-[10vw] transition-all delay-300 md:pl-[10vw] md:pr-0',
-                                        { 'opacity-0': !isOpen }
-                                    )}
-                                >
-                                    <div className="no-scrollbar relative z-10 inline-block h-full overflow-y-auto py-[10vh] md:pr-4">
-                                        <Navigation nav={nav} />
-                                    </div>
-                                </div>
-                                {isWide && (
-                                    <div className="fixed top-0 right-0 z-0 hidden h-full w-full cursor-grab md:block">
-                                        <Bubble />
-                                    </div>
+                        <Dialog.Content className="h-screen w-screen transform overflow-hidden text-left align-middle shadow-xl transition-all [height:100svh]">
+                            <div
+                                className={clsx(
+                                    'h-full w-full bg-v-dark-gray px-[10vw] transition-all delay-300 md:pl-[10vw] md:pr-0',
+                                    { 'opacity-0': !isOpen }
                                 )}
-                            </Dialog.Panel>
-                        </Transition.Child>
+                            >
+                                <div className="no-scrollbar relative z-10 inline-block h-full overflow-y-auto py-[10vh] md:pr-4">
+                                    <Navigation nav={nav} />
+                                </div>
+                            </div>
+                            {isWide && (
+                                <div className="fixed top-0 right-0 z-0 hidden h-full w-full cursor-grab md:block">
+                                    <Bubble />
+                                </div>
+                            )}
+                        </Dialog.Content>
                     </div>
                 </div>
-            </Dialog>
-        </Transition>
+            </Dialog.Portal>
+        </Dialog.Root>
     );
 }
 

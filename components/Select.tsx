@@ -1,5 +1,6 @@
-import { Listbox, Transition, Disclosure } from '@headlessui/react';
-import { Fragment, useState } from 'react';
+import * as Select from '@radix-ui/react-select';
+import * as Collapsible from '@radix-ui/react-collapsible';
+import { useState } from 'react';
 
 type LabeledOption = {
     label: string;
@@ -22,49 +23,39 @@ const isLabeledOption = (option: Option): option is LabeledOption => {
     return option instanceof Object && 'label' in option && 'value' in option;
 };
 
-export const Select = ({ options, onChange, className = '' }: Props) => {
+export const SelectComponent = ({ options, onChange, className = '' }: Props) => {
     const [selectedOption, setSelectedOption] = useState(options[0]);
+    const [isOpen, setIsOpen] = useState(false);
+
     const onChangeHandler = (option: Option) => {
         setSelectedOption(option);
         onChange(isLabeledOption(option) ? `${option.value}` : `${option}`);
+        setIsOpen(false);
     };
+
     return (
-        <Listbox value={selectedOption} onChange={onChangeHandler}>
-            <Listbox.Button className={`font-squash-h6 relative bg-transparent font-flex hover:opacity-60`}>
+        <Collapsible.Root open={isOpen} onOpenChange={setIsOpen}>
+            <Collapsible.Trigger className={`font-squash-h6 relative bg-transparent font-flex hover:opacity-60`}>
                 {(v => (v === '' ? 'ALL' : `${v}`))(
                     isLabeledOption(selectedOption) ? selectedOption.label : `${selectedOption}`
                 )}
-            </Listbox.Button>
-            <Transition
-                as={Fragment}
-                enter="transition duration-300 ease-out"
-                enterFrom="transform origin-top scale-y-0  opacity-0"
-                enterTo="transform origin-top scale-y-100 opacity-100"
-                leave="transition duration-200 ease-out"
-                leaveFrom="transform origin-top scale-y-100 opacity-100"
-                leaveTo="transform origin-top scale-y-[40%] opacity-0"
+            </Collapsible.Trigger>
+            <Collapsible.Content
+                className={`absolute top-[35px] left-0 w-fit rounded-sm bg-v-soft-black/70 py-1 drop-shadow-md backdrop-blur-sm duration-[400ms] hover:bg-black/70 focus:outline-none md:left-[7em]`}
             >
-                <Listbox.Options
-                    className={`absolute top-[35px] left-0 w-fit rounded-sm bg-v-soft-black/70 py-1 drop-shadow-md backdrop-blur-sm duration-[400ms] hover:bg-black/70 focus:outline-none md:left-[7em]`}
-                >
-                    {options.map((option, i) => {
-                        const [value, label] = isLabeledOption(option)
-                            ? [option.value, option.label]
-                            : [option, option];
-                        return (
-                            <Listbox.Option
-                                className={`relative cursor-pointer select-none whitespace-nowrap py-2 px-6 hover:opacity-60`}
-                                key={`${label}-${i}`}
-                                value={value}
-                            >
-                                <Disclosure.Button className={`font-squash-h6 font-flex`}>
-                                    {label === '' ? 'ALL' : label}
-                                </Disclosure.Button>
-                            </Listbox.Option>
-                        );
-                    })}
-                </Listbox.Options>
-            </Transition>
-        </Listbox>
+                {options.map((option, i) => {
+                    const [value, label] = isLabeledOption(option) ? [option.value, option.label] : [option, option];
+                    return (
+                        <button
+                            className={`relative cursor-pointer select-none whitespace-nowrap py-2 px-6 hover:opacity-60 w-full text-left`}
+                            key={`${label}-${i}`}
+                            onClick={() => onChangeHandler(option)}
+                        >
+                            <span className={`font-squash-h6 font-flex`}>{label === '' ? 'ALL' : label}</span>
+                        </button>
+                    );
+                })}
+            </Collapsible.Content>
+        </Collapsible.Root>
     );
 };

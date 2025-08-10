@@ -18,11 +18,13 @@
         "clean": "rm -rf .next && rm -rf out && rm -rf node_modules/.cache"
     },
     "dependencies": {
-        "@headlessui/react": "^1.6.5",
         "@prismicio/client": "^7.19.1",
         "@prismicio/helpers": "^2.3.9",
         "@prismicio/richtext": "^2.1.0",
         "@prismicio/slice-simulator-react": "^0.2.2",
+        "@radix-ui/react-collapsible": "^1.1.11",
+        "@radix-ui/react-dialog": "^1.1.14",
+        "@radix-ui/react-select": "^2.2.5",
         "@react-three/drei": "^10.6.1",
         "@react-three/fiber": "^9.3.0",
         "@tanstack/react-virtual": "^3.0.0-beta.2",
