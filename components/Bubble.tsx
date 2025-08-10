@@ -59,7 +59,7 @@ function Scene() {
       </PerspectiveCamera>
       <Suspense fallback={null}>
         <mesh rotation-y={Math.PI * -0.5} ref={sphereRef}>
-          <sphereBufferGeometry args={[1, 32, 32]} />
+          <sphereGeometry args={[1, 32, 32]} />
           <MeshDistortMaterial {...materials} />
         </mesh>
         <Environment preset="warehouse" />

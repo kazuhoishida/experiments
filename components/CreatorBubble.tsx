@@ -66,7 +66,7 @@ function Scene() {
         onPointerOver={() => setHover(true)}
         onPointerOut={() => setHover(false)}
       >
-        <sphereBufferGeometry args={[1, 64, 64]} />
+        <sphereGeometry args={[1, 64, 64]} />
         <MeshDistortMaterial {...glassMaterial} />
       </mesh>
       <Environment preset="lobby" resolution={32} />
