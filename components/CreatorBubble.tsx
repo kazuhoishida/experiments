@@ -7,20 +7,23 @@ import gsap from 'gsap';
 function Scene() {
     const [mousePos, setPosition] = useState({ x: 0, y: 0 });
 
-    // convert number to specific range of values
     const convertRange = (value: number, min1: number, max2: number, min3: number, max4: number) => {
         return ((value - min1) * (max4 - min3)) / (max2 - min1) + min3;
     };
 
     useEffect(() => {
         const MouseEventHandler = (e: MouseEvent) => {
-            const x = convertRange(e.clientX, 0, window.screen.width, -1.2, 1.2);
-            const y = convertRange(e.clientY, 0, window.screen.height, 0, -1.2);
-            setPosition({ x: x, y: y });
+            if (typeof window !== 'undefined') {
+                const x = convertRange(e.clientX, 0, window.innerWidth, -1.2, 1.2);
+                const y = convertRange(e.clientY, 0, window.innerHeight, 0, -1.2);
+                setPosition({ x: x, y: y });
+            }
         };
-        window.addEventListener('mousemove', MouseEventHandler);
 
-        return () => window.removeEventListener('mousemove', MouseEventHandler);
+        if (typeof window !== 'undefined') {
+            window.addEventListener('mousemove', MouseEventHandler);
+            return () => window.removeEventListener('mousemove', MouseEventHandler);
+        }
     }, []);
 
     const ref = useRef<THREE.Mesh>(null);
@@ -62,15 +65,20 @@ function Scene() {
 
 export default function CreatorBubble() {
     const [screenWide, setScreenWide] = useState(1440);
+
     useEffect(() => {
-        setScreenWide(window.screen.width);
-
-        const handleResize = () => {
-            setScreenWide(window.screen.width);
+        const updateScreenWidth = () => {
+            if (typeof window !== 'undefined') {
+                setScreenWide(window.innerWidth);
+            }
         };
-        window.addEventListener('resize', handleResize);
 
-        return () => window.removeEventListener('resize', handleResize);
+        updateScreenWidth();
+
+        if (typeof window !== 'undefined') {
+            window.addEventListener('resize', updateScreenWidth);
+            return () => window.removeEventListener('resize', updateScreenWidth);
+        }
     }, []);
 
     return (

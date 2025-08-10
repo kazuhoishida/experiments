@@ -1,7 +1,7 @@
 import { useState, useEffect, InputHTMLAttributes, PropsWithChildren } from 'react';
-import { PrismicLink, PrismicText } from '@prismicio/react';
+import Link from 'next/link';
 import type { NavigationDocument } from '../prismic-models';
-import { asText } from '@prismicio/richtext';
+import { getTextFromField } from '../utils/prismic';
 
 type ProjectProps = {
     nav: NavigationDocument;
@@ -27,22 +27,22 @@ export const PageFooter = ({ nav }: ProjectProps) => {
                         className={`mx-auto mb-8 flex w-4/5 justify-between px-12 py-2 font-serif text-sm md:m-0 md:w-auto md:justify-start md:gap-x-8 md:px-0`}
                     >
                         <NavItem>
-                            <PrismicLink
+                            <Link
                                 href="/"
                                 className='relative before:absolute before:-bottom-1 before:left-0 before:block before:h-[1px] before:w-full before:origin-top-left before:scale-0 before:bg-black before:duration-[400ms] before:content-[""] md:hover:before:scale-100'
                             >
-                                <PrismicText field={nav.data.homepageLabel} />
-                            </PrismicLink>
+                                {getTextFromField(nav.data.homepageLabel)}
+                            </Link>
                         </NavItem>
                         {nav.data.links.map(item => {
                             return (
-                                <NavItem key={asText(item.label)}>
-                                    <PrismicLink
-                                        field={item.link}
+                                <NavItem key={getTextFromField(item.label)}>
+                                    <Link
+                                        href={item.link.url || '#'}
                                         className='relative before:absolute before:-bottom-1 before:left-0 before:block before:h-[1px] before:w-full before:origin-top-left before:scale-0 before:bg-black before:duration-[400ms] before:content-[""] md:hover:before:scale-100'
                                     >
-                                        <PrismicText field={item.label} />
-                                    </PrismicLink>
+                                        {getTextFromField(item.label)}
+                                    </Link>
                                 </NavItem>
                             );
                         })}

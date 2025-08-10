@@ -1,5 +1,4 @@
 import * as prismicH from '@prismicio/helpers';
-import { PrismicText } from '@prismicio/react';
 
 import { Bounded } from '../../components/Bounded';
 
@@ -9,7 +8,7 @@ const Quote = ({ slice }) => {
             {prismicH.isFilled.richText(slice.primary.quote) && (
                 <div className="font-serif text-3xl italic leading-relaxed">
                     &ldquo;
-                    <PrismicText field={slice.primary.quote} />
+                    {slice.primary.quote?.[0]?.text || ''}
                     &rdquo;
                     {prismicH.isFilled.keyText(slice.primary.source) && <> &mdash; {slice.primary.source}</>}
                 </div>

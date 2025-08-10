@@ -2,10 +2,9 @@ import { useState, useEffect } from 'react';
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import Head from 'next/head';
-import { PrismicLink, PrismicRichText, PrismicText, SliceZone } from '@prismicio/react';
+import Link from 'next/link';
 import * as prismicH from '@prismicio/helpers';
 import { createClient, linkResolver } from '../../prismicio';
-import { components } from '../../slices';
 import { Layout } from '../../components/Layout';
 import { Bounded } from '../../components/Bounded';
 import { ProjectDocument, CreatorDocument, NavigationDocument } from '../../prismic-models';
@@ -32,15 +31,20 @@ const Creator: NextPage<CreatorProps> = ({ creator, navigation, featuredProjects
     const github = prismicH.isFilled.link(creator.data.GitHub) && creator.data.GitHub;
 
     const [isWide, setWide] = useState(false);
+
     useEffect(() => {
-        setWide(window.screen.width >= 768);
-
-        const handleResize = () => {
-            setWide(window.screen.width >= 768);
+        const checkWidth = () => {
+            if (typeof window !== 'undefined') {
+                setWide(window.innerWidth >= 768);
+            }
         };
-        window.addEventListener('resize', handleResize);
 
-        return () => window.removeEventListener('resize', handleResize);
+        checkWidth();
+
+        if (typeof window !== 'undefined') {
+            window.addEventListener('resize', checkWidth);
+            return () => window.removeEventListener('resize', checkWidth);
+        }
     }, []);
 
     return (
@@ -69,17 +73,21 @@ const Creator: NextPage<CreatorProps> = ({ creator, navigation, featuredProjects
                         <div className="md:w-1/2 md:pt-10">
                             <div className="mb-8 flex gap-x-4 text-sm font-bold">
                                 {github && (
-                                    <PrismicLink
-                                        field={github}
+                                    <Link
+                                        href={prismicH.asLink(github, linkResolver) || '#'}
                                         className="flex h-6 w-24 place-content-center place-items-center rounded-md border border-v-red font-flex text-v-red md:hover:bg-v-red md:hover:text-white"
                                     >
                                         GitHub
-                                    </PrismicLink>
+                                    </Link>
                                 )}
                                 {creator.data.Contact && <p>{creator.data.Contact}</p>}
                             </div>
                             <div className="mt-4 mb-16 font-flex text-sm">
-                                <PrismicRichText field={creator.data.Introduction} />
+                                {creator.data.Introduction && (
+                                    <div
+                                        dangerouslySetInnerHTML={{ __html: prismicH.asHTML(creator.data.Introduction) }}
+                                    />
+                                )}
                             </div>
                         </div>
                     </Bounded>
@@ -91,7 +99,18 @@ const Creator: NextPage<CreatorProps> = ({ creator, navigation, featuredProjects
                                     <p className="mb-8 font-flex text-[24px] font-bold">制作実績</p>
                                 </div>
                                 <div className="relative grid w-full gap-y-10">
-                                    <SliceZone slices={creator.data.slices as any} components={components} />
+                                    {creator.data.slices.map((slice, index) => {
+                                        const sliceData = slice as any;
+                                        if (sliceData.slice_type === 'work') {
+                                            return (
+                                                <div key={index} className="work-slice">
+                                                    <h3>{sliceData.primary?.title}</h3>
+                                                    <p>{sliceData.primary?.description}</p>
+                                                </div>
+                                            );
+                                        }
+                                        return null;
+                                    })}
                                 </div>
                             </div>
                         </div>
@@ -102,8 +121,8 @@ const Creator: NextPage<CreatorProps> = ({ creator, navigation, featuredProjects
                     {projects.slice(0, 8).map(
                         (project, index) =>
                             prismicH.isFilled.linkToMedia(project.data?.featuredMedia) && (
-                                <PrismicLink
-                                    field={prismicH.documentToLinkField(project)}
+                                <Link
+                                    href={prismicH.asLink(project, linkResolver) || '#'}
                                     key={project.id}
                                     className="group relative h-full border-black md:border-l"
                                 >
@@ -126,7 +145,7 @@ const Creator: NextPage<CreatorProps> = ({ creator, navigation, featuredProjects
                                             className="!relative aspect-[5/3] !h-auto w-[90vw] object-cover shadow duration-[600ms] md:group-hover:shadow-lg"
                                         />
                                     </div>
-                                </PrismicLink>
+                                </Link>
                             )
                     )}
                 </div>
@@ -164,10 +183,10 @@ export const getStaticProps = async ({ params, previewData }: { params?: { uid?:
 export async function getStaticPaths() {
     const client = createClient();
 
-    const creators = await client.getAllByType('creator');
+    const creator = await client.getAllByType('creator');
 
     return {
-        paths: creators.map(creator => prismicH.asLink(creator, linkResolver)),
+        paths: creator.map(creator => prismicH.asLink(creator, linkResolver)),
         fallback: false,
     };
 }

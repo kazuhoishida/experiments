@@ -1,7 +1,7 @@
 import 'swiper/css';
 import 'swiper/css/effect-creative';
 import 'swiper/css/navigation';
-import { asText, isFilled } from '@prismicio/helpers';
+import { isFilled } from '@prismicio/helpers';
 import { createClient } from '../prismicio';
 import { FeaturedProjectsAtom } from '../stores';
 import { fetchFeaturedProjects } from '../fetches';
@@ -16,8 +16,9 @@ import Image from 'next/image';
 import type { FeaturedProject, FeaturedProjects } from '../fetches/featuredProject';
 import type { NavigationDocument, SettingsDocument, TopDocument } from '../prismic-models';
 import type { Swiper as SwiperClass } from 'swiper';
-import { PrismicLink } from '@prismicio/react';
+import Link from 'next/link';
 import gsap from 'gsap';
+import { getTextFromField } from '../utils/prismic';
 
 type ProjectProps = {
     no: number;
@@ -41,8 +42,12 @@ const Project = ({ no, project, length }: ProjectProps) => {
     if (!isFilled.contentRelationship(project) || !project.data) {
         return <></>;
     }
+
     return (
-        <PrismicLink field={project} className="featured-project-card block opacity-0 outline-0 duration-[400ms]">
+        <Link
+            href={`/projects/${project.uid}`}
+            className="featured-project-card block opacity-0 outline-0 duration-[400ms]"
+        >
             <div className="group grid w-full items-end opacity-0 duration-[300ms] md:w-[var(--slide-width)] md:pt-0 md:opacity-100 [.swiper-slide-active_&]:opacity-100">
                 <div
                     className={`
@@ -72,7 +77,7 @@ const Project = ({ no, project, length }: ProjectProps) => {
                 >
                     <div className="pl-[8%]">
                         <h2 className="font-bold-h1 mb-2 font-flex text-[32px] leading-none text-black md:text-[3vw]">
-                            <>{project.data.title}&nbsp;</>
+                            {project.data.title || ''}
                         </h2>
                         <p className="text-md font-bold-h1 font-flex leading-none text-black md:text-[1vw]">
                             {project.data.leadingText}
@@ -95,7 +100,7 @@ const Project = ({ no, project, length }: ProjectProps) => {
                     )}
                 </div>
             </div>
-        </PrismicLink>
+        </Link>
     );
 };
 
@@ -234,10 +239,11 @@ const Index = ({ top, featuredProjects, nav, settings }: Props) => {
     useEffect(() => {
         setLoad(true);
     }, []);
+
     return (
         <Layout nav={nav} className="flex flex-col overflow-hidden">
             <Head>
-                <title>{asText(settings.data.name)}</title>
+                <title>{settings.data.name?.[0]?.text || ''}</title>
             </Head>
             <main>
                 <div className="fixed top-[45%] w-screen -translate-y-1/2 px-[4vw] md:top-1/2 md:left-4 md:px-0">
@@ -250,7 +256,7 @@ const Index = ({ top, featuredProjects, nav, settings }: Props) => {
                                     loaded ? 'translate-y-0' : 'translate-y-[100%]'
                                 }`}
                             >
-                                {asText(top.data.title)}
+                                {getTextFromField(top.data.title)}
                             </span>
                         </h1>
                         <p className={`overflow-hidden pl-[0.5vw] font-flex text-[14px] font-bold text-black`}>
@@ -259,7 +265,7 @@ const Index = ({ top, featuredProjects, nav, settings }: Props) => {
                                     loaded ? 'translate-y-0' : 'translate-y-[100%]'
                                 }`}
                             >
-                                {asText(top.data.comment as any)}
+                                {getTextFromField(top.data.comment)}
                             </span>
                         </p>
                     </div>

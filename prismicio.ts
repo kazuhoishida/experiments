@@ -1,7 +1,5 @@
 import * as prismic from '@prismicio/client';
 import type { LinkResolverFunction } from '@prismicio/helpers';
-import type { CreateClientConfig } from '@prismicio/next';
-import { enableAutoPreviews } from '@prismicio/next';
 
 import sm from './sm.json';
 
@@ -15,7 +13,7 @@ export const linkResolver: LinkResolverFunction<string> = doc => {
         return `/projects/${doc.uid}`;
     }
     if (doc.type === 'creator') {
-        return `/creators/${doc.uid}`;
+        return `/creator/${doc.uid}`;
     }
     if (doc.type === 'top') {
         return '/';
@@ -28,7 +26,7 @@ export const linkResolver: LinkResolverFunction<string> = doc => {
     return '/';
 };
 
-export const createClient = (config: CreateClientConfig = {}) => {
+export const createClient = (config: any = {}) => {
     const client = prismic.createClient(sm.apiEndpoint, {
         routes: [
             {
@@ -36,12 +34,6 @@ export const createClient = (config: CreateClientConfig = {}) => {
                 path: '/:uid',
             },
         ],
-    });
-
-    enableAutoPreviews({
-        client,
-        previewData: config.previewData,
-        req: config.req,
     });
 
     return client;

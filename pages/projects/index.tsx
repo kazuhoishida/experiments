@@ -8,7 +8,7 @@ import { isFilled, documentToLinkField } from '@prismicio/helpers';
 import { Layout } from '../../components/Layout';
 import { Media } from '../../components/Media';
 import { pluck, union } from 'underscore';
-import { PrismicLink } from '@prismicio/react';
+import Link from 'next/link';
 import { Select } from '../../components/Select';
 import { useSetAtom } from 'jotai';
 import CaretIcon from '../../components/CaretIcon';
@@ -73,7 +73,7 @@ const ProjectCard = ({ project, isVisible, media, title, leading, style }: Proje
         `}
                 style={style}
             >
-                <PrismicLink field={documentToLinkField(project)}>
+                <Link href={documentToLinkField(project).url || '#'}>
                     <div
                         className={`absolute top-8 left-2 z-10 hidden gap-2 text-white transition-all duration-[400ms] md:grid ${
                             isCursorVisible ? '-translate-y-2 opacity-100' : 'translate-y-0 opacity-0'
@@ -83,7 +83,7 @@ const ProjectCard = ({ project, isVisible, media, title, leading, style }: Proje
                         <p className="text-[13px] leading-tight drop-shadow">{leading}</p>
                     </div>
                     <Media field={media} className="h-[66.6vw] w-full md:h-[33.3vw] lg:h-[26.6vw]" />
-                </PrismicLink>
+                </Link>
                 <Cursor isVisible={isCursorVisible} position={position} />
             </div>
         </div>

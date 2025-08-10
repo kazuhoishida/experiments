@@ -1,18 +1,19 @@
-import { asText, isFilled } from '@prismicio/helpers';
+import { useState, useEffect, Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { FeaturedProjectsAtom } from '../stores';
-import { Fragment, useEffect, useState } from 'react';
-import { Logo } from './Logo';
-import { PrismicLink, PrismicText } from '@prismicio/react';
-import { useAtomValue, useSetAtom } from 'jotai';
-import clsx from 'clsx';
-import type { FeaturedProject } from '../fetches/featuredProject';
+import Link from 'next/link';
+import { isFilled } from '@prismicio/helpers';
 import type { NavigationDocument } from '../prismic-models';
-import { useRouter } from 'next/router';
 import Bubble from './Bubble';
+import clsx from 'clsx';
+import { getTextFromField } from '../utils/prismic';
+import { Logo } from './Logo';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { FeaturedProjectsAtom } from '../stores';
+import { useRouter } from 'next/router';
 import { BubbleAtom } from '../stores/BubbleAtom';
 import CubeIcon from '../components/CubeIcon';
 import type { LinkToMediaField } from '@prismicio/types';
+import type { FeaturedProject } from '../fetches/featuredProject';
 
 type Props = {
     nav: NavigationDocument;
@@ -20,14 +21,14 @@ type Props = {
 
 type NavItemProps = {
     children: React.ReactNode;
-    item: unknown;
+    item: any;
 };
 
 const NavItem = ({ item, children }: NavItemProps) => {
     const setBubbleThumb = useSetAtom(BubbleAtom);
     const setThumbnail = () => {
         if (!item || typeof item !== 'object') return;
-        const data = (item as { data?: { featuredMedia?: LinkToMediaField } }).data;
+        const data = (item as any).data;
         const fm = (data?.featuredMedia ?? null) as LinkToMediaField | null;
         if (fm && isFilled.linkToMedia(fm)) {
             setBubbleThumb(fm.url ?? '');
@@ -52,7 +53,7 @@ const FeaturedProjectItem = ({ project }: FeaturedProjectProps) => {
         return <></>;
     }
     const name = (project.data?.creator?.data as { name?: string } | null)?.name;
-    return <h2 className="whitespace-nowrap text-[36px]">{project.data?.title}</h2>;
+    return <h2 className="whitespace-nowrap text-[36px]">{project.data?.title || ''}</h2>;
 };
 
 const Navigation = ({ nav }: Props) => {
@@ -64,15 +65,21 @@ const Navigation = ({ nav }: Props) => {
                 <nav className="font-bold-h1 font-flex text-white">
                     <ul className="inline-flex flex-col justify-center gap-y-[30px]">
                         <li className="text-[36px] font-[640] leading-none duration-[300ms] md:hover:translate-x-4 md:hover:opacity-50">
-                            <PrismicLink href="/" className="outline-0">
-                                <PrismicText field={nav.data.homepageLabel} />
-                            </PrismicLink>
+                            <Link href="/" className="outline-0">
+                                {getTextFromField(nav.data.homepageLabel)}
+                            </Link>
                         </li>
                         {nav.data.links.map(item => (
-                            <NavItem key={asText(item.label)} item={item}>
-                                <PrismicLink field={item.link} className="outline-0">
-                                    <PrismicText field={item.label} />
-                                </PrismicLink>
+                            <NavItem key={getTextFromField(item.label)} item={item}>
+                                <Link
+                                    href={
+                                        item.link.url ||
+                                        `/${item.link.type === 'page' ? item.link.uid : item.link.type}/${item.link.uid}`
+                                    }
+                                    className="outline-0"
+                                >
+                                    {getTextFromField(item.label)}
+                                </Link>
                             </NavItem>
                         ))}
                     </ul>
@@ -83,9 +90,12 @@ const Navigation = ({ nav }: Props) => {
                             ({ project }) =>
                                 isFilled.contentRelationship(project) && (
                                     <NavItem key={project.id} item={project}>
-                                        <PrismicLink field={project} className="outline-0">
+                                        <Link
+                                            href={isFilled.contentRelationship(project) ? project.url || '#' : '#'}
+                                            className="outline-0"
+                                        >
                                             <FeaturedProjectItem project={project} />
-                                        </PrismicLink>
+                                        </Link>
                                     </NavItem>
                                 )
                         )}

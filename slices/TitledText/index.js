@@ -1,16 +1,16 @@
-import { PrismicRichText } from '@prismicio/react';
+import * as prismicH from '@prismicio/helpers';
 
 const TitledText = ({ slice }) => (
     <section>
         <span className="title">
             {slice.primary.title ? (
-                <PrismicRichText field={slice.primary.title} />
+                <div dangerouslySetInnerHTML={{ __html: prismicH.asHTML(slice.primary.title) }} />
             ) : (
                 <h2>Template slice, update me!</h2>
             )}
         </span>
         {slice.primary.description ? (
-            <PrismicRichText field={slice.primary.description} />
+            <div dangerouslySetInnerHTML={{ __html: prismicH.asHTML(slice.primary.description) }} />
         ) : (
             <p>start by editing this slice from inside Slice Machine!</p>
         )}

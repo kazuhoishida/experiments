@@ -16,7 +16,7 @@ const nextConfig = {
                 destination: '/',
             },
             {
-                source: '/creators/',
+                source: '/creator/',
                 destination: '/',
             },
         ];

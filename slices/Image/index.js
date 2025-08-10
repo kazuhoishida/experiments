@@ -1,6 +1,5 @@
 import NextImage from 'next/image';
 import * as prismicH from '@prismicio/helpers';
-import { PrismicRichText } from '@prismicio/react';
 
 import { Bounded } from '../../components/Bounded';
 
@@ -24,9 +23,10 @@ const Image = ({ slice }) => {
                     </div>
                 )}
                 {prismicH.isFilled.richText(slice.primary.caption) && (
-                    <figcaption className="font-serif italic tracking-tight text-slate-500">
-                        <PrismicRichText field={slice.primary.caption} />
-                    </figcaption>
+                    <figcaption
+                        className="font-serif italic tracking-tight text-slate-500"
+                        dangerouslySetInnerHTML={{ __html: prismicH.asHTML(slice.primary.caption) }}
+                    />
                 )}
             </figure>
         </Bounded>

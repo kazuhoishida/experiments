@@ -1,11 +1,9 @@
 import { asDate, isFilled, asLink } from '@prismicio/helpers';
-import { asText } from '@prismicio/richtext';
-import { components } from '../../slices';
 import { createClient, linkResolver } from '../../prismicio';
 import { FeaturedProjectsAtom } from '../../stores';
 import { type FeaturedProjects, fetchFeaturedProjects } from '../../fetches/featuredProject';
 import { Layout } from '../../components/Layout';
-import { PrismicLink, PrismicRichText, SliceZone } from '@prismicio/react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSetAtom } from 'jotai';
 import Image from 'next/image';
@@ -24,7 +22,6 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
 });
 
 const Media = ({ field, isCoverImage = false }: { field: FilledLinkToMediaField; isCoverImage: boolean }) => {
-    console.log(field.url);
     if (field.link_type !== 'Media') {
         return <></>;
     }
@@ -110,9 +107,9 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
                             </h1>
                             <div className="flex place-items-center gap-x-4">
                                 {face && (
-                                    <PrismicLink
+                                    <Link
+                                        href={asLink(creator, linkResolver) || '#'}
                                         className="relative flex aspect-1 h-12 w-12 place-items-center gap-x-2 font-flex font-[640] [font-stretch:32%]"
-                                        document={creator}
                                     >
                                         <Image
                                             className="rounded-full"
@@ -120,15 +117,15 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
                                             alt={(creator.data?.face?.alt || creator.data.name) ?? 'CREATOR'}
                                             fill
                                         />
-                                    </PrismicLink>
+                                    </Link>
                                 )}
                                 <div className="flex flex-col">
-                                    <PrismicLink
+                                    <Link
+                                        href={asLink(creator, linkResolver) || '#'}
                                         className="flex place-items-center gap-x-2 whitespace-nowrap font-flex font-[640] [font-stretch:32%]"
-                                        document={creator}
                                     >
                                         {creator.data.name}
-                                    </PrismicLink>
+                                    </Link>
                                     <p className="whitespace-nowrap font-flex font-[640] [font-stretch:32%]">
                                         {dateFormatter.format(date!)}
                                     </p>
@@ -147,24 +144,29 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
                             <div className="md:w-2/5 md:pl-[5vw] md:pr-10">
                                 <div className="flex gap-x-6 py-6 empty:!py-0">
                                     {demo && (
-                                        <PrismicLink
-                                            field={demo}
+                                        <Link
+                                            href={asLink(demo, linkResolver) || '#'}
                                             className="flex w-20 place-content-center place-items-center rounded-md border border-v-red font-flex text-v-red md:w-28 md:py-1 md:hover:bg-v-red md:hover:text-white"
                                         >
                                             DEMO
-                                        </PrismicLink>
+                                        </Link>
                                     )}
                                     {github && (
-                                        <PrismicLink
-                                            field={github}
+                                        <Link
+                                            href={asLink(github, linkResolver) || '#'}
                                             className="flex w-20 place-content-center place-items-center rounded-md border border-black font-flex md:w-28 md:py-1 md:hover:bg-black md:hover:text-white"
                                         >
                                             GitHub
-                                        </PrismicLink>
+                                        </Link>
                                     )}
                                 </div>
                                 <div className="mt-4 font-flex text-sm">
-                                    <PrismicRichText field={project.data.abstract} />
+                                    {project.data.abstract ? (
+                                        <div
+                                            className="prose prose-sm"
+                                            dangerouslySetInnerHTML={{ __html: project.data.abstract[0]?.text || '' }}
+                                        />
+                                    ) : null}
                                 </div>
                             </div>
                             <div className="relative hidden aspect-[5/3] md:block md:w-3/5">
@@ -182,10 +184,13 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
                                                 : 'h-0 opacity-0 md:!m-0 md:!block md:!pl-[5vw]'
                                         }`}
                                     >
-                                        {project.data.details.map(({ title, description }) => (
-                                            <div key={asText(title)} className="[&>h2]:!mb-2 [&>h2]:text-[20px]">
-                                                <PrismicRichText field={title} />
-                                                <PrismicRichText field={description} />
+                                        {project.data.details.map(({ title, description }, index) => (
+                                            <div key={`detail-${index}`} className="[&>h2]:!mb-2 [&>h2]:text-[20px]">
+                                                <h2 className="font-bold-h2">{title}</h2>
+                                                <div
+                                                    className="prose prose-sm"
+                                                    dangerouslySetInnerHTML={{ __html: description[0]?.text || '' }}
+                                                />
                                             </div>
                                         ))}
                                     </div>
@@ -208,13 +213,28 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
                                 </div>
                             )}
                             <div className="mt-12 md:mt-0 md:w-1/2 [&_section]:mb-6 md:[&_section]:mb-10 last:[&_*]:mb-0 [&_iframe]:h-auto [&_iframe]:w-full">
-                                <SliceZone slices={project.data.slices as any} components={components} />
+                                {project.data.slices &&
+                                    project.data.slices.map((slice, index) => {
+                                        const Component = slice.slice_type === 'rich_text' ? 'div' : slice.slice_type;
+                                        const richText = slice.primary?.rich_text;
+                                        if (!richText) return null;
+
+                                        return (
+                                            <Component
+                                                key={`slice-${index}`}
+                                                className="prose prose-sm"
+                                                dangerouslySetInnerHTML={{ __html: richText }}
+                                            />
+                                        );
+                                    })}
                             </div>
                         </div>
                     </div>
                     {demo && (
-                        <PrismicLink
-                            field={demo}
+                        <Link
+                            href={asLink(demo, linkResolver) || '#'}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className={`group fixed bottom-4 left-1/2 flex -translate-x-1/2 place-content-center items-center gap-x-2 whitespace-nowrap rounded-lg bg-black/70 px-12 py-2 drop-shadow backdrop-blur-sm transition-all duration-[400ms] md:px-16 md:py-3 md:hover:bg-black/100 ${
                                 inView ? 'pointer-events-none opacity-0' : 'opacity-100'
                             }`}
@@ -223,7 +243,7 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
                             <span className="duration-[200ms] md:group-hover:translate-x-[2px] md:group-hover:-translate-y-[2px] [&>svg]:w-[9px] [&>svg]:fill-white">
                                 <ArrowIcon />
                             </span>
-                        </PrismicLink>
+                        </Link>
                     )}
                 </article>
                 <GoBackNav />
@@ -237,10 +257,10 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
                         return (
                             isFilled.contentRelationship(project as any) &&
                             isFilled.linkToMedia(project.data.featuredMedia) && (
-                                <PrismicLink
-                                    field={project}
+                                <Link
+                                    href={asLink(project, linkResolver) || '#'}
                                     key={project.id}
-                                    className="duration-[400ms] first:pl-4 last:pr-4 md:first:pl-[5vw] md:last:pr-[5vw] md:hover:opacity-60"
+                                    className="duration-[400ms] first:pl-4 last:pr-4 md:first:pl-4 md:last:pr-4 md:hover:opacity-60"
                                 >
                                     <div className="flex w-[50vw] shrink-0 flex-col md:w-[30vw]">
                                         <Image
@@ -256,7 +276,7 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
                                             {project.data?.leadingText}
                                         </div>
                                     </div>
-                                </PrismicLink>
+                                </Link>
                             )
                         );
                     })}

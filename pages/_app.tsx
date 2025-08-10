@@ -3,9 +3,8 @@ import type { AppProps } from 'next/app';
 import type { RichTextMapSerializer, RichTextFunctionSerializer } from '@prismicio/richtext';
 import Link from 'next/link';
 import type { LinkProps } from 'next/link';
-import { PrismicLink, PrismicProvider } from '@prismicio/react';
-import { PrismicPreview } from '@prismicio/next';
 import { repositoryName, linkResolver, createClient } from '../prismicio';
+import { isFilled } from '@prismicio/helpers';
 import { Heading } from '../components/Heading';
 import { Meta } from '../components/Meta';
 import type { AnchorHTMLAttributes, ReactNode } from 'react';
@@ -47,26 +46,23 @@ const richTextComponents: RichTextMapSerializer<JSX.Element> | RichTextFunctionS
         </pre>
     ),
     strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
-    hyperlink: ({ children, node }) => (
-        <PrismicLink field={node.data} className="underline decoration-1 underline-offset-2">
-            {children}
-        </PrismicLink>
-    ),
+    hyperlink: ({ children, node }) => {
+        if (isFilled.contentRelationship(node.data)) {
+            return (
+                <Link href={node.data.url || '#'} className="underline decoration-1 underline-offset-2">
+                    {children}
+                </Link>
+            );
+        }
+        return <span>{children}</span>;
+    },
 };
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
         <>
             <Meta />
-            <PrismicProvider
-                linkResolver={linkResolver}
-                internalLinkComponent={NextLinkShim}
-                richTextComponents={richTextComponents}
-            >
-                <PrismicPreview repositoryName={repositoryName}>
-                    <Component {...pageProps} />
-                </PrismicPreview>
-            </PrismicProvider>
+            <Component {...pageProps} />
         </>
     );
 }

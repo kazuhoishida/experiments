@@ -17,7 +17,7 @@ export function Layout({ nav, children, className }: Props) {
     return (
         <div
             className={`min-h-screen text-black [min-height:100svh] ${
-                pathname === '/creators' && 'bg-v-light-gray'
+                pathname === '/creator' && 'bg-v-light-gray'
             } ${className}`}
         >
             <Header nav={nav} />

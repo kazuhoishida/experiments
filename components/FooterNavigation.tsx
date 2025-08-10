@@ -1,9 +1,10 @@
 import { isFilled } from '@prismicio/helpers';
-import { PrismicLink, PrismicText } from '@prismicio/react';
-import { asText } from '@prismicio/richtext';
+
 import { Provider } from 'jotai';
 import { InputHTMLAttributes, PropsWithChildren, useEffect, useState } from 'react';
+import Link from 'next/link';
 import type { NavigationDocument, NavigationDocumentDataLinksItem, Simplify } from '../prismic-models';
+import { getTextFromField } from '../utils/prismic';
 
 type NavItemProps = PropsWithChildren & InputHTMLAttributes<HTMLLIElement>;
 
@@ -50,33 +51,36 @@ const FooterNavigation = ({ nav }: Props) => {
                 >
                     <ul
                         className={`
-            flex justify-between gap-x-[12vw] px-8 py-3 font-serif
-            text-sm text-white md:gap-x-[42px] ${
-                loaded ? 'translate-y-0 bg-v-soft-black/70' : 'translate-y-2 bg-v-soft-black/0'
-            } rounded-sm drop-shadow-md backdrop-blur-sm
-            delay-[300ms] duration-[400ms] md:hover:bg-black/70
-          `}
+                            flex justify-between gap-x-[12vw] px-8 py-3 font-serif
+                            text-sm text-white md:gap-x-[42px] ${
+                                loaded ? 'translate-y-0 bg-v-soft-black/70' : 'translate-y-2 bg-v-soft-black/0'
+                            } rounded-sm drop-shadow-md backdrop-blur-sm
+                            delay-[300ms] duration-[400ms] md:hover:bg-black/70
+                        `}
                     >
                         <NavItem className={`relative ${pathname === '/' ? 'font-bold' : ''}`}>
-                            <PrismicLink
+                            <Link
                                 href="/"
                                 className='before:absolute before:-bottom-1 before:left-0 before:block before:h-[1px] before:w-full before:origin-top-left before:scale-0 before:bg-white before:duration-[400ms] before:content-[""] md:hover:before:scale-100'
                             >
-                                <PrismicText field={nav.data.homepageLabel} />
-                            </PrismicLink>
+                                {getTextFromField(nav.data.homepageLabel)}
+                            </Link>
                         </NavItem>
                         {nav.data.links.map(item => {
                             return (
                                 <NavItem
-                                    key={asText(item.label)}
+                                    key={getTextFromField(item.label)}
                                     className={`relative ${isCurrent(item) ? 'font-bold' : ''}`}
                                 >
-                                    <PrismicLink
-                                        field={item.link}
+                                    <Link
+                                        href={
+                                            item.link.url ||
+                                            `/${item.link.type === 'page' ? item.link.uid : item.link.type}/${item.link.uid}`
+                                        }
                                         className='before:absolute before:-bottom-1 before:left-0 before:block before:h-[1px] before:w-full before:origin-top-left before:scale-0 before:bg-white before:duration-[400ms] before:content-[""] md:hover:before:scale-100'
                                     >
-                                        <PrismicText field={item.label} />
-                                    </PrismicLink>
+                                        {getTextFromField(item.label)}
+                                    </Link>
                                 </NavItem>
                             );
                         })}
