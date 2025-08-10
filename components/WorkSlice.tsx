@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { asDate, asLink } from '@prismicio/helpers';
+import { asDate, asLink, isFilled } from '@prismicio/helpers';
 import Image from 'next/image';
 import type { WorkSlice } from '../prismic-models';
 import ArrowIcon from './ArrowIcon';
@@ -48,7 +48,7 @@ const WorkSlice = ({ slice, index }: { slice: WorkSlice; index: number }) => {
                         {slice.primary.title && <h3>{slice.primary.title[0]?.text}</h3>}
                     </div>
                     {slice.primary.role && <p className="mb-4 text-sm">{slice.primary.role}</p>}
-                    {slice.primary.link && (
+                    {slice.primary.link && isFilled.link(slice.primary.link) && (
                         <Link
                             href={slice.primary.link.url || '#'}
                             className="group relative flex items-center gap-x-2 text-sm text-v-red [&>svg]:w-[10px] [&>svg]:fill-v-red [&>svg]:duration-[200ms] md:[&>svg]:hover:translate-x-1 md:[&>svg]:hover:-translate-y-1"

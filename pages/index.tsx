@@ -281,10 +281,10 @@ export default Index;
 
 export async function getStaticProps({ previewData }: { previewData?: unknown }) {
     const client = createClient({ previewData } as any);
-    const top = await client.getSingle<TopDocument>('top');
+    const top = await client.getSingle('top') as TopDocument;
     const featuredProjects: FeaturedProjects = await fetchFeaturedProjects(client);
-    const nav = await client.getSingle<NavigationDocument>('navigation');
-    const settings = await client.getSingle<SettingsDocument>('settings');
+    const nav = await client.getSingle('navigation') as NavigationDocument;
+    const settings = await client.getSingle('settings') as SettingsDocument;
 
     return {
         props: {

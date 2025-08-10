@@ -19,7 +19,7 @@ const NextLinkShim = ({ href, children, locale, ...props }: NextLinkShimProps) =
     );
 };
 
-const richTextComponents: RichTextMapSerializer<JSX.Element> | RichTextFunctionSerializer<JSX.Element> = {
+const richTextComponents: RichTextMapSerializer<React.JSX.Element> | RichTextFunctionSerializer<React.JSX.Element> = {
     heading1: ({ children }) => (
         <Heading as="h2" size="3xl" className="mb-7 mt-12 first:mt-0 last:mb-0">
             {children}

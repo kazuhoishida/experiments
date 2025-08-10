@@ -86,8 +86,8 @@ const Navigation = ({ nav }: Props) => {
                 </nav>
                 <nav className="font-bold-h1 font-flex text-black">
                     <ul className="flex flex-col justify-center gap-y-[30px]">
-                        {featuredProjects?.data.projects.map(
-                            ({ project }) =>
+                        {(featuredProjects as any)?.data?.projects?.map(
+                            ({ project }: any) =>
                                 isFilled.contentRelationship(project) && (
                                     <NavItem key={project.id} item={project}>
                                         <Link

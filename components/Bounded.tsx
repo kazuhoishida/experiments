@@ -4,15 +4,16 @@ import type { ComponentType, ReactNode } from 'react';
 type BoundedSize = 'small' | 'base' | 'wide' | 'widest';
 
 type BoundedProps = {
-    as?: keyof JSX.IntrinsicElements | ComponentType<any>;
+    as?: keyof React.JSX.IntrinsicElements | ComponentType<any>;
     size?: BoundedSize;
     className?: string;
     children?: ReactNode;
 };
 
 export const Bounded = ({ as: Comp = 'div', size = 'base', className, children }: BoundedProps) => {
+    const Component = Comp as any;
     return (
-        <Comp className={className}>
+        <Component className={className}>
             <div
                 className={clsx(
                     'mx-auto w-full',
@@ -24,6 +25,6 @@ export const Bounded = ({ as: Comp = 'div', size = 'base', className, children }
             >
                 {children}
             </div>
-        </Comp>
+        </Component>
     );
 };

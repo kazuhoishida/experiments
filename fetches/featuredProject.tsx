@@ -13,15 +13,12 @@ const creatorFetchKeys = ['name', 'face'] as const;
 export type TCreatorFetchKey = CreatorFetchKeyUnion<(typeof creatorFetchKeys)[number]>;
 
 export function fetchFeaturedProjects(client: Client) {
-    return client.getSingle<FeaturedProjectsDocumentWithLinks<TProjectFetchKey, TCreatorFetchKey>>(
-        'featured-projects',
-        {
-            fetchLinks: [
-                ...projectFetchKeys.map(key => `project.${key}`),
-                ...creatorFetchKeys.map(key => `creator.${key}`),
-            ],
-        }
-    );
+    return client.getSingle('featured-projects', {
+        fetchLinks: [
+            ...projectFetchKeys.map(key => `project.${key}`),
+            ...creatorFetchKeys.map(key => `creator.${key}`),
+        ],
+    }) as Promise<FeaturedProjectsDocumentWithLinks<TProjectFetchKey, TCreatorFetchKey>>;
 }
 
 export type FeaturedProjects = Awaited<ReturnType<typeof fetchFeaturedProjects>>;

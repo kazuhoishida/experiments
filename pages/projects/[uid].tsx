@@ -161,10 +161,10 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
                                     )}
                                 </div>
                                 <div className="mt-4 font-flex text-sm">
-                                    {project.data.abstract ? (
+                                    {project.data.abstract && project.data.abstract[0] && 'text' in project.data.abstract[0] ? (
                                         <div
                                             className="prose prose-sm"
-                                            dangerouslySetInnerHTML={{ __html: project.data.abstract[0]?.text || '' }}
+                                            dangerouslySetInnerHTML={{ __html: (project.data.abstract[0] as any).text || '' }}
                                         />
                                     ) : null}
                                 </div>
@@ -297,9 +297,9 @@ export const getStaticProps = async ({ params, previewData }: any) => {
             notFound: true,
         };
     }
-    const project = await client.getByUID<ProjectDocument>('project', uid, {
+    const project = await client.getByUID('project', uid, {
         fetchLinks: ['creator.name', 'creator.face'],
-    });
+    }) as ProjectDocument;
     const creator = project.data.creator;
     if (!isFilled.contentRelationship(creator)) {
         return {
@@ -307,7 +307,7 @@ export const getStaticProps = async ({ params, previewData }: any) => {
         };
     }
     const featuredProjects: FeaturedProjects = await fetchFeaturedProjects(client);
-    const nav = await client.getSingle<NavigationDocument>('navigation');
+    const nav = await client.getSingle('navigation') as NavigationDocument;
 
     return {
         props: {

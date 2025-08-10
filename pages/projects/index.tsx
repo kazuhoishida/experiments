@@ -249,16 +249,16 @@ export default Projects;
 export const getStaticProps = async () => {
     const client = createClient();
 
-    const projects = await client.getAllByType<ProjectDocument>('project', {
+    const projects = await client.getAllByType('project', {
         fetchLinks: ['creator.name', 'creator.face'],
-    });
+    }) as ProjectDocument[];
     if (!projects?.length) {
         return {
             notFound: true,
         };
     }
     const featuredProjects: FeaturedProjects = await fetchFeaturedProjects(client);
-    const nav = await client.getSingle<NavigationDocument>('navigation');
+    const nav = await client.getSingle('navigation') as NavigationDocument;
 
     return {
         props: {
