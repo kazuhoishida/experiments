@@ -1,0 +1,83 @@
+{
+  "id": "87bd322b-8c25-4157-b1e7-f37c6d05027c",
+  "uid": "nemo-et-iure",
+  "type": "project",
+  "data": {
+    "title": "transition cutting-edge infrastructures",
+    "leadingText": "monetize cross-media infrastructures",
+    "publishDate": "2014-04-16",
+    "creator": {
+      "link_type": "Web",
+      "url": "https://slicemachine.dev"
+    },
+    "featuredMedia": {
+      "link_type": "media",
+      "url": "https://source.unsplash.com/daily"
+    },
+    "abstract": [
+      {
+        "type": "paragraph",
+        "text": "Laboris tempor deserunt aliquip cillum nostrud amet. Lorem aliqua anim qui ex et do enim magna. Anim irure magna ex aliqua exercitation deserunt ullamco fugiat.",
+        "spans": []
+      }
+    ],
+    "demoLink": {
+      "link_type": "Web",
+      "url": "https://prismic.io"
+    },
+    "github": {
+      "link_type": "Web",
+      "url": "http://twitter.com"
+    },
+    "details": [
+      {
+        "title": [
+          {
+            "type": "heading1",
+            "text": "Implement viral mindshare",
+            "spans": []
+          }
+        ],
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "Lorem exercitation eu id. Ad eiusmod commodo quis veniam tempor tempor aliquip consectetur consectetur occaecat nulla nostrud excepteur. Deserunt officia mollit voluptate eiusmod.",
+            "spans": []
+          }
+        ]
+      },
+      {
+        "title": [
+          {
+            "type": "heading1",
+            "text": "E-enable cross-platform infrastructures",
+            "spans": []
+          }
+        ],
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "Culpa ut eiusmod aute tempor amet reprehenderit do. Velit adipisicing ea est nulla. Do aliquip voluptate qui Lorem sint in pariatur commodo.",
+            "spans": []
+          }
+        ]
+      },
+      {
+        "title": [
+          {
+            "type": "heading1",
+            "text": "Disintermediate B2C synergies",
+            "spans": []
+          }
+        ],
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "In nostrud veniam occaecat.",
+            "spans": []
+          }
+        ]
+      }
+    ]
+  }
+}

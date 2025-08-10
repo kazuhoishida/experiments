@@ -1,0 +1,33 @@
+{
+  "id": "479c36c1-87fd-4da0-b16c-d419f218f03d",
+  "uid": "molestiae-dolorum-quos",
+  "type": "featured-projects",
+  "data": {
+    "projects": [
+      {
+        "project": {
+          "link_type": "Web",
+          "url": "http://twitter.com"
+        }
+      },
+      {
+        "project": {
+          "link_type": "Web",
+          "url": "https://slicemachine.dev"
+        }
+      },
+      {
+        "project": {
+          "link_type": "Web",
+          "url": "https://prismic.io"
+        }
+      },
+      {
+        "project": {
+          "link_type": "Web",
+          "url": "http://twitter.com"
+        }
+      }
+    ]
+  }
+}

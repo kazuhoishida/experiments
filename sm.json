@@ -1,0 +1,8 @@
+{
+  "_latest": "0.3.8",
+  "apiEndpoint": "https://kazuho-lab-test.prismic.io/api/v2",
+  "localSliceSimulatorURL": "http://localhost:38888/slice-simulator",
+  "libraries": [
+    "@/slices"
+  ]
+}

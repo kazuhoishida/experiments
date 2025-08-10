@@ -1,0 +1,1 @@
+export { fetchFeaturedProjects } from './featuredProject'
