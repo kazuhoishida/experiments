@@ -14,7 +14,7 @@ import FooterNavigation from '../components/FooterNavigation';
 import Head from 'next/head';
 import Image from 'next/image';
 import type { FeaturedProject, FeaturedProjects } from '../fetches/featuredProject';
-import type { NavigationDocument, SettingsDocument, TopDocument } from '../prismic-models';
+import type { SettingsDocument, TopDocument } from '../prismic-models';
 import type { Swiper as SwiperClass } from 'swiper';
 import Link from 'next/link';
 import gsap from 'gsap';
@@ -210,11 +210,10 @@ const ProjectCarousel = ({ featuredProjects }: ProjectCarouselProps) => {
 type Props = {
     top: TopDocument;
     featuredProjects: FeaturedProjects;
-    nav: NavigationDocument;
     settings: SettingsDocument;
 };
 
-const Index = ({ top, featuredProjects, nav, settings }: Props) => {
+const Index = ({ top, featuredProjects, settings }: Props) => {
     const setFeaturedProjects = useSetAtom(FeaturedProjectsAtom);
     useEffect(() => {
         setFeaturedProjects(featuredProjects);
@@ -226,7 +225,7 @@ const Index = ({ top, featuredProjects, nav, settings }: Props) => {
     }, []);
 
     return (
-        <Layout nav={nav} className="flex flex-col overflow-hidden">
+        <Layout className="flex flex-col overflow-hidden">
             <Head>
                 <title>{settings.data.name?.[0]?.text || ''}</title>
             </Head>
@@ -257,7 +256,7 @@ const Index = ({ top, featuredProjects, nav, settings }: Props) => {
                     <ProjectCarousel featuredProjects={featuredProjects} />
                 </div>
             </main>
-            <FooterNavigation nav={nav} />
+            <FooterNavigation />
         </Layout>
     );
 };
@@ -268,14 +267,13 @@ export async function getStaticProps({ previewData }: { previewData?: unknown })
     const client = createClient({ previewData } as any);
     const top = (await client.getSingle('top')) as TopDocument;
     const featuredProjects: FeaturedProjects = await fetchFeaturedProjects(client);
-    const nav = (await client.getSingle('navigation')) as NavigationDocument;
+
     const settings = (await client.getSingle('settings')) as SettingsDocument;
 
     return {
         props: {
             top,
             featuredProjects,
-            nav,
             settings,
         },
     };

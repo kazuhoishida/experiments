@@ -10,10 +10,10 @@ import Image from 'next/image';
 import Head from 'next/head';
 import type { FilledLinkToMediaField } from '@prismicio/types';
 import type { NextPage } from 'next';
-import type { ProjectDocument, CreatorDocument, NavigationDocument } from '../../prismic-models';
+import type { ProjectDocument, CreatorDocument } from '../../prismic-models';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import ArrowIcon from '../../components/ArrowIcon';
+import FooterNavigation from '../../components/FooterNavigation';
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', {
     month: 'short',
@@ -63,11 +63,10 @@ const GoBackNav = () => {
 type ProjectProps = {
     project: ProjectDocument;
     creator: CreatorDocument;
-    nav: NavigationDocument;
     featuredProjects: FeaturedProjects;
 };
 
-const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjects }) => {
+const Project: NextPage<ProjectProps> = ({ project, creator, featuredProjects }) => {
     const setFeaturedProjects = useSetAtom(FeaturedProjectsAtom);
     setFeaturedProjects(featuredProjects);
     const date = asDate(project.data.publishDate || (project.first_publication_date as any));
@@ -90,7 +89,7 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
     console.log(project.data.slices);
 
     return (
-        <Layout nav={nav}>
+        <Layout>
             <Head>
                 <title>{project.data.title}</title>
             </Head>
@@ -224,21 +223,7 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
                             </div>
                         </div>
                     </div>
-                    {demo && (
-                        <Link
-                            href={asLink(demo, linkResolver) || '#'}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={`group fixed bottom-4 left-1/2 flex -translate-x-1/2 place-content-center items-center gap-x-2 whitespace-nowrap rounded-lg bg-black/70 px-12 py-2 drop-shadow backdrop-blur-sm transition-all duration-[400ms] md:px-16 md:py-3 md:hover:bg-black/100 ${
-                                inView ? 'pointer-events-none opacity-0' : 'opacity-100'
-                            }`}
-                        >
-                            <span className="font-flex text-sm text-white">デモを見る</span>
-                            <span className="duration-[200ms] md:group-hover:translate-x-[2px] md:group-hover:-translate-y-[2px] [&>svg]:w-[9px] [&>svg]:fill-white">
-                                <ArrowIcon />
-                            </span>
-                        </Link>
-                    )}
+                    <FooterNavigation />
                 </article>
                 <GoBackNav />
 
@@ -301,13 +286,11 @@ export const getStaticProps = async ({ params, previewData }: any) => {
         };
     }
     const featuredProjects: FeaturedProjects = await fetchFeaturedProjects(client);
-    const nav = (await client.getSingle('navigation')) as NavigationDocument;
 
     return {
         props: {
             project,
             creator,
-            nav,
             featuredProjects,
         },
     };

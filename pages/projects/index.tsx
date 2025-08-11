@@ -18,7 +18,7 @@ import Head from 'next/head';
 import type { InputHTMLAttributes } from 'react';
 import type { NextPage } from 'next';
 import type { OnChange } from '../../components/Select';
-import type { ProjectDocument, NavigationDocument } from '../../prismic-models';
+import type { ProjectDocument } from '../../prismic-models';
 import gsap from 'gsap';
 
 type ProjectCardProps = InputHTMLAttributes<HTMLDivElement> & {
@@ -196,10 +196,9 @@ const ProjectsGrid = ({ projects, selectedTag }: ProjectsGridProps) => {
 type ProjectsProps = {
     projects: ProjectDocument[];
     featuredProjects: FeaturedProjects;
-    nav: NavigationDocument;
 };
 
-const Projects: NextPage<ProjectsProps> = ({ projects, featuredProjects, nav }: ProjectsProps) => {
+const Projects: NextPage<ProjectsProps> = ({ projects, featuredProjects }: ProjectsProps) => {
     const setFeaturedProjects = useSetAtom(FeaturedProjectsAtom);
     useEffect(() => {
         setFeaturedProjects(featuredProjects);
@@ -211,7 +210,7 @@ const Projects: NextPage<ProjectsProps> = ({ projects, featuredProjects, nav }: 
     const selectProps = { options, onChange };
 
     return (
-        <Layout nav={nav}>
+        <Layout>
             <Head>
                 <title>Projects</title>
             </Head>
@@ -239,7 +238,7 @@ const Projects: NextPage<ProjectsProps> = ({ projects, featuredProjects, nav }: 
                 </div>
                 <ProjectsGrid projects={projects} selectedTag={selectedTag} />
             </main>
-            <FooterNavigation nav={nav} />
+            <FooterNavigation />
         </Layout>
     );
 };
@@ -258,13 +257,11 @@ export const getStaticProps = async () => {
         };
     }
     const featuredProjects: FeaturedProjects = await fetchFeaturedProjects(client);
-    const nav = (await client.getSingle('navigation')) as NavigationDocument;
 
     return {
         props: {
             projects,
             featuredProjects,
-            nav,
         },
     };
 };

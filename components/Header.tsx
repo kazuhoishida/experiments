@@ -1,11 +1,6 @@
 import Link from 'next/link';
-import type { NavigationDocument } from '../prismic-models';
 
-type Props = {
-    nav: NavigationDocument;
-};
-
-export function Header({ nav }: Props) {
+export function Header() {
     return (
         <header className="sticky top-0 left-0 z-50 flex w-full items-center justify-end p-2">
             <Link href="/">
