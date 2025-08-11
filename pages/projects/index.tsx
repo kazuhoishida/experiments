@@ -3,8 +3,8 @@ import * as Collapsible from '@radix-ui/react-collapsible';
 import { FeaturedProjectsAtom } from '../../stores';
 import { type FeaturedProjects, fetchFeaturedProjects } from '../../fetches/featuredProject';
 import { FilledLinkToMediaField } from '@prismicio/types';
-import { MouseEventHandler, useEffect, useMemo, useRef, useState } from 'react';
-import { isFilled, documentToLinkField } from '@prismicio/helpers';
+import { MouseEventHandler, useEffect, useRef, useState } from 'react';
+import { isFilled } from '@prismicio/helpers';
 import { Layout } from '../../components/Layout';
 import { Media } from '../../components/Media';
 import { pluck, union } from 'underscore';
@@ -73,7 +73,7 @@ const ProjectCard = ({ project, isVisible, media, title, leading, style }: Proje
                         `}
                 style={style}
             >
-                <Link href={documentToLinkField(project).url || '#'}>
+                <Link href={`/projects/${project.uid}`}>
                     <div
                         className={`absolute top-8 left-2 z-10 hidden gap-2 text-white transition-all duration-[400ms] md:grid ${
                             isCursorVisible ? '-translate-y-2 opacity-100' : 'translate-y-0 opacity-0'
@@ -115,79 +115,16 @@ const ValidProject = ({ project, selectedTag, style }: ValidProjectProps) => {
     return <ProjectCard {...props} />;
 };
 
-const loopSlice = function <T>(array: T[], offset = 0, length = 0) {
-    const realOffset =
-        Math.abs(offset) === array.length
-            ? 0
-            : offset < 0
-              ? array.length + offset - 1
-              : offset < array.length
-                ? offset
-                : (offset % array.length) - 1;
-    const sum = realOffset + length;
-    const newArray = new Array<T>();
-    for (let i = realOffset; i < sum; i++) {
-        const item = array[i % array.length];
-        item && newArray.push(item);
-    }
-    return newArray;
-};
-
 type ProjectsGridProps = {
     projects: ProjectDocument[];
     selectedTag: string;
 };
 
 const ProjectsGrid = ({ projects, selectedTag }: ProjectsGridProps) => {
-    const [row] = useState(2);
-    const [col, setCol] = useState(2);
-    const [overscan, setOverscan] = useState(4);
-    const perPage = row * col;
-    const [virtual, setVirtual] = useState({
-        offset: 0,
-        height: 0,
-        perPage: perPage,
-    });
-    const [vw, setVw] = useState(0);
-    useEffect(() => {
-        if (!window) return;
-        window.addEventListener('resize', () => setVw(window.innerWidth));
-        setVw(window.innerWidth);
-    }, [setVw]);
-    useEffect(() => {
-        if (1024 <= vw) {
-            setOverscan(10);
-            setCol(5);
-        } else if (768 <= vw) {
-            setOverscan(8);
-            setCol(4);
-        } else if (640 <= vw) {
-            setOverscan(6);
-            setCol(3);
-        } else {
-            setCol(2);
-        }
-    }, [vw]);
-    const infiniteProjects = useMemo(
-        () => [
-            ...loopSlice(projects, virtual.offset - overscan, overscan),
-            ...loopSlice(projects, virtual.offset, perPage),
-            ...loopSlice(projects, virtual.offset + perPage, overscan),
-        ],
-        [projects, virtual.offset, overscan, perPage]
-    );
-    const gallery = projects;
     return (
-        <div className="z-10 mt-[20px] mb-[20px] grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 md:gap-4 md:px-4 lg:grid-cols-5">
-            {gallery.map((project, i) => (
-                <ValidProject
-                    project={project}
-                    selectedTag={selectedTag}
-                    key={`${i}-${project.uid}`}
-                    style={{
-                        '--translateY': (i % col) % 2 === 1 ? '50px' : '0',
-                    }}
-                />
+        <div className="z-10 mt-[20px] md:mt-[80px] mb-[40px] grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 md:gap-4 md:px-4 lg:grid-cols-5">
+            {projects.map((project, i) => (
+                <ValidProject project={project} selectedTag={selectedTag} key={`${i}-${project.uid}`} />
             ))}
         </div>
     );
