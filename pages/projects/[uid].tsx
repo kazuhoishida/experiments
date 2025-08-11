@@ -15,12 +15,6 @@ import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import FooterNavigation from '../../components/FooterNavigation';
 
-const dateFormatter = new Intl.DateTimeFormat('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-});
-
 const Media = ({ field, isCoverImage = false }: { field: FilledLinkToMediaField; isCoverImage: boolean }) => {
     if (field.link_type !== 'Media') {
         return <></>;
@@ -37,7 +31,7 @@ const Media = ({ field, isCoverImage = false }: { field: FilledLinkToMediaField;
             />
         );
     } else {
-        return <>not image</>;
+        return <></>;
     }
 };
 
@@ -68,7 +62,9 @@ type ProjectProps = {
 
 const Project: NextPage<ProjectProps> = ({ project, creator, featuredProjects }) => {
     const setFeaturedProjects = useSetAtom(FeaturedProjectsAtom);
-    setFeaturedProjects(featuredProjects);
+    useEffect(() => {
+        setFeaturedProjects(featuredProjects);
+    }, [featuredProjects, setFeaturedProjects]);
     const date = asDate(project.data.publishDate || (project.first_publication_date as any));
     const featuredMedia = isFilled.linkToMedia(project.data.featuredMedia) ? project.data.featuredMedia : null;
     const face = creator.data?.face?.url ?? null;
@@ -78,15 +74,13 @@ const Project: NextPage<ProjectProps> = ({ project, creator, featuredProjects })
     const router = useRouter();
     useEffect(() => {
         router.prefetch('/projects');
-    });
+    }, [router]);
 
     const [isShowText, setIsShowText] = useState(false);
 
     const { ref, inView } = useInView({
         rootMargin: '-50px',
     });
-
-    console.log(project.data.slices);
 
     return (
         <Layout>
