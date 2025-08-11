@@ -68,9 +68,9 @@ const ProjectCard = ({ project, isVisible, media, title, leading, style }: Proje
                 onMouseLeave={leave}
                 onMouseMove={move}
                 className={`
-          relative h-full w-full translate-y-[var(--translateY)] flex-col overflow-hidden drop-shadow
-          ${isVisible ? 'flex' : 'hidden'}
-        `}
+                            relative h-full w-full flex-col overflow-hidden drop-shadow
+                            ${isVisible ? 'flex' : 'hidden'}
+                        `}
                 style={style}
             >
                 <Link href={documentToLinkField(project).url || '#'}>
@@ -178,7 +178,7 @@ const ProjectsGrid = ({ projects, selectedTag }: ProjectsGridProps) => {
     );
     const gallery = projects;
     return (
-        <div className="z-10 mt-10 mb-[100px] grid grid-cols-2 gap-2 sm:grid-cols-3 md:mb-[140px] md:grid-cols-4 md:gap-4 md:px-4 lg:grid-cols-5">
+        <div className="z-10 mt-[20px] mb-[20px] grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 md:gap-4 md:px-4 lg:grid-cols-5">
             {gallery.map((project, i) => (
                 <ValidProject
                     project={project}
@@ -216,7 +216,7 @@ const Projects: NextPage<ProjectsProps> = ({ projects, featuredProjects, nav }: 
                 <title>Projects</title>
             </Head>
             <main>
-                <div className="fixed top-[76px] left-4 z-20 w-fit drop-shadow-2xl">
+                <div className="fixed top-[20px] left-4 z-20 w-fit drop-shadow-2xl">
                     <Collapsible.Root>
                         <div
                             className={`

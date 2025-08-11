@@ -87,6 +87,8 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
         rootMargin: '-50px',
     });
 
+    console.log(project.data.slices);
+
     return (
         <Layout nav={nav}>
             <Head>
@@ -97,51 +99,12 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
                     <div className="relative aspect-[5/3] md:hidden">
                         {featuredMedia && <Media field={featuredMedia} isCoverImage={true} />}
                     </div>
-                    <div className="px-4 md:px-0">
-                        <div className="md:mb-[max(10vh,30px)] md:flex md:px-[5vw]">
-                            <h1
-                                className="pt-6 pb-3 font-serif text-3xl font-bold md:flex md:p-0 md:text-[7vw] md:leading-none
-                                md:after:mx-[4vw] md:after:inline-block md:after:h-full md:after:w-[1px] md:after:rotate-[30deg] md:after:bg-black md:after:content-['']"
-                            >
-                                {project.data.title}
-                            </h1>
-                            <div className="flex place-items-center gap-x-4">
-                                {face && (
-                                    <Link
-                                        href={asLink(creator, linkResolver) || '#'}
-                                        className="relative flex aspect-1 h-12 w-12 place-items-center gap-x-2 font-flex font-[640] [font-stretch:32%]"
-                                    >
-                                        <Image
-                                            className="rounded-full"
-                                            src={face}
-                                            alt={(creator.data?.face?.alt || creator.data.name) ?? 'CREATOR'}
-                                            fill
-                                        />
-                                    </Link>
-                                )}
-                                <div className="flex flex-col">
-                                    <Link
-                                        href={asLink(creator, linkResolver) || '#'}
-                                        className="flex place-items-center gap-x-2 whitespace-nowrap font-flex font-[640] [font-stretch:32%]"
-                                    >
-                                        {creator.data.name}
-                                    </Link>
-                                    <p className="whitespace-nowrap font-flex font-[640] [font-stretch:32%]">
-                                        {dateFormatter.format(date!)}
-                                    </p>
-                                    <div className="flex flex-wrap gap-1">
-                                        {project.tags.map(tag => (
-                                            <div
-                                                key={tag}
-                                                className="font-flex text-sm font-[640] text-black/50 [font-stretch:32%]"
-                                            >{`#${tag}`}</div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div className="px-4 md:px-0 md:w-[90vw] mx-auto">
+                        <h1 className="pt-6 pb-3 font-serif text-3xl font-bold md:flex md:p-0 md:text-[min(7vw,60px)] md:leading-none md:mb-10">
+                            {project.data.title}
+                        </h1>
                         <div className="md:flex">
-                            <div className="md:w-2/5 md:pl-[5vw] md:pr-10">
+                            <div className="md:w-2/5 md:pr-10">
                                 <div className="flex gap-x-6 py-6 empty:!py-0">
                                     {demo && (
                                         <Link
@@ -161,10 +124,14 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
                                     )}
                                 </div>
                                 <div className="mt-4 font-flex text-sm">
-                                    {project.data.abstract && project.data.abstract[0] && 'text' in project.data.abstract[0] ? (
+                                    {project.data.abstract &&
+                                    project.data.abstract[0] &&
+                                    'text' in project.data.abstract[0] ? (
                                         <div
                                             className="prose prose-sm"
-                                            dangerouslySetInnerHTML={{ __html: (project.data.abstract[0] as any).text || '' }}
+                                            dangerouslySetInnerHTML={{
+                                                __html: (project.data.abstract[0] as any).text || '',
+                                            }}
                                         />
                                     ) : null}
                                 </div>
@@ -215,17 +182,44 @@ const Project: NextPage<ProjectProps> = ({ project, creator, nav, featuredProjec
                             <div className="mt-12 md:mt-0 md:w-1/2 [&_section]:mb-6 md:[&_section]:mb-10 last:[&_*]:mb-0 [&_iframe]:h-auto [&_iframe]:w-full">
                                 {project.data.slices &&
                                     project.data.slices.map((slice, index) => {
-                                        const Component = slice.slice_type === 'rich_text' ? 'div' : slice.slice_type;
-                                        const richText = slice.primary?.rich_text;
-                                        if (!richText) return null;
+                                        if (slice.slice_type === 'rich_text') {
+                                            const richText = slice.primary?.rich_text;
+                                            if (!richText) return null;
 
-                                        return (
-                                            <Component
-                                                key={`slice-${index}`}
-                                                className="prose prose-sm"
-                                                dangerouslySetInnerHTML={{ __html: richText }}
-                                            />
-                                        );
+                                            return (
+                                                <div
+                                                    key={`slice-${index}`}
+                                                    className="prose prose-sm mb-6"
+                                                    dangerouslySetInnerHTML={{ __html: richText }}
+                                                />
+                                            );
+                                        }
+
+                                        if (slice.slice_type === 'image') {
+                                            const image = slice.primary?.image;
+                                            if (!image || !isFilled.linkToMedia(image)) return null;
+
+                                            return (
+                                                <div key={`slice-${index}`} className="mb-6">
+                                                    <div className="relative aspect-[5/3] w-full">
+                                                        <Image
+                                                            src={image.url}
+                                                            alt={image.name || ''}
+                                                            fill
+                                                            className="object-cover"
+                                                            {...(image.url.match(/.gif/) && { unoptimized: true })}
+                                                        />
+                                                    </div>
+                                                    {slice.primary.caption && slice.primary.caption.length > 0 && (
+                                                        <p className="mt-2 text-sm text-gray-600 text-center">
+                                                            {slice.primary.caption[0].text}
+                                                        </p>
+                                                    )}
+                                                </div>
+                                            );
+                                        }
+
+                                        return null;
                                     })}
                             </div>
                         </div>
@@ -297,9 +291,9 @@ export const getStaticProps = async ({ params, previewData }: any) => {
             notFound: true,
         };
     }
-    const project = await client.getByUID('project', uid, {
+    const project = (await client.getByUID('project', uid, {
         fetchLinks: ['creator.name', 'creator.face'],
-    }) as ProjectDocument;
+    })) as ProjectDocument;
     const creator = project.data.creator;
     if (!isFilled.contentRelationship(creator)) {
         return {
@@ -307,7 +301,7 @@ export const getStaticProps = async ({ params, previewData }: any) => {
         };
     }
     const featuredProjects: FeaturedProjects = await fetchFeaturedProjects(client);
-    const nav = await client.getSingle('navigation') as NavigationDocument;
+    const nav = (await client.getSingle('navigation')) as NavigationDocument;
 
     return {
         props: {

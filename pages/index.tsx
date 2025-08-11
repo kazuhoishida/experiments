@@ -35,10 +35,6 @@ const Project = ({ no, project, length }: ProjectProps) => {
         });
     }, []);
 
-    const setLoadingEager = (num: number) => {
-        return num === 1 || num === 2 || num === length;
-    };
-
     if (!isFilled.contentRelationship(project) || !project.data) {
         return <></>;
     }
@@ -46,20 +42,15 @@ const Project = ({ no, project, length }: ProjectProps) => {
     return (
         <Link
             href={`/projects/${project.uid}`}
-            className="featured-project-card block opacity-0 outline-0 duration-[400ms]"
+            className="featured-project-card block h-full w-full opacity-0 outline-0 duration-[400ms]"
         >
-            <div className="group grid w-full items-end opacity-0 duration-[300ms] md:w-[var(--slide-width)] md:pt-0 md:opacity-100 [.swiper-slide-active_&]:opacity-100">
-                <div
-                    className={`
-                        pointer-events-none relative col-start-1 col-end-3 row-start-1
-                        inline-grid translate-x-[-73.5%] md:translate-x-[-80%]
-                        z-[-1]
-                    `}
-                >
+            <div className="group relative h-full w-full items-end opacity-0 duration-[300ms] md:opacity-100 [.swiper-slide-active_&]:opacity-100">
+                <div className={`pointer-events-none absolute top-0 left-0 z-[-1]`}>
                     <span
                         className={`
-                            inline-block translate-x-[78%] font-serif text-[clamp(400px,100vw,600px)] leading-[0.9] text-[#f2e4cf]
-                            transition-transform duration-[400ms] md:text-[50vw] [.swiper-slide-active_&]:translate-x-[70%] md:[.swiper-slide-active_&]:translate-x-[60%]
+                            inline-block font-serif text-[clamp(400px,100vw,600px)] leading-none text-[#f2e4cf]
+                            transition-transform duration-[400ms] md:text-[min(50vw,400px)]
+                            translate-x-[0.2em] translate-y-[0.5em] 
                         `}
                     >
                         {no}
@@ -67,14 +58,11 @@ const Project = ({ no, project, length }: ProjectProps) => {
                 </div>
                 <div
                     className={`
-                        relative z-[1] col-start-2 col-end-3 row-start-1 flex
-                        max-h-[80vh] w-[68vw] translate-y-[-4%] flex-col place-content-end gap-y-4 justify-self-end transition-transform
-                        duration-[400ms] md:w-[calc(var(--slide-width)*0.8)] md:translate-y-[-10%]
-                        md:gap-y-8
-                        md:group-hover:translate-y-[-12%]
+                        relative z-1 flex flex-col items-center
+                        h-full w-full gap-y-4 transition-transform duration-[400ms]
                     `}
                 >
-                    <div className="pl-[8%]">
+                    <div className="w-full h-[20%] flex flex-col items-start justify-end">
                         <h2 className="font-bold-h1 mb-2 font-flex text-[32px] leading-none text-black md:text-[3vw]">
                             {project.data.title || ''}
                         </h2>
@@ -83,14 +71,15 @@ const Project = ({ no, project, length }: ProjectProps) => {
                         </p>
                     </div>
                     {isFilled.linkToMedia(project.data.featuredMedia) && (
-                        <div className="duratino-[400ms] relative aspect-[4/3] w-full border-l-transparent shadow transition-shadow md:group-hover:shadow-md">
+                        <div className="relative w-full h-[80%] object-cover aspect-auto drop-shadow-[10px_10px_10px_rgba(0,0,0,0.1)]">
                             <Image
                                 alt={project.data.featuredMedia.name}
                                 src={project.data.featuredMedia.url}
-                                fill
-                                loading={setLoadingEager(no) ? 'eager' : 'lazy'}
-                                priority={setLoadingEager(no)}
-                                className="h-full w-full object-cover"
+                                width={800}
+                                height={600}
+                                loading="eager"
+                                priority={true}
+                                className="h-full w-full object-contain object-top"
                                 {...(project.data.featuredMedia.url.match(/.gif/) && {
                                     unoptimized: true,
                                 })}
@@ -129,7 +118,7 @@ type ProjectCarouselProps = {
 const ProjectCarousel = ({ featuredProjects }: ProjectCarouselProps) => {
     const prev = useRef<HTMLButtonElement>(null);
     const next = useRef<HTMLButtonElement>(null);
-    const [swiper, onSwiper] = useState<SwiperClass>();
+    const [, onSwiper] = useState<SwiperClass>();
     const [isWide, setWide] = useState(false);
 
     const [isLoaded, load] = useState(false);
@@ -141,7 +130,7 @@ const ProjectCarousel = ({ featuredProjects }: ProjectCarouselProps) => {
         let _r, _y;
 
         setWide(window.screen.width >= 768);
-        _r = Math.max(400, window.screen.width * 0.4);
+        _r = Math.max(400, Math.min(window.screen.width * 0.4, window.screen.height * 0.6));
         setR(_r);
         _y = (1 + Math.cos(theta)) * _r;
         setY(_y);
@@ -149,7 +138,7 @@ const ProjectCarousel = ({ featuredProjects }: ProjectCarouselProps) => {
 
         const handleResize = () => {
             setWide(window.screen.width >= 768);
-            _r = Math.max(400, window.screen.width * 0.4);
+            _r = Math.max(400, Math.min(window.screen.width * 0.4, window.screen.height * 0.6));
             setR(_r);
             _y = (1 + Math.cos(theta)) * _r;
             setY(_y);
@@ -160,17 +149,14 @@ const ProjectCarousel = ({ featuredProjects }: ProjectCarouselProps) => {
     }, []);
 
     return (
-        <>
+        <div>
             <div
-                className={`
-        translate-y-[calc(var(--slide-width)*0.015)] [--slide-width:100vw] md:translate-x-[calc(var(--slide-width)*0.24)]
-        md:translate-y-[calc(var(--slide-width)*0.05)] md:[--slide-width:50vw] lg:[--slide-width:calc(100vw*0.35)]
-      `}
+                className={`w-full h-full [--slide-width:100vw] md:[--slide-width:50vw] lg:[--slide-width:calc(100vw*0.35)]`}
             >
                 {isLoaded && (
                     <Swiper
                         observer={true}
-                        className="!overflow-visible"
+                        className="!overflow-visible h-full"
                         modules={[Navigation, A11y, EffectCreative, Mousewheel, FreeMode]}
                         effect={'creative'}
                         slidesPerView={isWide ? 3 : 1}
@@ -217,7 +203,7 @@ const ProjectCarousel = ({ featuredProjects }: ProjectCarouselProps) => {
                 <CarouselNavigation label="← Prev." className="left-[4vw] -rotate-[9deg] md:left-[2vw]" ref={prev} />
                 <CarouselNavigation label="Next →" className="right-[4vw] rotate-[9deg] md:right-[2vw]" ref={next} />
             </div>
-        </>
+        </div>
     );
 };
 
@@ -267,7 +253,7 @@ const Index = ({ top, featuredProjects, nav, settings }: Props) => {
                         </span>
                     </p>
                 </div>
-                <div className="fixed top-[45%] w-screen -translate-y-1/2 px-[4vw] md:top-1/2 md:left-4 md:px-0">
+                <div className="fixed top-[25vh] left-[50%] -translate-x-1/2 w-screen h-[70vh] px-[4vw] md:px-0">
                     <ProjectCarousel featuredProjects={featuredProjects} />
                 </div>
             </main>

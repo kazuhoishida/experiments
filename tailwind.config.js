@@ -58,6 +58,7 @@ module.exports = {
                 'v-light-gray': '#EEEEEE',
                 'v-dark-gray': '#D2D2D2',
                 'v-soft-black': '#565656',
+                'v-black': '#444444',
             },
             screens: {
                 xs: { max: '400px' },

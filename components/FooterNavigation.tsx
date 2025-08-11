@@ -59,12 +59,7 @@ const FooterNavigation = ({ nav }: Props) => {
                         `}
                     >
                         <NavItem className={`relative ${pathname === '/' ? 'font-bold' : ''}`}>
-                            <Link
-                                href="/"
-                                className='before:absolute before:-bottom-1 before:left-0 before:block before:h-[1px] before:w-full before:origin-top-left before:scale-0 before:bg-white before:duration-[400ms] before:content-[""] md:hover:before:scale-100'
-                            >
-                                {getTextFromField(nav.data.homepageLabel)}
-                            </Link>
+                            <Link href="/">{getTextFromField(nav.data.homepageLabel)}</Link>
                         </NavItem>
                         {nav.data.links.map(item => {
                             return (
@@ -77,7 +72,6 @@ const FooterNavigation = ({ nav }: Props) => {
                                             item.link.url ||
                                             `/${item.link.type === 'page' ? item.link.uid : item.link.type}/${item.link.uid}`
                                         }
-                                        className='before:absolute before:-bottom-1 before:left-0 before:block before:h-[1px] before:w-full before:origin-top-left before:scale-0 before:bg-white before:duration-[400ms] before:content-[""] md:hover:before:scale-100'
                                     >
                                         {getTextFromField(item.label)}
                                     </Link>
