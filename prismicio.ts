@@ -22,7 +22,7 @@ export const linkResolver: LinkResolverFunction<string> = doc => {
     return '/';
 };
 
-export const createClient = (config: any = {}) => {
+export const createClient = (config: { previewData?: unknown } = {}) => {
     const client = prismic.createClient(sm.apiEndpoint, {
         routes: [
             {

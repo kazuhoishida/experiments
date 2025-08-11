@@ -5,7 +5,7 @@
 - [x] `pages/projects/[uid].tsx`: レンダー中のアトム更新を `useEffect` に移動（`FeaturedProjectsAtom`）。
 - [x] `pages/projects/[uid].tsx`: `router.prefetch('/projects')` に依存配列を追加（`[]` もしくは `[router]`）。
 - [x] `pages/projects/[uid].tsx`: 残存 `console.log` を削除。
-- [ ] `pages/projects/[uid].tsx`, `pages/index.tsx`, `components/Heading.tsx`, `components/Bounded.tsx`, `prismicio.ts`: `any` / `as any` の削減。`getStaticProps`/`getStaticPaths` の型付け、`React.ElementType` への置換、`createClient` の引数型見直し。
+- [x] `pages/projects/[uid].tsx`, `pages/index.tsx`, `components/Heading.tsx`, `components/Bounded.tsx`, `prismicio.ts`: `any` / `as any` の削減。`getStaticProps`/`getStaticPaths` の型付け、`React.ElementType` への置換、`createClient` の引数型見直し。
 
 ## P1（高: 再利用性/安全性/UX 安定）
 

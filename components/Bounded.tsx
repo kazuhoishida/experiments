@@ -1,17 +1,22 @@
 import clsx from 'clsx';
-import type { ComponentType, ReactNode } from 'react';
+import type { ReactNode, ElementType } from 'react';
 
 type BoundedSize = 'small' | 'base' | 'wide' | 'widest';
 
-type BoundedProps = {
-    as?: keyof React.JSX.IntrinsicElements | ComponentType<any>;
+type BoundedProps<C extends ElementType = 'div'> = {
+    as?: C;
     size?: BoundedSize;
     className?: string;
     children?: ReactNode;
 };
 
-export const Bounded = ({ as: Comp = 'div', size = 'base', className, children }: BoundedProps) => {
-    const Component = Comp as any;
+export const Bounded = <C extends ElementType = 'div'>({
+    as: Comp = 'div' as C,
+    size = 'base',
+    className,
+    children,
+}: BoundedProps<C>) => {
+    const Component = Comp || ('div' as ElementType);
     return (
         <Component className={className}>
             <div

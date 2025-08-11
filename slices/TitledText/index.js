@@ -1,16 +1,17 @@
 import * as prismicH from '@prismicio/helpers';
+import HTML from '../../components/HTML';
 
 const TitledText = ({ slice }) => (
     <section>
         <span className="title">
             {slice.primary.title ? (
-                <div dangerouslySetInnerHTML={{ __html: prismicH.asHTML(slice.primary.title) }} />
+                <HTML html={prismicH.asHTML(slice.primary.title)} />
             ) : (
                 <h2>Template slice, update me!</h2>
             )}
         </span>
         {slice.primary.description ? (
-            <div dangerouslySetInnerHTML={{ __html: prismicH.asHTML(slice.primary.description) }} />
+            <HTML html={prismicH.asHTML(slice.primary.description)} />
         ) : (
             <p>start by editing this slice from inside Slice Machine!</p>
         )}

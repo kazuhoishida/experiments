@@ -1,4 +1,4 @@
-import { asDate, isFilled, asLink } from '@prismicio/helpers';
+import { isFilled, asLink, asHTML } from '@prismicio/helpers';
 import { createClient, linkResolver } from '../../prismicio';
 import { FeaturedProjectsAtom } from '../../stores';
 import { type FeaturedProjects, fetchFeaturedProjects } from '../../fetches/featuredProject';
@@ -14,6 +14,8 @@ import type { ProjectDocument, CreatorDocument } from '../../prismic-models';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import FooterNavigation from '../../components/FooterNavigation';
+import HTML from '../../components/HTML';
+import { toHTML } from '../../utils/prismic';
 
 const Media = ({ field, isCoverImage = false }: { field: FilledLinkToMediaField; isCoverImage: boolean }) => {
     if (field.link_type !== 'Media') {
@@ -65,9 +67,8 @@ const Project: NextPage<ProjectProps> = ({ project, creator, featuredProjects })
     useEffect(() => {
         setFeaturedProjects(featuredProjects);
     }, [featuredProjects, setFeaturedProjects]);
-    const date = asDate(project.data.publishDate || (project.first_publication_date as any));
+
     const featuredMedia = isFilled.linkToMedia(project.data.featuredMedia) ? project.data.featuredMedia : null;
-    const face = creator.data?.face?.url ?? null;
     const demo = isFilled.link(project.data.demoLink) && project.data.demoLink;
     const github = isFilled.link(project.data.github) && project.data.github;
 
@@ -116,18 +117,11 @@ const Project: NextPage<ProjectProps> = ({ project, creator, featuredProjects })
                                         </Link>
                                     )}
                                 </div>
-                                <div className="mt-4 font-flex text-sm">
-                                    {project.data.abstract &&
-                                    project.data.abstract[0] &&
-                                    'text' in project.data.abstract[0] ? (
-                                        <div
-                                            className="prose prose-sm"
-                                            dangerouslySetInnerHTML={{
-                                                __html: (project.data.abstract[0] as any).text || '',
-                                            }}
-                                        />
-                                    ) : null}
-                                </div>
+                                {project.data.abstract.length > 0 && (
+                                    <div className="mt-4 font-flex text-sm">
+                                        <HTML className="prose prose-sm" html={toHTML(project.data.abstract)} />
+                                    </div>
+                                )}
                             </div>
                             <div className="relative hidden aspect-[5/3] md:block md:w-3/5">
                                 {featuredMedia && <Media field={featuredMedia} isCoverImage={true} />}
@@ -147,10 +141,7 @@ const Project: NextPage<ProjectProps> = ({ project, creator, featuredProjects })
                                         {project.data.details.map(({ title, description }, index) => (
                                             <div key={`detail-${index}`} className="[&>h2]:!mb-2 [&>h2]:text-[20px]">
                                                 <h2 className="font-bold-h2">{title}</h2>
-                                                <div
-                                                    className="prose prose-sm"
-                                                    dangerouslySetInnerHTML={{ __html: description[0]?.text || '' }}
-                                                />
+                                                <HTML className="prose prose-sm" html={toHTML(description)} />
                                             </div>
                                         ))}
                                     </div>
@@ -180,10 +171,10 @@ const Project: NextPage<ProjectProps> = ({ project, creator, featuredProjects })
                                             if (!richText) return null;
 
                                             return (
-                                                <div
+                                                <HTML
                                                     key={`slice-${index}`}
                                                     className="prose prose-sm mb-6"
-                                                    dangerouslySetInnerHTML={{ __html: richText }}
+                                                    html={richText || ''}
                                                 />
                                             );
                                         }
@@ -204,9 +195,10 @@ const Project: NextPage<ProjectProps> = ({ project, creator, featuredProjects })
                                                         />
                                                     </div>
                                                     {slice.primary.caption && slice.primary.caption.length > 0 && (
-                                                        <p className="mt-2 text-sm text-gray-600 text-center">
-                                                            {slice.primary.caption[0].text}
-                                                        </p>
+                                                        <HTML
+                                                            className="mt-2 text-sm text-gray-600 text-center"
+                                                            html={toHTML(slice.primary.caption)}
+                                                        />
                                                     )}
                                                 </div>
                                             );
@@ -226,31 +218,31 @@ const Project: NextPage<ProjectProps> = ({ project, creator, featuredProjects })
                     ref={ref}
                 >
                     {featuredProjects.data.projects.map(item => {
-                        const project = item.project as ProjectDocument;
+                        const rel = item.project;
+                        if (!isFilled.contentRelationship(rel) || !rel.data) return null;
+                        const project = rel as unknown as ProjectDocument;
+                        if (!isFilled.linkToMedia(project.data.featuredMedia)) return null;
                         return (
-                            isFilled.contentRelationship(project as any) &&
-                            isFilled.linkToMedia(project.data.featuredMedia) && (
-                                <Link
-                                    href={asLink(project, linkResolver) || '#'}
-                                    key={project.id}
-                                    className="duration-[400ms] first:pl-4 last:pr-4 md:first:pl-4 md:last:pr-4 md:hover:opacity-60"
-                                >
-                                    <div className="flex w-[50vw] shrink-0 flex-col md:w-[30vw]">
-                                        <Image
-                                            src={project.data?.featuredMedia.url ?? ''}
-                                            alt={project.data?.title ?? 'PROJECT'}
-                                            fill
-                                            className="!relative mb-2 aspect-[5/3] w-full object-cover"
-                                        />
-                                        <div className="text-md font-bold-h6 overflow-ellipsis font-flex font-extrabold md:text-xl">
-                                            {project.data?.title}
-                                        </div>
-                                        <div className="overflow-ellipsis font-flex text-xs md:text-sm">
-                                            {project.data?.leadingText}
-                                        </div>
+                            <Link
+                                href={asLink(project, linkResolver) || '#'}
+                                key={project.id}
+                                className="duration-[400ms] first:pl-4 last:pr-4 md:first:pl-4 md:last:pr-4 md:hover:opacity-60"
+                            >
+                                <div className="flex w-[50vw] shrink-0 flex-col md:w-[30vw]">
+                                    <Image
+                                        src={project.data?.featuredMedia.url ?? ''}
+                                        alt={project.data?.title ?? 'PROJECT'}
+                                        fill
+                                        className="!relative mb-2 aspect-[5/3] w-full object-cover"
+                                    />
+                                    <div className="text-md font-bold-h6 overflow-ellipsis font-flex font-extrabold md:text-xl">
+                                        {project.data?.title}
                                     </div>
-                                </Link>
-                            )
+                                    <div className="overflow-ellipsis font-flex text-xs md:text-sm">
+                                        {project.data?.leadingText}
+                                    </div>
+                                </div>
+                            </Link>
                         );
                     })}
                 </div>

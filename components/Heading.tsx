@@ -1,17 +1,22 @@
 import clsx from 'clsx';
-import type { ComponentType, ReactNode } from 'react';
+import type { ReactNode, ElementType } from 'react';
 
 type HeadingSize = '4xl' | '3xl' | '2xl' | 'xl';
 
-type HeadingProps = {
-    as?: keyof React.JSX.IntrinsicElements | ComponentType<any>;
+type HeadingProps<C extends ElementType = 'h1'> = {
+    as?: C;
     size?: HeadingSize;
     children: ReactNode;
     className?: string;
 };
 
-export const Heading = ({ as: Comp = 'h1', size = '4xl', children, className }: HeadingProps) => {
-    const Component = Comp as any;
+export const Heading = <C extends ElementType = 'h1'>({
+    as: Comp = 'h1' as C,
+    size = '4xl',
+    children,
+    className,
+}: HeadingProps<C>) => {
+    const Component = Comp || ('h1' as ElementType);
     return (
         <Component
             className={clsx(

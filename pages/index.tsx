@@ -264,7 +264,7 @@ const Index = ({ top, featuredProjects, settings }: Props) => {
 export default Index;
 
 export async function getStaticProps({ previewData }: { previewData?: unknown }) {
-    const client = createClient({ previewData } as any);
+    const client = createClient({ previewData });
     const top = (await client.getSingle('top')) as TopDocument;
     const featuredProjects: FeaturedProjects = await fetchFeaturedProjects(client);
 
